@@ -1,13 +1,13 @@
-package com.example.bondoman.ui.notifications
+package com.example.bondoman.ui.graph
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class GraphViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+        value = "This is graph Fragment"
     }
     val text: LiveData<String> = _text
 }

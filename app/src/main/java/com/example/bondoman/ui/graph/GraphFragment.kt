@@ -1,4 +1,4 @@
-package com.example.bondoman.ui.notifications
+package com.example.bondoman.ui.graph
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.bondoman.databinding.FragmentNotificationsBinding
+import com.example.bondoman.databinding.FragmentGraphBinding
 
-class NotificationsFragment : Fragment() {
+class GraphFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentGraphBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,14 +22,14 @@ class NotificationsFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-                ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val graphViewModel =
+                ViewModelProvider(this).get(GraphViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentGraphBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
+        val textView: TextView = binding.textGraph
+        graphViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
         return root

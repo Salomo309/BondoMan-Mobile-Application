@@ -1,4 +1,4 @@
-package com.example.bondoman.ui.scan
+package com.example.bondoman.ui.setting
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
