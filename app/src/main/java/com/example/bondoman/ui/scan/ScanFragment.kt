@@ -23,7 +23,7 @@ class ScanFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         val scanViewModel =
-                ViewModelProvider(this).get(ScanViewModel::class.java)
+            ViewModelProvider(this)[ScanViewModel::class.java]
 
         _binding = FragmentScanBinding.inflate(inflater, container, false)
         val root: View = binding.root

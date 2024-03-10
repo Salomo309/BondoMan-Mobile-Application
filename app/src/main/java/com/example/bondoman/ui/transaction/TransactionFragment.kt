@@ -23,7 +23,7 @@ class TransactionFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         val transactionViewModel =
-                ViewModelProvider(this).get(TransactionViewModel::class.java)
+            ViewModelProvider(this)[TransactionViewModel::class.java]
 
         _binding = FragmentTransactionBinding.inflate(inflater, container, false)
         val root: View = binding.root
