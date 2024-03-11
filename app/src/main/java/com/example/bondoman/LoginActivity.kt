@@ -1,11 +1,11 @@
 package com.example.bondoman
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.bondoman.repository.Repository
 import com.example.bondoman.storage.TokenManager
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -23,17 +23,14 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        // Initialize view
         editTextEmail = findViewById(R.id.editTextEmail)
         editTextPassword = findViewById(R.id.editTextPassword)
         buttonLogin = findViewById(R.id.buttonLogin)
 
-        // Set click listener for the login button
         buttonLogin.setOnClickListener {
             val email = editTextEmail.text.toString().trim()
             val password = editTextPassword.text.toString().trim()
 
-            // Perform login action
             performLogin(email, password)
         }
     }
@@ -45,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
                 try {
                     val token = Repository().login(email, password)
                     TokenManager.saveToken(this@LoginActivity, token)
+                    startTokenExpirationCheckService()
                     onLoginSuccess()
                 } catch (e: Exception) {
                     showToast("Login failed: ${e.message}")
@@ -56,12 +54,16 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onLoginSuccess() {
-        // Start main activity or navigate to main page
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun startTokenExpirationCheckService() {
+        val serviceIntent = Intent(this, TokenExpirationCheckService::class.java)
+        startService(serviceIntent)
     }
 }
