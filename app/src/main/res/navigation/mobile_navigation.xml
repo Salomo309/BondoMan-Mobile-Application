@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_transaction"
-    app:itemIconTint="@color/my_primary"
+    app:itemIconTint="@color/my_secondary"
     app:itemTextColor="@color/my_secondary">
 
     <fragment
