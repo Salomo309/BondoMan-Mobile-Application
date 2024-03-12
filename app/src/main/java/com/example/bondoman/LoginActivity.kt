@@ -2,12 +2,10 @@ package com.example.bondoman
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Build
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.example.bondoman.repository.Repository
 import com.example.bondoman.storage.TokenManager
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -27,9 +25,6 @@ class LoginActivity : AppCompatActivity() {
 
         // Hide the bar
         supportActionBar?.hide()
-
-        // Change the color of the status bar
-        window.statusBarColor = ContextCompat.getColor(this, R.color.my_primary)
 
         editTextEmail = findViewById(R.id.editTextEmail)
         editTextPassword = findViewById(R.id.editTextPassword)
