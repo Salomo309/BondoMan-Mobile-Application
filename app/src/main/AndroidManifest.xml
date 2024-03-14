@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
 
     <application
         android:allowBackup="true"
@@ -17,19 +19,27 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-        <activity
-            android:name=".LoginActivity"
-            android:exported="true">
+            android:name=".AppActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+        </activity>
 
-        <service android:name=".TokenExpirationCheckService" />
+        <service
+            android:name=".TokenExpirationService"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>
