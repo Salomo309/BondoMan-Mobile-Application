@@ -1,5 +1,6 @@
 package com.example.bondoman.ui.setting
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.bondoman.LoginActivity
 import com.example.bondoman.databinding.FragmentSettingBinding
 
 class SettingFragment : Fragment() {
@@ -19,7 +21,7 @@ class SettingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // val settingViewModel = ViewModelProvider(this)[SettingViewModel::class.java]
+        val settingViewModel = ViewModelProvider(this)[SettingViewModel::class.java]
 
         _binding = FragmentSettingBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -35,8 +37,14 @@ class SettingFragment : Fragment() {
         }
 
         binding.buttonLogout.setOnClickListener {
-            // Handle logout button click
-            Toast.makeText(requireContext(), "Logout Clicked", Toast.LENGTH_SHORT).show()
+            // Stop all services
+            settingViewModel.logout()
+
+            // Redirect to LoginActivity
+            val activityIntent = Intent(requireContext(), LoginActivity::class.java)
+            activityIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(activityIntent)
+            requireActivity().finish()
         }
 
         return root

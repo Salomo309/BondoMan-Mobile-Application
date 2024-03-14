@@ -52,19 +52,22 @@ class TokenExpirationService : Service() {
                     if (!TokenManager.isTokenValid(this@TokenExpirationService)) {
                         // Token expired handling
                         Log.w("TokenCheck", "Token expired, stopping service and potentially navigating to login")
-                        stopSelf()
-                        navigateToLoginPage()
+                        setOff()
                         break
                     }
                     Log.d("TokenCheck", "30 secs checking")
                 } catch (e: Exception) {
                     Log.e("TokenCheck", "Error checking token:", e)
-                    stopSelf()
-                    navigateToLoginPage()
+                    setOff()
                 }
                 delay(POLL_INTERVAL)
             }
         }
+    }
+
+    private fun setOff() {
+        stopSelf()
+        navigateToLoginPage()
     }
 
     private fun navigateToLoginPage() {
@@ -78,6 +81,7 @@ class TokenExpirationService : Service() {
     }
 
     override fun onDestroy() {
+        Log.d("Token Manager", "Token Manager destroyed")
         super.onDestroy()
         coroutineScope.cancel()
     }
