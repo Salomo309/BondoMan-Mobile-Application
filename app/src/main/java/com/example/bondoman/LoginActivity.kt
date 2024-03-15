@@ -8,22 +8,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bondoman.repository.Repository
 import com.example.bondoman.storage.TokenManager
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var editTextEmail: EditText
     private lateinit var editTextPassword: EditText
     private lateinit var buttonLogin: Button
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        // Hide the bar
+        // Hide the action bar
         supportActionBar?.hide()
 
         editTextEmail = findViewById(R.id.editTextEmail)
@@ -38,14 +35,14 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     private fun performLogin(email: String, password: String) {
         if (email.isNotEmpty() && password.isNotEmpty()) {
-            GlobalScope.launch(Dispatchers.Main) {
+            coroutineScope.launch {
                 try {
-                    val token = Repository().login(email, password)
+                    val token = withContext(Dispatchers.IO) {
+                        Repository().login(email, password)
+                    }
                     TokenManager.saveToken(this@LoginActivity, token)
-                    startTokenExpirationCheckService()
                     onLoginSuccess()
                 } catch (e: Exception) {
                     showToast("Login failed: ${e.message}")
@@ -57,6 +54,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun onLoginSuccess() {
+        startTokenExpirationService()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
@@ -65,8 +63,13 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun startTokenExpirationCheckService() {
-        val serviceIntent = Intent(this, TokenExpirationCheckService::class.java)
-        startService(serviceIntent)
+    private fun startTokenExpirationService() {
+        val intent = Intent(this, TokenExpirationService::class.java)
+        startService(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        coroutineScope.cancel() // Cancel coroutine scope to avoid memory leaks
     }
 }
