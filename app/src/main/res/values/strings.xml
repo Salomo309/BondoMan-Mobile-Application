@@ -9,4 +9,11 @@
     <string name="attr_password">Password</string>
     <string name="sentc_welcome">Welcome</string>
     <string name="sentc_loginf">Please login with your information</string>
+    <string name="title_judul">Judul</string>
+    <string name="title_nominal">Nominal</string>
+    <string name="title_kategori">Kategori</string>
+    <string name="title_lokasi">Lokasi</string>
+    <string name="btn_simpan">Simpan</string>
+    <string name="add_transaction">Add New Transaction</string>
+
 </resources>

@@ -30,4 +30,10 @@
         android:name="com.example.bondoman.ui.setting.SettingFragment"
         android:label="@string/title_setting"
         tools:layout="@layout/fragment_graph" />
+
+    <fragment
+        android:id="@+id/navigation_add_transaction"
+        android:name="com.example.bondoman.ui.add_transaction.AddTransactionFragment"
+        android:label="Add Transaction"
+        tools:layout="@layout/fragment_add_transaction" />
 </navigation>
