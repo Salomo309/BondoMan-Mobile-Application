@@ -16,5 +16,9 @@
     <string name="btn_simpan">Simpan</string>
     <string name="add_transaction">Add New Transaction</string>
     <string name="button_capture">Capture Image</string>
+    <string name="scan_title">Scan Result</string>
+    <string name="scan_confirm">Do you want to re-scan the image?</string>
+    <string name="scan_retry">Retry</string>
+    <string name="scan_save">Save</string>
 
 </resources>

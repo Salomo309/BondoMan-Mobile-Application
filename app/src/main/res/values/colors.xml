@@ -16,4 +16,6 @@
     <color name="my_primary">#603012</color>
     <color name="my_secondary">#BB9655</color>
     <color name="my_tertiary">#9C7042</color>
+    <color name="my_quarternary">#976A3C</color>
+    <color name="my_quintunary">#B1894C</color>
 </resources>
