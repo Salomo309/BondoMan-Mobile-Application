@@ -14,5 +14,6 @@
     <string name="title_kategori">Kategori</string>
     <string name="title_lokasi">Lokasi</string>
     <string name="btn_simpan">Simpan</string>
+    <string name="add_transaction">Add New Transaction</string>
 
 </resources>
