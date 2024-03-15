@@ -15,7 +15,7 @@ object TokenManager {
         editor.apply()
     }
 
-    private fun getToken(context: Context): String? {
+    fun getToken(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getString(TOKEN_KEY, null)
     }
@@ -42,7 +42,7 @@ object TokenManager {
 
         return try {
             val authToken = "Bearer $token"
-            val response = RetrofitClient.apiService.getTokenExpirationTime(authToken)
+            val response = RetrofitClient.authService.getTokenExpirationTime(authToken)
             response.exp
         } catch (e: Exception) {
             Log.e("TokenManager", "Failed to fetch token expiration time: ${e.message}")
