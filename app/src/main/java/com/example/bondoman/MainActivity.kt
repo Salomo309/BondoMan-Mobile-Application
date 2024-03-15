@@ -35,4 +35,18 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
+
+    public fun disableNavBar() {
+        for (i in 0 until binding.navView.menu.size()) {
+            val menuItem = binding.navView.menu.getItem(i)
+            menuItem.isEnabled = false
+        }
+    }
+
+    public fun enableNavBar() {
+        for (i in 0 until binding.navView.menu.size()) {
+            val menuItem = binding.navView.menu.getItem(i)
+            menuItem.isEnabled = true
+        }
+    }
 }
