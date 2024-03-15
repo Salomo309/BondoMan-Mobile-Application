@@ -12,11 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.ImageFormat
 import android.media.Image
-import android.widget.EditText
-import android.widget.ProgressBar
-import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
@@ -24,18 +20,20 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCapture.OnImageCapturedCallback
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bondoman.MainActivity
 import com.example.bondoman.databinding.FragmentScanBinding
+import com.example.bondoman.models.Item
 import com.example.bondoman.repository.Repository
 import com.example.bondoman.storage.TokenManager
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.nio.ByteBuffer
 
 class ScanFragment : Fragment() {
 
@@ -48,14 +46,19 @@ class ScanFragment : Fragment() {
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private lateinit var imageCapture : ImageCapture
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var scanItemAdapter: ScanItemAdapter
+    private lateinit var scanViewModel: ScanViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        // val scanViewModel = ViewModelProvider(this)[ScanViewModel::class.java]
         _binding = FragmentScanBinding.inflate(inflater, container, false)
+
+        recyclerView = binding.scanResult
+
         return binding.root
     }
 
@@ -69,9 +72,29 @@ class ScanFragment : Fragment() {
             startCamera()
         }
 
+        // Setup View Model and Recycler View
+        scanViewModel = ViewModelProvider(this)[ScanViewModel::class.java]
+        scanItemAdapter = ScanItemAdapter(emptyList())
+        recyclerView.adapter = scanItemAdapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        scanViewModel.getItemList().observe(viewLifecycleOwner) { itemList ->
+            scanItemAdapter.setItemList(itemList)
+            scanItemAdapter.notifyDataSetChanged()
+        }
+
         // Set event listener
         binding.buttonCapture.setOnClickListener {
             captureImage()
+        }
+
+        binding.buttonRetry.setOnClickListener {
+            binding.scanCard.visibility = View.GONE
+        }
+
+        binding.buttonSave.setOnClickListener {
+            showToast("Data Saved")
+            binding.scanCard.visibility = View.GONE
         }
     }
 
@@ -133,7 +156,8 @@ class ScanFragment : Fragment() {
                             }
                             hideLoading()
                             if (itemsList != null) {
-                                showToast("Got the data !")
+                                scanViewModel.setItemList(itemsList.items)
+                                showScanResultCard()
                             }
                         } catch (e: Exception) {
                             showToast("Scan failed: ${e.message}")
@@ -166,6 +190,10 @@ class ScanFragment : Fragment() {
     private fun hideLoading() {
         binding.shadeOverlay.visibility = View.GONE
         binding.loadingBar.visibility = View.GONE
+    }
+
+    private fun showScanResultCard() {
+        binding.scanCard.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {
