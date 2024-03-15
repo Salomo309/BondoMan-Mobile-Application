@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bondoman.databinding.FragmentTransactionBinding
 import com.example.bondoman.R
+import com.example.bondoman.models.Transaction
+import java.util.Date
 
 
 class TransactionFragment : Fragment() {
@@ -20,23 +22,44 @@ class TransactionFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        val transactionViewModel =
-            ViewModelProvider(this)[TransactionViewModel::class.java]
-
         _binding = FragmentTransactionBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val adapter = ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.categories_array,
-            android.R.layout.simple_spinner_item
+        binding.addButton.setOnClickListener {
+            findNavController().navigate(R.id.navigation_add_transaction)
+        }
+
+        var transactionList = mutableListOf(
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+
+
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.editCategory.adapter = adapter
+
+        val rvTransactions = binding.rvTransactions
+        val adapter = TransactionAdapter(transactionList)
+        rvTransactions.adapter = adapter
+        rvTransactions.layoutManager = LinearLayoutManager(requireContext())
+
         return root
     }
 
