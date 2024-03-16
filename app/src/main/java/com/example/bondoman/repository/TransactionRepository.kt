@@ -5,7 +5,7 @@ import com.example.bondoman.room.*
 
 class TransactionRepository (private val database: TransactionDatabase) {
     // List of transaction as live data
-    val listTransaction: LiveData<List<TransactionEntity>> = database.transactionDAO.getAllTransaction()
+    val listTransactions: LiveData<List<TransactionEntity>> = database.transactionDAO.getAllTransactions()
 
     // Add new transaction
     suspend fun insertTransaction(transaction: TransactionEntity) {
@@ -23,7 +23,7 @@ class TransactionRepository (private val database: TransactionDatabase) {
     }
 
     // Delete all the transaction
-    suspend fun deleteAllTransaction() {
-        database.transactionDAO.deleteAllTransaction()
+    suspend fun deleteAllTransactions() {
+        database.transactionDAO.deleteAllTransactions()
     }
 }

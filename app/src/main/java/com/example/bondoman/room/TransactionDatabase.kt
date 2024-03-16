@@ -3,9 +3,11 @@ package com.example.bondoman.room
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.Room
+import androidx.room.TypeConverters
 import android.content.Context
 
 @Database(entities = [TransactionEntity::class], version = 1)
+@TypeConverters(Converters::class)
 abstract class TransactionDatabase : RoomDatabase() {
     abstract val transactionDAO: TransactionDAO
 

@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import java.util.Date
 
-@Entity(tableName = "transaction", primaryKeys = ["id"])
+@Entity(tableName = "transactions", primaryKeys = ["id"])
 data class TransactionEntity (
     @ColumnInfo(name = "id")
     var id: Long,

@@ -1,7 +1,6 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
 }
 
 android {
@@ -67,13 +66,12 @@ dependencies {
     implementation("androidx.camera:camera-camera2:1.3.2")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.6")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
 
     // Room
-    implementation("androidx.room:room-runtime:2.5.0")
-    implementation("androidx.room:room-ktx:2.5.0")
-    implementation("androidx.room:room-common:2.5.0")
-    annotationProcessor("androidx.room:room-compiler:2.5.0")
-    kapt("androidx.room:room-compiler:2.5.0")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.room:room-common:2.6.1")
+    annotationProcessor("androidx.room:room-compiler:2.6.1")
 }

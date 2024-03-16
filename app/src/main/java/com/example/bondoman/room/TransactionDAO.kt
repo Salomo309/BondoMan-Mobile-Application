@@ -6,24 +6,24 @@ import androidx.room.*
 @Dao
 interface TransactionDAO {
     // Get data
-    @Query("SELECT * FROM transaction")
-    fun getAllTransaction(): LiveData<List<TransactionEntity>>
+    @Query("SELECT * FROM transactions")
+    fun getAllTransactions(): LiveData<List<TransactionEntity>>
 
-    @Query("SELECT * FROM transaction WHERE id = :id")
-    fun getTransaction(id: String): TransactionEntity
+    @Query("SELECT * FROM transactions WHERE id = :id")
+    fun getTransaction(id: String): TransactionEntity?
 
     // Insert data
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTransaction(transaction: TransactionEntity)
 
     // Update data
-    @Update()
+    @Update
     suspend fun updateTransaction(transaction: TransactionEntity)
 
     // Delete data
-    @Query("DELETE FROM transaction")
-    suspend fun deleteAllTransaction()
+    @Query("DELETE FROM transactions")
+    suspend fun deleteAllTransactions(): Int
 
-    @Delete()
+    @Delete
     suspend fun deleteTransaction(transaction: TransactionEntity)
 }
