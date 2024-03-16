@@ -87,10 +87,6 @@ class ScanFragment : Fragment() {
         }
 
         // Set event listener
-        binding.buttonCapture.setOnClickListener {
-            captureImage()
-        }
-
         binding.buttonRetry.setOnClickListener {
             binding.scanCard.visibility = View.GONE
             binding.shadeOverlay.visibility = View.GONE
@@ -108,6 +104,9 @@ class ScanFragment : Fragment() {
         {isGranted : Boolean ->
             if (isGranted) {
                 startCamera()
+                binding.buttonCapture.setOnClickListener {
+                    captureImage()
+                }
                 askForGallery()
             } else {
                 showToast("We need your permission to be able to scan image")
@@ -123,7 +122,6 @@ class ScanFragment : Fragment() {
                     openGallery()
                 }
             } else {
-                binding.buttonChoose.setOnClickListener {}
                 showToast("We need your permission to be able to upload your image")
             }
         }
@@ -133,6 +131,9 @@ class ScanFragment : Fragment() {
             cameraRequestPermissionLauncher.launch(Manifest.permission.CAMERA)
         } else {
             startCamera()
+            binding.buttonCapture.setOnClickListener {
+                captureImage()
+            }
             askForGallery()
         }
     }
@@ -183,6 +184,7 @@ class ScanFragment : Fragment() {
                 @OptIn(ExperimentalGetImage::class) override fun onCaptureSuccess(imageProxy: ImageProxy) {
                     val image = imageProxy.image
                     val byteArray = image?.let { getImageByteArray(it) }!!
+                    image.close()
                     coroutineScope.launch {
                         uploadImage(byteArray)
                     }
