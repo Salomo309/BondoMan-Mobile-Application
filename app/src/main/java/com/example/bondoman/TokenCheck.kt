@@ -20,6 +20,7 @@ class TokenExpirationService : Service() {
 
     @SuppressLint("ForegroundServiceType")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        Log.d("TokenExpirationService", "Service started")
         startBackgroundTask()
         startForeground(notificationId, createNotification())
         return START_STICKY
@@ -33,7 +34,8 @@ class TokenExpirationService : Service() {
         )
         channel.description = "Background service checking token validity"
 
-        (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).createNotificationChannel(channel)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(channel)
 
         val builder = NotificationCompat.Builder(this, notificationChannelId)
             .setContentTitle("Token Expiration Service")
@@ -50,7 +52,6 @@ class TokenExpirationService : Service() {
             while (true) {
                 try {
                     if (!TokenManager.isTokenValid(this@TokenExpirationService)) {
-                        // Token expired handling
                         Log.w("TokenCheck", "Token expired, stopping service and potentially navigating to login")
                         setOff()
                         break
@@ -66,6 +67,7 @@ class TokenExpirationService : Service() {
     }
 
     private fun setOff() {
+        Log.d("TokenExpirationService", "Service stopped")
         stopSelf()
         navigateToLoginPage()
     }
@@ -77,11 +79,11 @@ class TokenExpirationService : Service() {
     }
 
     override fun onBind(intent: Intent?): IBinder? {
-        return null // No binding needed for a background service
+        return null
     }
 
     override fun onDestroy() {
-        Log.d("Token Manager", "Token Manager destroyed")
+        Log.d("TokenExpirationService", "Service destroyed")
         super.onDestroy()
         coroutineScope.cancel()
     }

@@ -10,18 +10,21 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.bondoman.LoginActivity
 import com.example.bondoman.databinding.FragmentSettingBinding
+import com.example.bondoman.ui.scan.ScanViewModel
 
 class SettingFragment : Fragment() {
 
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var settingViewModel: SettingViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val settingViewModel = ViewModelProvider(this)[SettingViewModel::class.java]
+        settingViewModel = ViewModelProvider(this)[SettingViewModel::class.java]
 
         _binding = FragmentSettingBinding.inflate(inflater, container, false)
         val root: View = binding.root
