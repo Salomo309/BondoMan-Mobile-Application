@@ -36,6 +36,11 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
     public fun disableNavBar() {
         for (i in 0 until binding.navView.menu.size()) {
             val menuItem = binding.navView.menu.getItem(i)
