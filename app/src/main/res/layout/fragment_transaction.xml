@@ -9,27 +9,20 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTransactions"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingBottom="60dp" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="6dp"
+    <ImageButton
+        android:id="@+id/addButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rounded_button"
+        android:src="@drawable/ic_add"
+        android:contentDescription="@string/add_transaction"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="70dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp" />
 
-        <ImageButton
-            android:id="@+id/addButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_add"
-            android:background="?android:selectableItemBackground"
-            app:tint="@color/my_primary"
-            android:contentDescription="@string/add_transaction" />
-
-    </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
