@@ -11,8 +11,10 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import android.Manifest
+import android.content.ContentResolver
 import android.content.pm.PackageManager
 import android.media.Image
+import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
 import androidx.camera.core.ExperimentalGetImage
@@ -25,7 +27,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bondoman.MainActivity
 import com.example.bondoman.databinding.FragmentScanBinding
-import com.example.bondoman.models.Item
 import com.example.bondoman.repository.Repository
 import com.example.bondoman.storage.TokenManager
 import com.google.common.util.concurrent.ListenableFuture
@@ -34,6 +35,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
 
 class ScanFragment : Fragment() {
 
@@ -49,6 +52,10 @@ class ScanFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var scanItemAdapter: ScanItemAdapter
     private lateinit var scanViewModel: ScanViewModel
+
+    companion object{
+        const val PICK_IMAGE_REQUEST = 1
+    }
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -66,11 +73,7 @@ class ScanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Check if permission for camera is granted. If yes, immediately use the camera. If not, request for permission.
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-        } else {
-            startCamera()
-        }
+        askForCamera()
 
         // Setup View Model and Recycler View
         scanViewModel = ViewModelProvider(this)[ScanViewModel::class.java]
@@ -90,23 +93,59 @@ class ScanFragment : Fragment() {
 
         binding.buttonRetry.setOnClickListener {
             binding.scanCard.visibility = View.GONE
+            binding.shadeOverlay.visibility = View.GONE
         }
 
         binding.buttonSave.setOnClickListener {
             showToast("Data Saved")
             binding.scanCard.visibility = View.GONE
+            binding.shadeOverlay.visibility = View.GONE
         }
     }
 
-    private val requestPermissionLauncher =
+    private val cameraRequestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission())
         {isGranted : Boolean ->
             if (isGranted) {
                 startCamera()
+                askForGallery()
             } else {
                 showToast("We need your permission to be able to scan image")
+                askForGallery()
             }
         }
+
+    private val galleryRequestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission())
+        {isGranted : Boolean ->
+            if (isGranted) {
+                binding.buttonChoose.setOnClickListener {
+                    openGallery()
+                }
+            } else {
+                binding.buttonChoose.setOnClickListener {}
+                showToast("We need your permission to be able to upload your image")
+            }
+        }
+
+    private fun askForCamera() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            cameraRequestPermissionLauncher.launch(Manifest.permission.CAMERA)
+        } else {
+            startCamera()
+            askForGallery()
+        }
+    }
+
+    private fun askForGallery() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            galleryRequestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        } else {
+            binding.buttonChoose.setOnClickListener {
+                openGallery()
+            }
+        }
+    }
 
     private fun startCamera() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
@@ -141,39 +180,100 @@ class ScanFragment : Fragment() {
                 override fun onError(exception: ImageCaptureException) {
                     showToast("Failed to capture image")
                 }
-
                 @OptIn(ExperimentalGetImage::class) override fun onCaptureSuccess(imageProxy: ImageProxy) {
                     val image = imageProxy.image
                     val byteArray = image?.let { getImageByteArray(it) }!!
                     coroutineScope.launch {
-                        val activity = requireActivity() as MainActivity
-                        activity.disableNavBar()
-                        showLoading()
-                        try {
-                            val itemsList = withContext(Dispatchers.IO) {
-                                TokenManager.getToken(requireContext())
-                                    ?.let { Repository().upload(byteArray, it) }
-                            }
-                            hideLoading()
-                            if (itemsList != null) {
-                                scanViewModel.setItemList(itemsList.items)
-                                showScanResultCard()
-                            }
-                        } catch (e: Exception) {
-                            showToast("Scan failed: ${e.message}")
-                        } finally {
-                            hideLoading()
-                            activity.enableNavBar()
-                        }
+                        uploadImage(byteArray)
                     }
                 }
             })
     }
 
+    private fun openGallery() {
+        chooseImage.launch("image/*")
+    }
+
+    private val chooseImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri : Uri? ->
+        if (uri != null) {
+            val byteArray = getUriByteArray(requireContext().contentResolver, uri)
+            coroutineScope.launch {
+                if (byteArray != null) {
+                    uploadImage(byteArray)
+                }
+            }
+        }
+    }
+
+    suspend fun uploadImage(byteArray: ByteArray) {
+        coroutineScope.launch {
+            val activity = requireActivity() as MainActivity
+            activity.disableNavBar()
+            showLoading()
+            try {
+                val itemsList = withContext(Dispatchers.IO) {
+                    TokenManager.getToken(requireContext())
+                        ?.let { Repository().upload(byteArray, it) }
+                }
+                hideLoading()
+                if (itemsList != null) {
+                    scanViewModel.setItemList(itemsList.items)
+                    showScanResultCard()
+                }
+            } catch (e: Exception) {
+                showToast("Scan failed: ${e.message}")
+                binding.shadeOverlay.visibility = View.GONE
+            } finally {
+                hideLoading()
+                activity.enableNavBar()
+            }
+        }
+    }
+
+    private fun getUriByteArray(contentResolver: ContentResolver, uri: Uri): ByteArray? {
+        var inputStream: InputStream? = null
+        val maxSizeBytes = 1 * 1024 * 1024
+        try {
+            inputStream = contentResolver.openInputStream(uri)
+            val buffer = ByteArrayOutputStream()
+            val data = ByteArray(1024)
+            var bytesRead: Int
+            var totalBytesRead = 0
+            if (inputStream != null) {
+                while (inputStream.read(data).also { bytesRead = it } != -1) {
+                    totalBytesRead += bytesRead
+                    if (totalBytesRead > maxSizeBytes) {
+                        buffer.write(data, 0, bytesRead - (totalBytesRead - maxSizeBytes))
+                        break
+                    }
+                    buffer.write(data, 0, bytesRead)
+                }
+            }
+            return buffer.toByteArray()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        } finally {
+            inputStream?.close()
+        }
+    }
+
     private fun getImageByteArray(image: Image): ByteArray {
-        val plane = image.planes.first()
-        val buffer = ByteArray(plane.buffer.remaining())
-        plane.buffer.get(buffer)
+        val planes = image.planes
+        val maxSizeBytes = 1 * 1024 * 1024
+        val buffer = ByteArray(maxSizeBytes)
+        var totalBytesCopied = 0
+
+        for (plane in planes) {
+            val planeBuffer = plane.buffer
+            val bytesToCopy = minOf(planeBuffer.remaining(), maxSizeBytes - totalBytesCopied)
+            planeBuffer.get(buffer, totalBytesCopied, bytesToCopy)
+            totalBytesCopied += bytesToCopy
+
+            if (totalBytesCopied >= maxSizeBytes) {
+                break
+            }
+        }
 
         return buffer
     }
@@ -188,7 +288,6 @@ class ScanFragment : Fragment() {
     }
 
     private fun hideLoading() {
-        binding.shadeOverlay.visibility = View.GONE
         binding.loadingBar.visibility = View.GONE
     }
 
