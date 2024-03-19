@@ -1,13 +1,16 @@
 package com.example.bondoman.ui.graph
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.bondoman.databinding.FragmentGraphBinding
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
 
 class GraphFragment : Fragment() {
 
@@ -22,17 +25,36 @@ class GraphFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val graphViewModel =
-            ViewModelProvider(this)[GraphViewModel::class.java]
-
         _binding = FragmentGraphBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textGraph
-        graphViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        createPieChart()
+    }
+
+    private fun createPieChart() {
+        val pieChart = binding.pieChart
+
+        val entries = ArrayList<PieEntry>()
+        entries.add(PieEntry(65f, "Pemasukan"))
+        entries.add(PieEntry(35f, "Pengeluaran"))
+
+        val dataSet = PieDataSet(entries, "Pie Chart")
+        dataSet.setColors(Color.parseColor("#87A922"), Color.parseColor("#FDA403"))
+
+        val pieData = PieData(dataSet)
+        pieData.setValueFormatter(PercentFormatter(pieChart))
+        pieChart.setUsePercentValues(true)
+        dataSet.valueTextSize = 18f
+        pieChart.data = pieData
+
+        pieChart.legend.isEnabled = false
+        pieChart.description.isEnabled = false
+        pieChart.setDrawEntryLabels(false)
+        pieChart.invalidate()
     }
 
     override fun onDestroyView() {
