@@ -1,6 +1,7 @@
 package com.example.bondoman
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +22,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Inisiasi ViewModel
+        val repository = TransactionRepository(TransactionDatabase.getDatabase(applicationContext))
+        val viewModelFactory = TransactionViewModel.provideFactory(repository)
+        transactionViewModel = ViewModelProvider(this, viewModelFactory)[TransactionViewModel::class.java]
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -39,11 +45,6 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        // Inisiasi ViewModel
-        val repository = TransactionRepository(TransactionDatabase.getDatabase(applicationContext))
-        val viewModelFactory = TransactionViewModel.provideFactory(repository)
-        transactionViewModel = ViewModelProvider(this, viewModelFactory)[TransactionViewModel::class.java]
 
         println(transactionViewModel.toString())
     }

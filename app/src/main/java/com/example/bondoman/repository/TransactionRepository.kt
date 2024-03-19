@@ -1,5 +1,6 @@
 package com.example.bondoman.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.bondoman.room.*
 

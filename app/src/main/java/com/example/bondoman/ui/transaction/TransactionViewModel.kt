@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class TransactionViewModel(private val repository: TransactionRepository) : ViewModel() {
 
-    val listTransactions: LiveData<List<TransactionEntity>> = repository.listTransactions
+    var listTransactions: LiveData<List<TransactionEntity>> = repository.listTransactions
 
     fun insertTransaction(transaction: TransactionEntity) {
         viewModelScope.launch(Dispatchers.IO) {

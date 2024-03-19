@@ -37,13 +37,17 @@ class TransactionFragment : Fragment() {
         _binding = FragmentTransactionBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val transactionViewModel = (requireActivity() as MainActivity).getTransactionViewModel()
+
         binding.addButton.setOnClickListener {
             findNavController().navigate(R.id.navigation_add_transaction)
         }
 
         val noTransactionTextView: TextView = root.findViewById(R.id.noTransactionTextView)
-
-        val transactionViewModel = (requireActivity() as MainActivity).getTransactionViewModel()
+        val rvTransactions = binding.rvTransactions
+        transactionAdapter  = TransactionAdapter(emptyList())
+        rvTransactions.adapter = transactionAdapter
+        rvTransactions.layoutManager = LinearLayoutManager(requireContext())
 
         transactionViewModel.listTransactions.observe(viewLifecycleOwner, Observer { transactions ->
             if (transactions.isEmpty()) {
@@ -51,12 +55,8 @@ class TransactionFragment : Fragment() {
             } else {
                 noTransactionTextView.visibility = View.GONE
 
-                val rvTransactions = binding.rvTransactions
-                val transactionAdapter  = TransactionAdapter(transactionAdapter.transactions)
-                rvTransactions.adapter = transactionAdapter
-                rvTransactions.layoutManager = LinearLayoutManager(requireContext())
-
                 transactionAdapter.transactions = transactions.map { transactionEntityToModel(it) }
+                transactionAdapter.notifyDataSetChanged()
             }
         })
 

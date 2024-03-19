@@ -24,6 +24,7 @@ import com.google.android.gms.location.LocationServices
 import android.location.Address
 import android.location.Geocoder
 import androidx.navigation.fragment.findNavController
+import com.example.bondoman.MainActivity
 
 
 class AddTransactionFragment : Fragment() {
@@ -57,16 +58,18 @@ class AddTransactionFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.editCategory.adapter = adapter
 
+        val transactionViewModel = (requireActivity() as MainActivity).getTransactionViewModel()
+
         checkLocationPermission()
 
         binding.buttonSave.setOnClickListener {
-            addTransaction()
+            addTransaction(transactionViewModel)
         }
 
         return root
     }
 
-    private fun addTransaction() {
+    private fun addTransaction(transactionViewModel: TransactionViewModel) {
         val title = binding.editTextJudul.text.toString()
         val category = binding.editCategory.selectedItem.toString()
         val amount = binding.editTextNominal.text.toString().toDoubleOrNull()
@@ -80,18 +83,23 @@ class AddTransactionFragment : Fragment() {
                             val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
                             if (!addresses.isNullOrEmpty()) {
                                 val cityName = addresses[0]?.locality
-                                val address = cityName?.let { "$it, ${addresses[0]?.countryName}" } ?: "" // Contoh: Format alamat sebagai kota, negara
+                                val address = cityName?.let { "$it, ${addresses[0]?.countryName}" } ?: ""
+                                val longitude = location.longitude
+                                val latitude = location.latitude
 
-                                val repository = TransactionRepository(TransactionDatabase.getDatabase(requireContext()))
-                                val viewModelFactory = TransactionViewModel.provideFactory(repository)
-                                val transactionViewModel = ViewModelProvider(this, viewModelFactory).get(TransactionViewModel::class.java)
+                                var id = 1
+                                if (transactionViewModel.listTransactions.value != null) {
+                                    id = transactionViewModel.listTransactions.value!!.size + 1
+                                }
 
                                 val transaction = TransactionEntity(
-                                    0,
+                                    id.toLong(),
                                     title,
                                     category,
-                                    amount.toInt(),
+                                    amount,
                                     address,
+                                    longitude,
+                                    latitude,
                                     Date()
                                 )
 
