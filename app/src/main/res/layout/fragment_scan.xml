@@ -9,8 +9,7 @@
     <androidx.camera.view.PreviewView
         android:id="@+id/preview_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </androidx.camera.view.PreviewView>
+        android:layout_height="match_parent"></androidx.camera.view.PreviewView>
 
     <View
         android:layout_width="98dp"
@@ -52,11 +51,22 @@
         android:id="@+id/button_capture"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="115dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button_capture_selector"
         android:contentDescription="@string/button_capture" />
+
+    <ImageButton
+        android:id="@+id/button_choose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_choose_selector"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="75dp"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="Choose Button" />
 
     <View
         android:id="@+id/shade_overlay"
@@ -86,11 +96,6 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/bubble_lighter_top"/>
-
-        <View
-            android:layout_width="match_parent"
             android:layout_height="87dp"
             android:layout_gravity="bottom"
             android:background="@drawable/bubble_lighter_bottom"/>
@@ -99,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp">
+            android:paddingTop="10dp">
 
             <TextView
                 android:id="@+id/scan_result_title"
@@ -122,7 +127,7 @@
                 app:layout_constraintBottom_toTopOf="@id/scan_confirm"
                 app:layout_constraintHeight_percent="0.82"
                 app:layout_constraintVertical_bias="1"
-                android:padding="10dp"/>
+                android:paddingHorizontal="10dp"/>
 
             <TextView
                 android:id="@+id/scan_confirm"

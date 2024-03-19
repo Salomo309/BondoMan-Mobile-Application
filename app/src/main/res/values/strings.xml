@@ -20,5 +20,6 @@
     <string name="scan_confirm">Do you want to re-scan the image?</string>
     <string name="scan_retry">Retry</string>
     <string name="scan_save">Save</string>
+    <string name="graph_title">Besar Pemasukan dan Pengeluaran</string>
 
 </resources>

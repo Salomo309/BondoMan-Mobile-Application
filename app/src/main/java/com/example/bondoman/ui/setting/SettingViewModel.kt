@@ -32,11 +32,4 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             TokenManager.saveToken(context = getApplication(), token = "")
         }
     }
-
-    override fun onCleared() {
-        super.onCleared()
-        val context:Application = getApplication()
-        context.stopService(Intent(context, TokenExpirationService::class.java))
-        Log.d("NetworkMonitorViewModel","cleared")
-    }
 }
