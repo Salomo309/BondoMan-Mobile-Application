@@ -6,7 +6,9 @@ data class Transaction(
     val id: Long,
     val title: String,
     val category: String,
-    val amount: Int,
+    val amount: Double,
     val location: String,
+    val longitude: Double,
+    val latitude: Double,
     val date: Date
 )

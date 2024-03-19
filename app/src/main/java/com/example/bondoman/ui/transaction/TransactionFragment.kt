@@ -4,12 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.bondoman.MainActivity
 import com.example.bondoman.databinding.FragmentTransactionBinding
 import com.example.bondoman.R
 import com.example.bondoman.models.Transaction
+import com.example.bondoman.repository.TransactionRepository
+import com.example.bondoman.room.TransactionDatabase
+import com.example.bondoman.room.TransactionEntity
 import java.util.Date
 
 
@@ -20,6 +27,7 @@ class TransactionFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var transactionAdapter: TransactionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,34 +41,39 @@ class TransactionFragment : Fragment() {
             findNavController().navigate(R.id.navigation_add_transaction)
         }
 
-        var transactionList = mutableListOf(
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
-            Transaction(1,"Transaction", "Pemasukan", 100000, "Bandung", Date()),
+        val noTransactionTextView: TextView = root.findViewById(R.id.noTransactionTextView)
 
+        val transactionViewModel = (requireActivity() as MainActivity).getTransactionViewModel()
 
-        )
+        transactionViewModel.listTransactions.observe(viewLifecycleOwner, Observer { transactions ->
+            if (transactions.isEmpty()) {
+                noTransactionTextView.visibility = View.VISIBLE
+            } else {
+                noTransactionTextView.visibility = View.GONE
 
-        val rvTransactions = binding.rvTransactions
-        val adapter = TransactionAdapter(transactionList)
-        rvTransactions.adapter = adapter
-        rvTransactions.layoutManager = LinearLayoutManager(requireContext())
+                val rvTransactions = binding.rvTransactions
+                val transactionAdapter  = TransactionAdapter(transactionAdapter.transactions)
+                rvTransactions.adapter = transactionAdapter
+                rvTransactions.layoutManager = LinearLayoutManager(requireContext())
+
+                transactionAdapter.transactions = transactions.map { transactionEntityToModel(it) }
+            }
+        })
 
         return root
+    }
+
+    private fun transactionEntityToModel(entity: TransactionEntity): Transaction {
+        return Transaction(
+            entity.id,
+            entity.title,
+            entity.category,
+            entity.amount,
+            entity.category,
+            entity.longitude,
+            entity.latitude,
+            entity.date
+        )
     }
 
     override fun onDestroyView() {

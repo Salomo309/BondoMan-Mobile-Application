@@ -16,10 +16,16 @@ data class TransactionEntity (
     val category: String,
 
     @ColumnInfo(name = "amount")
-    val amount: Int,
+    val amount: Double,
 
     @ColumnInfo(name = "location")
     val location: String,
+
+    @ColumnInfo(name = "longitude")
+    val longitude: Double,
+
+    @ColumnInfo(name = "latitude")
+    val latitude: Double,
 
     @ColumnInfo(name = "date")
     val date: Date = Date(), // Default to current date
