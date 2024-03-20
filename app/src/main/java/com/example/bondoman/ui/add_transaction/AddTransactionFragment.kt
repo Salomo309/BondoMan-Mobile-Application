@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.bondoman.R
 import com.example.bondoman.databinding.FragmentAddTransactionBinding
 import android.Manifest
@@ -14,14 +13,11 @@ import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.example.bondoman.repository.TransactionRepository
-import com.example.bondoman.room.TransactionDatabase
 import com.example.bondoman.room.TransactionEntity
 import com.example.bondoman.ui.transaction.TransactionViewModel
 import java.util.Date
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import android.location.Address
 import android.location.Geocoder
 import androidx.navigation.fragment.findNavController
 import com.example.bondoman.MainActivity

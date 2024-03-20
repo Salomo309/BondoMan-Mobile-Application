@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.bondoman.LoginActivity
 import com.example.bondoman.databinding.FragmentSettingBinding
-import com.example.bondoman.ui.scan.ScanViewModel
 
 class SettingFragment : Fragment() {
 

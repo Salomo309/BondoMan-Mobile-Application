@@ -8,18 +8,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bondoman.MainActivity
 import com.example.bondoman.databinding.FragmentTransactionBinding
 import com.example.bondoman.R
 import com.example.bondoman.models.Transaction
-import com.example.bondoman.repository.TransactionRepository
-import com.example.bondoman.room.TransactionDatabase
 import com.example.bondoman.room.TransactionEntity
-import java.util.Date
-
 
 class TransactionFragment : Fragment() {
 

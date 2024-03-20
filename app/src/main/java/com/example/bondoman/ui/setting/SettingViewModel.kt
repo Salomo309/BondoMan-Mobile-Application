@@ -2,7 +2,6 @@ package com.example.bondoman.ui.setting
 
 import android.app.Application
 import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.AndroidViewModel
