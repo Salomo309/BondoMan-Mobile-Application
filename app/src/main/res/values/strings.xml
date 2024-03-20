@@ -21,5 +21,8 @@
     <string name="scan_retry">Retry</string>
     <string name="scan_save">Save</string>
     <string name="graph_title">Besar Pemasukan dan Pengeluaran</string>
+    <string name="get_location">Get location</string>
+    <string name="edit_data">Edit data</string>
+    <string name="delete_data">Delete data</string>
 
 </resources>
