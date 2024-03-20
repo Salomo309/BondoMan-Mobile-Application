@@ -49,4 +49,21 @@ object TokenManager {
             null
         }
     }
+
+    suspend fun fetchUserNim(context: Context): String? {
+        val token = getToken(context)
+        if (token == null) {
+            Log.e("TokenManager", "Token not found")
+            return null
+        }
+
+        return try {
+            val authToken = "Bearer $token"
+            val response = RetrofitClient.authService.getTokenExpirationTime(authToken)
+            response.nim
+        } catch (e: Exception) {
+            Log.e("TokenManager", "Failed to fetch NIM: ${e.message}")
+            null
+        }
+    }
 }

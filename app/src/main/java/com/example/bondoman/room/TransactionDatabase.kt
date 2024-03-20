@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.TypeConverters
 import android.content.Context
 
-@Database(entities = [TransactionEntity::class], version = 1)
+@Database(entities = [TransactionEntity::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class TransactionDatabase : RoomDatabase() {
     abstract val transactionDAO: TransactionDAO
@@ -14,6 +14,7 @@ abstract class TransactionDatabase : RoomDatabase() {
     companion object {
         @Volatile
         private var INSTANCE: TransactionDatabase? = null
+
         fun getDatabase(context: Context): TransactionDatabase {
             synchronized(this) {
                 var instance = INSTANCE

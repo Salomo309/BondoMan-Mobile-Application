@@ -1,5 +1,6 @@
 package com.example.bondoman.ui.transaction
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,6 +30,7 @@ class TransactionFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var transactionAdapter: TransactionAdapter
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

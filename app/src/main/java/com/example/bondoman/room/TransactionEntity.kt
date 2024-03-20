@@ -4,10 +4,13 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import java.util.Date
 
-@Entity(tableName = "transactions", primaryKeys = ["id"])
+@Entity(tableName = "transactions", primaryKeys = ["id", "nim"])
 data class TransactionEntity (
     @ColumnInfo(name = "id")
     var id: Long,
+
+    @ColumnInfo(name = "nim")
+    var nim: String,
 
     @ColumnInfo(name = "title")
     var title: String,

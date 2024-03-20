@@ -94,6 +94,7 @@ class AddTransactionFragment : Fragment() {
 
                                 val transaction = TransactionEntity(
                                     id.toLong(),
+                                    "X",
                                     title,
                                     category,
                                     amount,
