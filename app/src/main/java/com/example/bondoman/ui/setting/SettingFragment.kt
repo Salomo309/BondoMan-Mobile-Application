@@ -1,5 +1,6 @@
 package com.example.bondoman.ui.setting
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.bondoman.LoginActivity
+import com.example.bondoman.MainActivity
 import com.example.bondoman.databinding.FragmentSettingBinding
+import com.example.bondoman.ui.transaction.TransactionViewModel
 
 class SettingFragment : Fragment() {
 
@@ -23,14 +26,16 @@ class SettingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         settingViewModel = ViewModelProvider(this)[SettingViewModel::class.java]
 
         _binding = FragmentSettingBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val transactionViewModel = (requireActivity() as MainActivity).getTransactionViewModel()
+
         binding.buttonSaveTransaction.setOnClickListener {
-            // Handle save transaction button click
-            Toast.makeText(requireContext(), "Save Transaction Clicked", Toast.LENGTH_SHORT).show()
+            showSaveDialog(transactionViewModel)
         }
 
         binding.buttonSendTransaction.setOnClickListener {
@@ -55,5 +60,20 @@ class SettingFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showSaveDialog(transactionViewModel: TransactionViewModel) {
+        val options = arrayOf("xlsx", "xls")
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Choose File Extension")
+        builder.setItems(options) { _, which ->
+            val extension = options[which]
+            saveTransactionsToFile(transactionViewModel, extension)
+        }
+        builder.show()
+    }
+
+    private fun saveTransactionsToFile(transactionViewModel: TransactionViewModel, extension: String) {
+        settingViewModel.saveTransactionsToFile(requireActivity(), transactionViewModel.listTransactions.value, extension)
     }
 }

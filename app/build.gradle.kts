@@ -77,4 +77,8 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.room:room-common:2.6.1")
     kapt("androidx.room:room-compiler:2.6.1")
+
+    // Spreadsheet
+    implementation("org.apache.poi:poi:5.2.2")
+    implementation("org.apache.poi:poi-ooxml:5.2.2")
 }
