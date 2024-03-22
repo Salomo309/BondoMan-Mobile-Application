@@ -1,8 +1,12 @@
 package com.example.bondoman.ui.transaction
 
+import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.text.NumberFormat
@@ -19,6 +23,7 @@ class TransactionAdapter(var transactions: List<Transaction>) : RecyclerView.Ada
         val time: TextView = itemView.findViewById(R.id.time)
         val amount: TextView = itemView.findViewById(R.id.amount)
         val category: TextView = itemView.findViewById(R.id.category)
+        val firstLinearLayout: LinearLayout = itemView.findViewById(R.id.firstLinearLayout)
         // val location: TextView = itemView.findViewById(R.id.location)
     }
 
@@ -50,7 +55,31 @@ class TransactionAdapter(var transactions: List<Transaction>) : RecyclerView.Ada
 
         holder.category.text = currentTransaction.category
         // holder.location.text = currentTransaction.location
+
+        // Set listener klik untuk firstLinearLayout
+        holder.firstLinearLayout.setOnClickListener {
+            val lat = currentTransaction.latitude
+            val long = currentTransaction.longitude
+
+            // Open Google Maps with specified latitude and longitude
+            val alertDialogBuilder = AlertDialog.Builder(holder.itemView.context)
+            alertDialogBuilder.apply {
+                setTitle("Open Google Maps")
+                setMessage("Do you want to open Google Maps?")
+                setPositiveButton("Open") { _, _ ->
+                    // Open Google Maps with specified latitude and longitude
+                    val uri = "http://maps.google.com/maps?q=loc:$lat,$long"
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+                    holder.itemView.context.startActivity(intent)
+                }
+                setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+            }
+            alertDialogBuilder.create().show()
+        }
     }
+
 
     override fun getItemCount(): Int {
         return transactions.size
