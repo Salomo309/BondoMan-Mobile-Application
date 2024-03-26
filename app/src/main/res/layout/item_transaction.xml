@@ -20,14 +20,14 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
+            android:layout_weight="2.5"
             android:gravity="center">
 
             <!-- Use FrameLayout to stack the View and TextView -->
             <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="2.5"
                 android:gravity="center">
 
                 <!-- View -->
@@ -77,10 +77,12 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4.5"
+            android:layout_weight="8.5"
             android:padding="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
             android:orientation="vertical"
             android:paddingStart="12dp">
             <TextView
@@ -94,7 +96,7 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Transaksi 1 yang namanya"
+                android:text="Transaksi baru yang panjang"
                 android:layout_marginTop="3sp"
                 android:textColor="@color/white"
                 android:textSize="23sp"
@@ -112,28 +114,22 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:padding="8dp">
-            <ImageButton
-                android:id="@+id/button_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5sp"
-                android:background="@drawable/location"
-                android:contentDescription="@string/get_location" />
+            android:layout_weight="2.5"
+            android:padding="8dp"
+            android:orientation="vertical">
             <ImageButton
                 android:id="@+id/button_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/modify"
-                android:layout_marginEnd="5sp"
+                android:layout_marginBottom="8sp"
                 android:contentDescription="@string/edit_data" />
             <ImageButton
                 android:id="@+id/button_remove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/remove"
-                android:layout_marginEnd="5sp"
+                android:layout_marginTop="8sp"
                 android:contentDescription="@string/delete_data" />
         </LinearLayout>
     </LinearLayout>

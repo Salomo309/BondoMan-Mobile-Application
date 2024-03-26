@@ -1,7 +1,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:width="30dp"
-        android:height="30dp"
+        android:width="40dp"
+        android:height="40dp"
         android:gravity="center">
         <shape android:shape="oval">
             <solid android:color="@color/white"/>
@@ -10,6 +10,6 @@
     <item
         android:drawable="@drawable/trash"
         android:gravity="center"
-        android:width="20dp"
-        android:height="20dp"/>
+        android:width="25dp"
+        android:height="25dp"/>
 </layer-list>
