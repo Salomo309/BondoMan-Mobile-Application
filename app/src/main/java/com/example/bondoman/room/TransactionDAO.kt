@@ -2,6 +2,7 @@ package com.example.bondoman.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.bondoman.models.TransactionSummary
 
 @Dao
 interface TransactionDAO {
@@ -11,6 +12,10 @@ interface TransactionDAO {
 
     @Query("SELECT * FROM transactions WHERE id = :id and nim= :nim")
     fun getTransaction(id: String, nim: String): TransactionEntity?
+
+    // Get transaction summary
+    @Query("SELECT category, SUM(amount) as totalAmount FROM transactions WHERE nim= :nim GROUP BY category")
+    fun getTransactionSummary(nim: String): LiveData<List<TransactionSummary>>
 
     // Insert data
     @Insert(onConflict = OnConflictStrategy.REPLACE)

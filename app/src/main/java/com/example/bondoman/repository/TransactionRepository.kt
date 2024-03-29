@@ -1,11 +1,13 @@
 package com.example.bondoman.repository
 
 import androidx.lifecycle.LiveData
+import com.example.bondoman.models.TransactionSummary
 import com.example.bondoman.room.TransactionDatabase
 import com.example.bondoman.room.TransactionEntity
 
 class TransactionRepository(private val database: TransactionDatabase, private val nim: String) {
     val listTransactions: LiveData<List<TransactionEntity>> = database.transactionDAO.getAllTransactions(nim)
+    val transactionSummary: LiveData<List<TransactionSummary>> = database.transactionDAO.getTransactionSummary(nim)
 
     // Add new transaction
     suspend fun insertTransaction(transaction: TransactionEntity) {
