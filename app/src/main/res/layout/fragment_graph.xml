@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.graph.GraphFragment">
-    
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,6 +59,16 @@
             android:text="Pengeluaran"
             android:paddingHorizontal="5dp"
             style="@style/TextAppearance.MaterialComponents.Body2"/>
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/graph_shade_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/white"
+        android:text="Save some transactions first \nfor a summary..."
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:visibility="gone"/>
 </RelativeLayout>
