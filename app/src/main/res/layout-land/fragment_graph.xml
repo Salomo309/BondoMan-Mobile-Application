@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.graph.GraphFragment">
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pie_chart"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_marginBottom="62dp"
+        android:paddingHorizontal="10dp"/>
+
+    <TextView
+        android:id="@+id/graph_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/pie_chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="85dp"
+        android:text="@string/graph_title"
+        android:textAlignment="center"
+        android:textColor="@color/my_primary"
+        android:textSize="21sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/legend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@id/graph_title"
+        app:layout_constraintEnd_toEndOf="@id/graph_title"
+        app:layout_constraintTop_toBottomOf="@id/graph_title"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/bubble_dark_green"
+            android:paddingVertical="4dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pemasukan"
+            android:paddingHorizontal="5dp"
+            style="@style/TextAppearance.MaterialComponents.Body2"/>
+
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/bubble_orange"
+            android:paddingVertical="4dp"
+            android:layout_marginStart="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pengeluaran"
+            android:paddingHorizontal="5dp"
+            style="@style/TextAppearance.MaterialComponents.Body2"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/graph_shade_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:background="@color/white"
+        android:text="Save some transactions first for a summary..."
+        android:textSize="18sp"
+        android:textAlignment="center"
+        android:visibility="gone"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
