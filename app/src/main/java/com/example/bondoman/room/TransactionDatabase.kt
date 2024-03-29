@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.TypeConverters
 import android.content.Context
 
-@Database(entities = [TransactionEntity::class], version = 2)
+@Database(entities = [TransactionEntity::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class TransactionDatabase : RoomDatabase() {
     abstract val transactionDAO: TransactionDAO
