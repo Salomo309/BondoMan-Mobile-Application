@@ -12,9 +12,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.media.Image
+import android.net.ConnectivityManager
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
@@ -27,6 +32,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bondoman.MainActivity
+import com.example.bondoman.NetworkStateService
 import com.example.bondoman.databinding.FragmentScanBinding
 import com.example.bondoman.repository.Repository
 import com.example.bondoman.storage.TokenManager
@@ -42,9 +48,6 @@ import java.io.InputStream
 class ScanFragment : Fragment() {
 
     private var _binding: FragmentScanBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
@@ -53,10 +56,7 @@ class ScanFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var scanItemAdapter: ScanItemAdapter
     private lateinit var scanViewModel: ScanViewModel
-
-    companion object{
-        const val PICK_IMAGE_REQUEST = 1
-    }
+    private lateinit var networkStateReceiver : BroadcastReceiver
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -73,6 +73,9 @@ class ScanFragment : Fragment() {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        checkCurrentNetworkState()
+        setupNetworkStateReceiver()
 
         // Check if permission for camera is granted. If yes, immediately use the camera. If not, request for permission.
         askForCamera()
@@ -95,10 +98,36 @@ class ScanFragment : Fragment() {
         }
 
         binding.buttonSave.setOnClickListener {
-            showToast("Data Saved")
+            saveScanResult()
             binding.scanCard.visibility = View.GONE
             binding.shadeOverlay.visibility = View.GONE
         }
+    }
+
+    private fun checkCurrentNetworkState() {
+        val isConnected = (requireActivity() as MainActivity).getIsConnected()
+        if (isConnected) {
+            binding.scanNoInternetOverlay.visibility = View.GONE
+        } else {
+            binding.scanNoInternetOverlay.visibility = View.VISIBLE
+        }
+    }
+    
+    private fun setupNetworkStateReceiver() {
+        networkStateReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == NetworkStateService.ACTION_NETWORK_STATE_CHANGE) {
+                    val isConnected = intent.getBooleanExtra(NetworkStateService.EXTRA_NETWORK_STATE, false)
+                    if (isConnected) {
+                        binding.scanNoInternetOverlay.visibility = View.GONE
+                    } else {
+                        binding.scanNoInternetOverlay.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+        val filter = IntentFilter(NetworkStateService.ACTION_NETWORK_STATE_CHANGE)
+        ContextCompat.registerReceiver(requireContext(), networkStateReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
     }
 
     private val cameraRequestPermissionLauncher =
@@ -282,6 +311,12 @@ class ScanFragment : Fragment() {
         return buffer
     }
 
+    private fun saveScanResult() {
+        val conmngr = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        showToast(conmngr.activeNetworkInfo?.isConnected.toString())
+    }
+
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
@@ -302,6 +337,7 @@ class ScanFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         coroutineScope.cancel()
+        requireContext().unregisterReceiver(networkStateReceiver)
         _binding = null
     }
 }
