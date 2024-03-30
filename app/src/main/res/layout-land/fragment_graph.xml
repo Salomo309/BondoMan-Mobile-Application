@@ -74,8 +74,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:background="@color/white"
+        android:background="@color/light_brown"
         android:text="Save some transactions first for a summary..."
+        android:textColor="@color/my_primary"
         android:textSize="18sp"
         android:textAlignment="center"
         android:visibility="gone"/>
