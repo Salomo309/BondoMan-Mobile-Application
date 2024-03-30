@@ -1,4 +1,4 @@
-package com.example.bondoman
+package com.example.bondoman.service
 
 import android.annotation.SuppressLint
 import android.app.*
@@ -7,6 +7,8 @@ import android.content.Intent
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.example.bondoman.LoginActivity
+import com.example.bondoman.R
 import com.example.bondoman.storage.TokenManager
 import kotlinx.coroutines.*
 

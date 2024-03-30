@@ -1,4 +1,4 @@
-package com.example.bondoman.service
+package com.example.bondoman.server
 
 import com.example.bondoman.models.UploadResponse
 import okhttp3.MultipartBody

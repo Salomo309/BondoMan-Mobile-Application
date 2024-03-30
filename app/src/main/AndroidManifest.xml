@@ -42,12 +42,12 @@
         </activity>
 
         <service
-            android:name=".TokenExpirationService"
+            android:name=".service.TokenExpirationService"
             android:enabled="true"
             android:exported="false" />
 
         <service
-            android:name=".NetworkStateService"
+            android:name=".service.NetworkStateService"
             android:enabled="true"
             android:exported="false" />
 

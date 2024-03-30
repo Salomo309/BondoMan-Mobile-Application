@@ -1,4 +1,4 @@
-package com.example.bondoman.service
+package com.example.bondoman.server
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

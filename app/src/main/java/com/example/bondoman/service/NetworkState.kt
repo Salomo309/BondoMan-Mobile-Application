@@ -1,11 +1,9 @@
-package com.example.bondoman
+package com.example.bondoman.service
 
 import android.app.Service
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
 import android.os.Binder
 import android.os.IBinder
 

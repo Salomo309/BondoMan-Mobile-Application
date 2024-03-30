@@ -17,7 +17,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.bondoman.TokenExpirationService
+import com.example.bondoman.service.TokenExpirationService
 import com.example.bondoman.storage.TokenManager
 import com.example.bondoman.room.TransactionEntity
 import kotlinx.coroutines.Dispatchers

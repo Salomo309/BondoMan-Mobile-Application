@@ -2,7 +2,7 @@ package com.example.bondoman.repository
 
 import com.example.bondoman.models.AuthRequest
 import com.example.bondoman.models.ItemsList
-import com.example.bondoman.service.RetrofitClient
+import com.example.bondoman.server.RetrofitClient
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody

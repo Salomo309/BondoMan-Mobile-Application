@@ -2,7 +2,7 @@ package com.example.bondoman.storage
 
 import android.content.Context
 import android.util.Log
-import com.example.bondoman.service.RetrofitClient
+import com.example.bondoman.server.RetrofitClient
 import java.util.*
 
 object TokenManager {

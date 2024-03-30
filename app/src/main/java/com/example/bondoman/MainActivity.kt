@@ -2,15 +2,10 @@ package com.example.bondoman
 
 import android.app.AlertDialog
 import android.content.BroadcastReceiver
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.ServiceConnection
-import android.net.Uri
 import android.os.Bundle
-import android.os.IBinder
-import android.view.View
 import kotlinx.coroutines.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +18,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.bondoman.databinding.ActivityMainBinding
 import com.example.bondoman.repository.TransactionRepository
 import com.example.bondoman.room.TransactionDatabase
+import com.example.bondoman.service.NetworkStateService
 import com.example.bondoman.storage.TokenManager
 import com.example.bondoman.ui.transaction.TransactionViewModel
 
