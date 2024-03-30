@@ -47,7 +47,7 @@ class TransactionFragment : Fragment() {
         val rvTransactions = binding.rvTransactions
 
         // Transaction Adapter
-        transactionAdapter  = TransactionAdapter(emptyList())
+        transactionAdapter  = TransactionAdapter(emptyList(), transactionViewModel)
         rvTransactions.adapter = transactionAdapter
         rvTransactions.layoutManager = LinearLayoutManager(requireContext())
 
@@ -69,6 +69,7 @@ class TransactionFragment : Fragment() {
         return Transaction(
             entity.id,
             entity.title,
+            entity.nim,
             entity.category,
             entity.amount,
             entity.category,
