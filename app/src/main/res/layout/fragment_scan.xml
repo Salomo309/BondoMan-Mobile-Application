@@ -87,24 +87,25 @@
         android:id="@+id/scan_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="100dp"
-        app:cardCornerRadius="24dp"
+        app:cardCornerRadius="18dp"
         android:visibility="gone">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="87dp"
+            android:layout_height="100dp"
             android:layout_gravity="bottom"
+            android:paddingEnd="100dp"
             android:background="@drawable/bubble_lighter_bottom"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="10dp"
-            android:paddingTop="10dp">
+            android:paddingHorizontal="8dp"
+            android:paddingTop="15dp">
 
             <TextView
                 android:id="@+id/scan_result_title"
@@ -133,7 +134,9 @@
                 android:id="@+id/scan_confirm"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:paddingLeft="7dp"
+                android:paddingStart="20dp"
+                android:paddingBottom="5dp"
+                android:layout_marginTop="-5dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/scan_result"
                 android:text="@string/scan_confirm"
@@ -145,9 +148,10 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/scan_confirm"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintWidth_percent="0.45"
+                app:layout_constraintWidth_percent="0.4"
                 app:layout_constraintHorizontal_bias="0"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="10dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:backgroundTint="@color/my_quintunary"
@@ -163,8 +167,9 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/scan_confirm"
-                app:layout_constraintWidth_percent="0.45"
-                android:layout_marginEnd="5dp"
+                app:layout_constraintWidth_percent="0.4"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:backgroundTint="@color/my_secondary"
@@ -172,7 +177,7 @@
                 android:text="@string/scan_save"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
-                android:drawableRight="@drawable/save_icon"/>
+                android:drawableEnd="@drawable/save_icon"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

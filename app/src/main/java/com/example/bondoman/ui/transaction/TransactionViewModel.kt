@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.bondoman.models.TransactionSummary
 import com.example.bondoman.room.TransactionEntity
 import com.example.bondoman.repository.TransactionRepository
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 class TransactionViewModel(private val repository: TransactionRepository) : ViewModel() {
 
     var listTransactions: LiveData<List<TransactionEntity>> = repository.listTransactions
+    var transactionSummary: LiveData<List<TransactionSummary>> = repository.transactionSummary
 
     fun insertTransaction(transaction: TransactionEntity) {
         viewModelScope.launch(Dispatchers.IO) {

@@ -4,9 +4,11 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginTop="10dp"
     android:paddingHorizontal="15dp"
-    android:background="@drawable/transaction_card">
+    android:background="@drawable/transaction_card_2">
 
     <TextView
         android:id="@+id/item_name"
@@ -27,7 +29,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/item_name"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="20dp"
         android:textAlignment="textEnd"
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:textFontWeight="@android:integer/config_longAnimTime" />

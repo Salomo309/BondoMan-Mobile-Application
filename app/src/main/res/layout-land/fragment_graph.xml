@@ -1,38 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.graph.GraphFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/pie_chart"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/my_primary"
-        android:text="@string/graph_title" 
-        android:textStyle="bold"
-        android:textAlignment="center" 
-        android:textSize="21sp"/>
-    
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pie_chart"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_centerInParent="true"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.45"
+        android:layout_marginBottom="62dp"
         android:paddingHorizontal="10dp"/>
-    
+
+    <TextView
+        android:id="@+id/graph_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@id/pie_chart"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="85dp"
+        android:text="@string/graph_title"
+        android:textAlignment="center"
+        android:textColor="@color/my_primary"
+        android:textSize="21sp"
+        android:textStyle="bold" />
+
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/legend"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/pie_chart"
-        android:paddingHorizontal="30dp"
-        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@id/graph_title"
+        app:layout_constraintEnd_toEndOf="@id/graph_title"
+        app:layout_constraintTop_toBottomOf="@id/graph_title"
         android:gravity="center">
-        
+
         <ImageView
             android:layout_width="10dp"
             android:layout_height="match_parent"
@@ -67,8 +75,9 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:background="@color/white"
-        android:text="Save some transactions first \nfor a summary..."
+        android:text="Save some transactions first for a summary..."
         android:textSize="18sp"
         android:textAlignment="center"
         android:visibility="gone"/>
-</RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

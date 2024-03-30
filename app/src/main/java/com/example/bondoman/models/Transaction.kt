@@ -13,3 +13,8 @@ data class Transaction(
     val latitude: Double,
     val date: Date
 )
+
+data class TransactionSummary(
+    val category: String,
+    val totalAmount: Double
+)
