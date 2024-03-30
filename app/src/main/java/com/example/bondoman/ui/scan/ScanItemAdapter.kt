@@ -29,7 +29,7 @@ class ScanItemAdapter(private var itemList: List<Item>) : RecyclerView.Adapter<S
         holder.itemQty.text = currentItem.qty.toString() + " pcs"
 
         val amountFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
-        holder.itemPrice.text = amountFormat.format(currentItem.price * 2600)
+        holder.itemPrice.text = amountFormat.format(currentItem.price)
     }
 
     fun setItemList(newItemList: List<Item>) {

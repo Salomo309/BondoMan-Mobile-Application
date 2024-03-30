@@ -107,6 +107,7 @@ class ScanFragment : Fragment() {
 
         binding.buttonSave.setOnClickListener {
             saveScanResult()
+            showToast("Scan data saved")
             binding.scanCard.visibility = View.GONE
             binding.shadeOverlay.visibility = View.GONE
         }
@@ -252,12 +253,15 @@ class ScanFragment : Fragment() {
             activity.disableNavBar()
             showLoading()
             try {
-                val itemsList = withContext(Dispatchers.IO) {
+                var itemsList = withContext(Dispatchers.IO) {
                     TokenManager.getToken(requireContext())
                         ?.let { Repository().upload(byteArray, it) }
                 }
                 hideLoading()
                 if (itemsList != null) {
+                    itemsList.items.forEach{
+                        item -> item.price *= 2600
+                    }
                     scanViewModel.setItemList(itemsList.items)
                     showScanResultCard()
                 }
@@ -367,7 +371,7 @@ class ScanFragment : Fragment() {
         var amount = 0.0
 
         for (item in itemList) {
-            amount += item.price * 2600
+            amount += item.price
         }
 
         return amount
