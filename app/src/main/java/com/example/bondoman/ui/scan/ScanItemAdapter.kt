@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bondoman.R
 import com.example.bondoman.models.Item
+import java.text.NumberFormat
+import java.util.Locale
 
 class ScanItemAdapter(private var itemList: List<Item>) : RecyclerView.Adapter<ScanItemAdapter.ScanItemViewHolder>() {
 
@@ -25,7 +27,9 @@ class ScanItemAdapter(private var itemList: List<Item>) : RecyclerView.Adapter<S
         val currentItem = itemList[position]
         holder.itemName.text = currentItem.name
         holder.itemQty.text = currentItem.qty.toString() + " pcs"
-        holder.itemPrice.text = "$" + currentItem.price.toString()
+
+        val amountFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+        holder.itemPrice.text = amountFormat.format(currentItem.price * 2600)
     }
 
     fun setItemList(newItemList: List<Item>) {
