@@ -1,9 +1,20 @@
 package com.example.bondoman
 
+import android.app.AlertDialog
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.ServiceConnection
+import android.net.Uri
 import android.os.Bundle
+import android.os.IBinder
+import android.view.View
 import kotlinx.coroutines.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -19,9 +30,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var transactionViewModel: TransactionViewModel
+    private var isConnected : Boolean = true
+    private lateinit var networkStateReceiver : BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        startNetworkStateService()
+        setupNetworkStateReceiver()
 
         // Initialize ViewModel
         var repository: TransactionRepository
@@ -59,6 +75,10 @@ class MainActivity : AppCompatActivity() {
         return transactionViewModel
     }
 
+    fun getIsConnected() : Boolean {
+        return isConnected
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         return navController.navigateUp() || super.onSupportNavigateUp()
@@ -76,5 +96,39 @@ class MainActivity : AppCompatActivity() {
             val menuItem = binding.navView.menu.getItem(i)
             menuItem.isEnabled = true
         }
+    }
+
+    private fun startNetworkStateService() {
+        val intent = Intent(this, NetworkStateService::class.java)
+        startService(intent)
+    }
+
+    private fun setupNetworkStateReceiver() {
+        networkStateReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == NetworkStateService.ACTION_NETWORK_STATE_CHANGE) {
+                    isConnected = intent.getBooleanExtra(NetworkStateService.EXTRA_NETWORK_STATE, false)
+                    if (!isConnected) {
+                        val alertDialogBuilder = AlertDialog.Builder(context)
+                        alertDialogBuilder.apply {
+                            setTitle("No Internet Found")
+                            setMessage("App functionalities will be limited")
+                            setPositiveButton("I understand") { dialog, _ ->
+                                dialog.dismiss()
+                            }
+                            setCancelable(true)
+                        }
+                        alertDialogBuilder.create().show()
+                    }
+                }
+            }
+        }
+        val filter = IntentFilter(NetworkStateService.ACTION_NETWORK_STATE_CHANGE)
+        ContextCompat.registerReceiver(this, networkStateReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        this.unregisterReceiver(networkStateReceiver)
     }
 }
