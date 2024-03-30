@@ -2,17 +2,22 @@ package com.example.bondoman.ui.setting
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.bondoman.LoginActivity
 import com.example.bondoman.MainActivity
 import com.example.bondoman.databinding.FragmentSettingBinding
 import com.example.bondoman.ui.transaction.TransactionViewModel
+import java.io.File
 
 class SettingFragment : Fragment() {
 
@@ -39,8 +44,26 @@ class SettingFragment : Fragment() {
         }
 
         binding.buttonSendTransaction.setOnClickListener {
-            // Handle send transaction button click
-            Toast.makeText(requireContext(), "Send Transaction Clicked", Toast.LENGTH_SHORT).show()
+            val fileNames = arrayOf("Transaction.xlsx", "Transactions.xls")
+            var attachedFile: File? = null
+
+            for (fileName in fileNames) {
+                val file = File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(),
+                    fileName
+                )
+                if (file.exists()) {
+                    attachedFile = file
+                    Log.d("File 1: ", file.toString())
+                    break
+                }
+            }
+
+            if (attachedFile != null) {
+                sendEmailWithAttachment(attachedFile)
+            } else {
+                Toast.makeText(requireContext(), "File not found", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.buttonLogout.setOnClickListener {
@@ -75,5 +98,31 @@ class SettingFragment : Fragment() {
 
     private fun saveTransactionsToFile(transactionViewModel: TransactionViewModel, extension: String) {
         settingViewModel.saveTransactionsToFile(requireActivity(), transactionViewModel.listTransactions.value, extension)
+    }
+
+    private fun sendEmailWithAttachment(file: File) {
+
+        val emailIntent = Intent(Intent.ACTION_SEND)
+        val uri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", file)
+        emailIntent.type = "message/rfc822"
+
+        emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("13521063@std.stei.itb.ac.id"))
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your List of Transactions")
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "This is all of your transactions. Thanks")
+        emailIntent.putExtra(Intent.EXTRA_STREAM, uri)
+
+        Log.d("File 2: ", emailIntent.extras.toString())
+        val intentChooser = Intent.createChooser(emailIntent, "Send mail...")
+        try {
+            startActivity(intentChooser)
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            Toast.makeText(
+                requireContext(),
+                "There is no email client installed.",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 }

@@ -150,9 +150,9 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun createFileName(extension: String): String {
-        val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-        val currentTimeStamp = dateFormat.format(Date())
-        return "Transactions_$currentTimeStamp.$extension"
+        // val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+        // val currentTimeStamp = dateFormat.format(Date())
+        return "Transactions.$extension"
     }
 
     companion object {
