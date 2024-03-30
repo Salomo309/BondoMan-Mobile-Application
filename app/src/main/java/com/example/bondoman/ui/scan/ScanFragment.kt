@@ -32,10 +32,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bondoman.MainActivity
-import com.example.bondoman.NetworkStateService
+import com.example.bondoman.service.NetworkStateService
 import com.example.bondoman.databinding.FragmentScanBinding
 import com.example.bondoman.repository.Repository
+import com.example.bondoman.room.TransactionEntity
+import com.example.bondoman.service.LocationFinder
 import com.example.bondoman.storage.TokenManager
+import com.example.bondoman.ui.transaction.TransactionViewModel
+import com.google.android.gms.location.LocationServices
 import com.google.common.util.concurrent.ListenableFuture
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +48,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
+import java.util.Date
 
 class ScanFragment : Fragment() {
 
@@ -57,6 +62,7 @@ class ScanFragment : Fragment() {
     private lateinit var scanItemAdapter: ScanItemAdapter
     private lateinit var scanViewModel: ScanViewModel
     private lateinit var networkStateReceiver : BroadcastReceiver
+    private lateinit var transactionViewModel: TransactionViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -76,6 +82,8 @@ class ScanFragment : Fragment() {
 
         checkCurrentNetworkState()
         setupNetworkStateReceiver()
+
+        transactionViewModel = (requireActivity() as MainActivity).getTransactionViewModel()
 
         // Check if permission for camera is granted. If yes, immediately use the camera. If not, request for permission.
         askForCamera()
@@ -112,7 +120,7 @@ class ScanFragment : Fragment() {
             binding.scanNoInternetOverlay.visibility = View.VISIBLE
         }
     }
-    
+
     private fun setupNetworkStateReceiver() {
         networkStateReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -312,9 +320,57 @@ class ScanFragment : Fragment() {
     }
 
     private fun saveScanResult() {
-        val conmngr = requireActivity().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val locationFinder = LocationFinder(requireContext(), requireActivity())
+        var receivedLatitude = 0.0
+        var receivedLongitude = 0.0
+        var receivedAddress = ""
 
-        showToast(conmngr.activeNetworkInfo?.isConnected.toString())
+        if (!locationFinder.checkLocationPermission()) {
+            locationFinder.requestLocationPermission()
+        }
+
+        if (locationFinder.checkLocationPermission()) {
+            locationFinder.getDeviceLocation(LocationServices.getFusedLocationProviderClient(requireActivity())) {
+                latitude, longitude, address ->
+                receivedLatitude = latitude
+                receivedLongitude = longitude
+                receivedAddress = address
+            }
+        } else {
+            receivedLatitude = -6.893109
+            receivedLongitude = 107.610431
+            receivedAddress = "Jalan Ganesha 10, Lebak Siliwangi, Kecamatan Coblong, Kota Bandung"
+        }
+
+        var id = 1
+        if (transactionViewModel.listTransactions.value != null) {
+            id = transactionViewModel.listTransactions.value!!.size + 1
+        }
+
+        val transaction = TransactionEntity(
+            id.toLong(),
+            "X",
+            "Scan Result",
+            "Pengeluaran",
+            calculateScanResultAmount(),
+            receivedAddress,
+            receivedLongitude,
+            receivedLatitude,
+            Date()
+        )
+
+        transactionViewModel.insertTransaction(transaction)
+    }
+
+    private fun calculateScanResultAmount() : Double {
+        val itemList = scanViewModel.getItemList().value!!
+        var amount = 0.0
+
+        for (item in itemList) {
+            amount += item.price * 2600
+        }
+
+        return amount
     }
 
     private fun showToast(message: String) {
