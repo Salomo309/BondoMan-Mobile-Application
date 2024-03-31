@@ -124,8 +124,7 @@
                 android:minHeight="48dp"
                 android:minWidth="48dp"
                 android:background="@drawable/modify"
-                android:layout_marginBottom="5sp"
-                android:contentDescription="@string/edit_data" />
+                android:layout_marginBottom="5sp" />
             <ImageButton
                 android:id="@+id/button_remove"
                 android:layout_width="wrap_content"
@@ -133,8 +132,7 @@
                 android:minHeight="48dp"
                 android:minWidth="48dp"
                 android:background="@drawable/remove"
-                android:layout_marginTop="5sp"
-                android:contentDescription="@string/delete_data" />
+                android:layout_marginTop="5sp" />
         </LinearLayout>
     </LinearLayout>
 

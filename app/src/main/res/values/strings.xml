@@ -9,20 +9,20 @@
     <string name="attr_password">Password</string>
     <string name="sentc_welcome">Welcome</string>
     <string name="sentc_loginf">Please login with your information</string>
-    <string name="title_judul">Judul</string>
-    <string name="title_nominal">Nominal</string>
-    <string name="title_kategori">Kategori</string>
-    <string name="title_lokasi">Lokasi</string>
-    <string name="btn_simpan">Simpan</string>
+    <string name="title_judul">Title</string>
+    <string name="title_nominal">Amount</string>
+    <string name="title_kategori">Category</string>
+    <string name="title_lokasi">Location</string>
+    <string name="btn_simpan">Save</string>
     <string name="add_transaction">Add New Transaction</string>
     <string name="button_capture">Capture Image</string>
     <string name="scan_title">Scan Result</string>
     <string name="scan_confirm">Do you want to re-scan the image?</string>
     <string name="scan_retry">Retry</string>
     <string name="scan_save">Save</string>
-    <string name="graph_title">Besar Pemasukan dan Pengeluaran</string>
+    <string name="graph_title">Amount of Income and Outcome</string>
     <string name="get_location">Get location</string>
-    <string name="edit_data">Edit data</string>
-    <string name="delete_data">Delete data</string>
+    <string name="edit_transaction_description">Edit this transaction</string>
+    <string name="delete_transaction_description">Delete this transaction</string>
 
 </resources>
