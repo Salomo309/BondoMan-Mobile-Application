@@ -57,8 +57,8 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             ActivityCompat.requestPermissions(activity, arrayOf(permission), PERMISSION_REQUEST_CODE)
         } else {
             // Permission has already been granted, proceed with file saving
-            val workbook = generateExcelFile(transactionData);
-            saveExcelFileToDownloadDirectory(activity, workbook, extension);
+            val workbook = generateExcelFile(transactionData)
+            saveExcelFileToDownloadDirectory(workbook, extension)
         }
     }
 
@@ -70,8 +70,8 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             ActivityCompat.requestPermissions(activity, arrayOf(permission), PERMISSION_REQUEST_CODE)
         } else {
             // Permission has already been granted, proceed with file saving
-            val workbook = generateExcelFile(transactionData);
-            sendEmail(activity, workbook, extension);
+            val workbook = generateExcelFile(transactionData)
+            sendEmail(activity, workbook, extension)
         }
     }
 
@@ -147,7 +147,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         return workbook
     }
 
-    private fun saveExcelFileToDownloadDirectory(activity: Activity, workbook: XSSFWorkbook, extension: String) {
+    private fun saveExcelFileToDownloadDirectory(workbook: XSSFWorkbook, extension: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val fileName = createFileName(extension)
             var fos: FileOutputStream? = null
@@ -156,7 +156,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
                     val path =
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                             .toString()
-                    val file: File = File(path, fileName)
+                    val file = File(path, fileName)
                     fos = FileOutputStream(file)
                     workbook.write(fos)
                     showToast("Excel Sheet Generated: ${file.path}")
@@ -168,9 +168,9 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     }
 
     private fun createFileName(extension: String): String {
-        // val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-        // val currentTimeStamp = dateFormat.format(Date())
-        return "Transactions.$extension"
+        val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+        val currentTimeStamp = dateFormat.format(Date())
+        return "Transactions_$currentTimeStamp.$extension"
     }
 
     private fun sendEmail(activity: Activity, workbook: XSSFWorkbook, extension: String) {
@@ -199,7 +199,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             val emailIntent = Intent(Intent.ACTION_SEND)
             emailIntent.type = "message/rfc822"
 
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("13521063@std.stei.itb.ac.id")) // Replace with your recipient email
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("13521063@std.stei.itb.ac.id", "13521062@std.stei.itb.ac.id", "13521108@std.stei.itb.ac.id"))
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your List of Transactions")
             emailIntent.putExtra(Intent.EXTRA_TEXT, "This is all of your transactions. Thanks")
             emailIntent.putExtra(Intent.EXTRA_STREAM, uri)
