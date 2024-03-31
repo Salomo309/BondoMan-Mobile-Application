@@ -91,7 +91,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="100dp"
-        app:cardCornerRadius="18dp"
+        app:cardCornerRadius="20dp"
         android:visibility="gone">
 
         <View
@@ -140,6 +140,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/scan_result"
                 android:text="@string/scan_confirm"
+                android:textColor="@color/white"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"/>
 
             <com.google.android.material.button.MaterialButton

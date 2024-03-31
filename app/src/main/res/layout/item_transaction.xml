@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Pemasukan"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="15sp" />
             <TextView
                 android:id="@+id/title"
@@ -98,7 +98,7 @@
                 android:layout_height="match_parent"
                 android:text="Transaksi baru yang panjang"
                 android:layout_marginTop="3sp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="23sp"
                 android:textStyle="bold" />
             <TextView
@@ -108,7 +108,7 @@
                 android:text="Rp 10.000.000"
                 android:layout_marginTop="3sp"
                 android:textSize="18sp"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout

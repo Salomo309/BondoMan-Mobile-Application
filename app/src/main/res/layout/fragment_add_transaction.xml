@@ -27,7 +27,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_judul"
                 android:textStyle="bold"
-                android:alpha="0.7"/>
+                android:textColor="@color/black"
+                android:alpha="0.9"/>
 
             <EditText
                 android:id="@+id/editTextJudul"
@@ -36,7 +37,8 @@
                 android:inputType="text"
                 android:minHeight="48dp"
                 android:labelFor="@id/editTextJudulLabel"
-                android:hint="@string/title_judul"/>
+                android:hint="@string/title_judul"
+                android:textColorHint="@color/cardview_dark_background"/>
 
             <TextView
                 android:id="@+id/editTextNominalLabel"
@@ -44,7 +46,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/title_nominal"
                 android:textStyle="bold"
-                android:alpha="0.7"
+                android:textColor="@color/black"
+                android:alpha="0.9"
                 android:layout_marginTop="20dp"/>
 
             <EditText
@@ -54,14 +57,16 @@
                 android:inputType="numberDecimal"
                 android:minHeight="48dp"
                 android:labelFor="@id/editTextNominalLabel"
-                android:hint="@string/title_nominal"/>
+                android:hint="@string/title_nominal"
+                android:textColorHint="@color/cardview_dark_background"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_kategori"
                 android:textStyle="bold"
-                android:alpha="0.7"
+                android:textColor="@color/black"
+                android:alpha="0.9"
                 android:layout_marginTop="20dp"/>
 
             <Spinner
