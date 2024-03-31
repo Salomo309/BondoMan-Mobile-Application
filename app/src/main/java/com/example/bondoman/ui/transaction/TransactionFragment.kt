@@ -72,7 +72,7 @@ class TransactionFragment : Fragment() {
             entity.nim,
             entity.category,
             entity.amount,
-            entity.category,
+            entity.location,
             entity.longitude,
             entity.latitude,
             entity.date

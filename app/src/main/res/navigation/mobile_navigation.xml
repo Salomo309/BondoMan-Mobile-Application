@@ -34,6 +34,17 @@
     <fragment
         android:id="@+id/navigation_add_transaction"
         android:name="com.example.bondoman.ui.add_transaction.AddTransactionFragment"
-        android:label="Add Transaction"
+        android:label="@string/title_add_transaksi"
         tools:layout="@layout/fragment_add_transaction" />
+
+    <fragment
+        android:id="@+id/navigation_update_transaction"
+        android:name="com.example.bondoman.ui.update_transaction.UpdateTransactionFragment"
+        android:label="@string/title_update_transaksi"
+        tools:layout="@layout/fragment_update_transaction">
+        <argument
+            android:name="currentTransaction"
+            app:argType="com.example.bondoman.models.Transaction" />
+    </fragment>
+
 </navigation>

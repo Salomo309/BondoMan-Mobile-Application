@@ -109,7 +109,9 @@ class AddTransactionFragment : Fragment() {
                         Date()
                     )
 
-                    // Insert New Transactopn
+                    Log.d("transaction: ", transaction.toString())
+
+                    // Insert New Transaction
                     transactionViewModel.insertTransaction(transaction)
 
                     // Reset input fields
@@ -148,7 +150,7 @@ class AddTransactionFragment : Fragment() {
                         Date()
                     )
 
-                    // Insert New Transactopn
+                    // Insert New Transaction
                     transactionViewModel.insertTransaction(transaction)
 
                     // Reset input fields
@@ -182,9 +184,9 @@ class AddTransactionFragment : Fragment() {
                             // val admin = address.adminArea // Provinsi
                             val subAdmin = address.subAdminArea // Kota
                             val locality = address.locality // Kecamatan
-                            // val thoroughfare = address.thoroughfare // Jalan
+                             val thoroughfare = address.thoroughfare // Jalan
 
-                            val addr: String = locality.toString() + subAdmin.toString()
+                            val addr: String = "$thoroughfare, $locality, $subAdmin"
 
                             // Call callback with obtained values
                             callback.invoke(location.latitude, location.longitude, addr)
