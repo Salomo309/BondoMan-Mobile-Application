@@ -36,4 +36,5 @@
     <string name="edit_amount">Edit Amount</string>
     <string name="edit_amount_of_transaction">Edit amount of transaction</string>
     <string name="edit_your_location_data">Edit your location data</string>
+    <string name="choose_local_images">Choose Local Images</string>
 </resources>
