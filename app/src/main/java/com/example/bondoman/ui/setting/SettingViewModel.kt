@@ -13,6 +13,7 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -58,6 +59,19 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             // Permission has already been granted, proceed with file saving
             val workbook = generateExcelFile(transactionData);
             saveExcelFileToDownloadDirectory(activity, workbook, extension);
+        }
+    }
+
+    fun sendEmailWithAttachment(activity: Activity, transactionData: List<TransactionEntity>?, extension: String) {
+        val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+        if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
+            // Permission not granted, request it
+            val PERMISSION_REQUEST_CODE = 1001
+            ActivityCompat.requestPermissions(activity, arrayOf(permission), PERMISSION_REQUEST_CODE)
+        } else {
+            // Permission has already been granted, proceed with file saving
+            val workbook = generateExcelFile(transactionData);
+            sendEmail(activity, workbook, extension);
         }
     }
 
@@ -133,7 +147,7 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         return workbook
     }
 
-    fun saveExcelFileToDownloadDirectory(activity: Activity, workbook: XSSFWorkbook, extension: String) {
+    private fun saveExcelFileToDownloadDirectory(activity: Activity, workbook: XSSFWorkbook, extension: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val fileName = createFileName(extension)
             var fos: FileOutputStream? = null
@@ -157,6 +171,47 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         // val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
         // val currentTimeStamp = dateFormat.format(Date())
         return "Transactions.$extension"
+    }
+
+    private fun sendEmail(activity: Activity, workbook: XSSFWorkbook, extension: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            // Save the workbook to a temporary file
+            val fileName = createFileName(extension)
+            val tempFile = File(activity.cacheDir, fileName)
+            var fos: FileOutputStream? = null
+            try {
+                fos = FileOutputStream(tempFile)
+                workbook.write(fos)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                showToast("Failed to create temporary file")
+                return@launch
+            } finally {
+                fos?.close()
+            }
+
+            // Grant URI permission
+            val authority = "${activity.packageName}.provider"
+            val uri = FileProvider.getUriForFile(activity, authority, tempFile)
+            activity.grantUriPermission(activity.packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
+            // Create and send email intent with the attachment
+            val emailIntent = Intent(Intent.ACTION_SEND)
+            emailIntent.type = "message/rfc822"
+
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("13521063@std.stei.itb.ac.id")) // Replace with your recipient email
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your List of Transactions")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "This is all of your transactions. Thanks")
+            emailIntent.putExtra(Intent.EXTRA_STREAM, uri)
+
+            val intentChooser = Intent.createChooser(emailIntent, "Send mail...")
+            try {
+                activity.startActivity(intentChooser)
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                showToast("There is no email client installed.")
+            }
+        }
     }
 
     companion object {
