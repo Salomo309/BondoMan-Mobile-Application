@@ -22,6 +22,7 @@
                 android:layout_height="30dp"/>
 
             <TextView
+                android:id="@+id/editTextJudulLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_judul"
@@ -33,9 +34,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                tools:ignore="LabelFor"/>
+                android:labelFor="@id/editTextJudulLabel"
+                android:hint="@string/title_judul"/>
 
             <TextView
+                android:id="@+id/editTextNominalLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_nominal"
@@ -48,7 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                tools:ignore="LabelFor"/>
+                android:labelFor="@id/editTextNominalLabel"
+                android:hint="@string/title_nominal"/>
 
             <TextView
                 android:layout_width="wrap_content"
