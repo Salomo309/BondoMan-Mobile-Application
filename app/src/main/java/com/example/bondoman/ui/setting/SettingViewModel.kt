@@ -56,7 +56,8 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             ActivityCompat.requestPermissions(activity, arrayOf(permission), PERMISSION_REQUEST_CODE)
         } else {
             // Permission has already been granted, proceed with file saving
-            saveToFile(transactionData, extension)
+            val workbook = generateExcelFile(transactionData);
+            saveExcelFileToDownloadDirectory(activity, workbook, extension);
         }
     }
 
@@ -66,79 +67,82 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
-    private fun saveToFile(transactionData: List<TransactionEntity>?, extension: String) {
+    private fun generateExcelFile(transactionData: List<TransactionEntity>?): XSSFWorkbook {
+        val workbook = XSSFWorkbook()
+        val sheet = workbook.createSheet("Transactions")
+        val headerRow = sheet.createRow(0)
+
+        // Create a font style for bold
+        val boldFont = workbook.createFont()
+        boldFont.bold = true
+        val boldStyle = workbook.createCellStyle()
+        boldStyle.setFont(boldFont)
+
+        // Set bold style for header cells
+        val headerCellStyle = sheet.workbook.createCellStyle()
+        headerCellStyle.setFont(boldFont)
+
+        headerRow.createCell(0).apply {
+            setCellValue("ID")
+            cellStyle = boldStyle
+        }
+        headerRow.createCell(1).apply {
+            setCellValue("Title")
+            cellStyle = boldStyle
+        }
+        headerRow.createCell(2).apply {
+            setCellValue("Category")
+            cellStyle = boldStyle
+        }
+        headerRow.createCell(3).apply {
+            setCellValue("Amount")
+            cellStyle = boldStyle
+        }
+        headerRow.createCell(4).apply {
+            setCellValue("Location")
+            cellStyle = boldStyle
+        }
+        headerRow.createCell(5).apply {
+            setCellValue("Longitude")
+            cellStyle = boldStyle
+        }
+        headerRow.createCell(6).apply {
+            setCellValue("Latitude")
+            cellStyle = boldStyle
+        }
+        headerRow.createCell(7).apply {
+            setCellValue("Date")
+            cellStyle = boldStyle
+        }
+
+        transactionData?.forEachIndexed { index, transaction ->
+            val row = sheet.createRow(index + 1)
+            row.createCell(0).setCellValue(transaction.id.toDouble())
+            row.createCell(1).setCellValue(transaction.title)
+            row.createCell(2).setCellValue(transaction.category)
+            row.createCell(3).setCellValue(transaction.amount)
+            row.createCell(4).setCellValue(transaction.location)
+            row.createCell(5).setCellValue(transaction.longitude)
+            row.createCell(6).setCellValue(transaction.latitude)
+            row.createCell(7).setCellValue(
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+                    .format(transaction.date)
+            )
+        }
+
+        return workbook
+    }
+
+    fun saveExcelFileToDownloadDirectory(activity: Activity, workbook: XSSFWorkbook, extension: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val fileName = createFileName(extension)
-
-            val workbook = XSSFWorkbook()
-            val sheet = workbook.createSheet("Transactions")
-            val headerRow = sheet.createRow(0)
-
-            // Create a font style for bold
-            val boldFont = workbook.createFont()
-            boldFont.bold = true
-            val boldStyle = workbook.createCellStyle()
-            boldStyle.setFont(boldFont)
-
-            // Set bold style for header cells
-            val headerCellStyle = sheet.workbook.createCellStyle()
-            headerCellStyle.setFont(boldFont)
-
-            headerRow.createCell(0).apply {
-                setCellValue("ID")
-                cellStyle = boldStyle
-            }
-            headerRow.createCell(1).apply {
-                setCellValue("Title")
-                cellStyle = boldStyle
-            }
-            headerRow.createCell(2).apply {
-                setCellValue("Category")
-                cellStyle = boldStyle
-            }
-            headerRow.createCell(3).apply {
-                setCellValue("Amount")
-                cellStyle = boldStyle
-            }
-            headerRow.createCell(4).apply {
-                setCellValue("Location")
-                cellStyle = boldStyle
-            }
-            headerRow.createCell(5).apply {
-                setCellValue("Longitude")
-                cellStyle = boldStyle
-            }
-            headerRow.createCell(6).apply {
-                setCellValue("Latitude")
-                cellStyle = boldStyle
-            }
-            headerRow.createCell(7).apply {
-                setCellValue("Date")
-                cellStyle = boldStyle
-            }
-
-            transactionData?.forEachIndexed { index, transaction ->
-                val row = sheet.createRow(index + 1)
-                row.createCell(0).setCellValue(transaction.id.toDouble())
-                row.createCell(1).setCellValue(transaction.title)
-                row.createCell(2).setCellValue(transaction.category)
-                row.createCell(3).setCellValue(transaction.amount)
-                row.createCell(4).setCellValue(transaction.location)
-                row.createCell(5).setCellValue(transaction.longitude)
-                row.createCell(6).setCellValue(transaction.latitude)
-                row.createCell(7).setCellValue(
-                    SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                        .format(transaction.date)
-                )
-            }
-
             var fos: FileOutputStream? = null
             fos.use {
                 try {
-                    val str_path =
+                    val path =
                         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
                             .toString()
-                    val file: File = File(str_path, fileName)
+                    val file: File = File(path, fileName)
                     fos = FileOutputStream(file)
                     workbook.write(fos)
                     showToast("Excel Sheet Generated: ${file.path}")
