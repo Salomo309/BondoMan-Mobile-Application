@@ -37,7 +37,7 @@
                 android:inputType="text"
                 android:minHeight="48dp"
                 android:labelFor="@id/editTextJudulLabel"
-                android:hint="Transaction title"
+                android:hint="@string/transaction_title"
                 android:textColorHint="@color/cardview_dark_background"
                 android:autofillHints="judul" />
 
@@ -58,7 +58,7 @@
                 android:inputType="numberDecimal"
                 android:minHeight="48dp"
                 android:labelFor="@id/editTextNominalLabel"
-                android:hint="Amount of transaction"
+                android:hint="@string/amount_of_transaction"
                 android:textColorHint="@color/cardview_dark_background"
                 android:autofillHints="nominal" />
 

@@ -29,4 +29,11 @@
     <string name="btn_update">Update transaction data</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="transaction_title">Transaction title</string>
+    <string name="edit_title">Edit Title</string>
+    <string name="new_transaction_title">New transaction title</string>
+    <string name="amount_of_transaction">Amount of transaction</string>
+    <string name="edit_amount">Edit Amount</string>
+    <string name="edit_amount_of_transaction">Edit amount of transaction</string>
+    <string name="edit_your_location_data">Edit your location data</string>
 </resources>
