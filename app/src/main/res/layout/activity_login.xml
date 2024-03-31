@@ -72,6 +72,8 @@
                 android:textStyle="bold"/>
 
             <TextView
+                android:id="@+id/loginInfo"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sentc_loginf"
@@ -82,10 +84,12 @@
                 android:layout_height="30dp"/>
 
             <TextView
+                android:id="@+id/editTextEmailLabel"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/attr_email"
-                android:alpha="0.7"
+                android:alpha="0.9"
                 android:textStyle="bold"/>
 
             <EditText
@@ -95,16 +99,21 @@
                 android:inputType="textEmailAddress"
                 android:drawableEnd="@drawable/done_icon"
                 android:autofillHints="email"
-                tools:ignore="LabelFor" />
+                android:minHeight="48dp"
+                android:labelFor="@id/editTextEmailLabel"
+                android:hint="@string/attr_email"
+                android:textColorHint="@color/cardview_dark_background"/>
 
             <View
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"/>
             <TextView
+                android:id="@+id/editTextPasswordLabel"
+                android:textColor="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/attr_password"
-                android:alpha="0.7"
+                android:alpha="0.9"
                 android:textStyle="bold"/>
 
             <EditText
@@ -112,9 +121,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:drawableEnd="@drawable/password_icon"
                 android:autofillHints="password"
-                tools:ignore="LabelFor" />
+                android:minHeight="48dp"
+                android:labelFor="@id/editTextPasswordLabel"
+                android:hint="@string/attr_password"
+                android:textColorHint="@color/cardview_dark_background" />
 
             <View
                 android:layout_width="wrap_content"

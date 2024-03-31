@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Pemasukan"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="15sp" />
             <TextView
                 android:id="@+id/title"
@@ -98,7 +98,7 @@
                 android:layout_height="match_parent"
                 android:text="Transaksi baru yang panjang"
                 android:layout_marginTop="3sp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="23sp"
                 android:textStyle="bold" />
             <TextView
@@ -108,28 +108,32 @@
                 android:text="Rp 10.000.000"
                 android:layout_marginTop="3sp"
                 android:textSize="18sp"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2.5"
-            android:padding="8dp"
+            android:padding="2dp"
             android:orientation="vertical">
             <ImageButton
                 android:id="@+id/button_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
                 android:background="@drawable/modify"
-                android:layout_marginBottom="8sp"
+                android:layout_marginBottom="5sp"
                 android:contentDescription="@string/edit_data" />
             <ImageButton
                 android:id="@+id/button_remove"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:minWidth="48dp"
                 android:background="@drawable/remove"
-                android:layout_marginTop="8sp"
+                android:layout_marginTop="5sp"
                 android:contentDescription="@string/delete_data" />
         </LinearLayout>
     </LinearLayout>

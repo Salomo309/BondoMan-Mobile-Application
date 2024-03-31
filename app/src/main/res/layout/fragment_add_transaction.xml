@@ -22,25 +22,32 @@
                 android:layout_height="30dp"/>
 
             <TextView
+                android:id="@+id/editTextJudulLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_judul"
                 android:textStyle="bold"
-                android:alpha="0.7"/>
+                android:textColor="@color/black"
+                android:alpha="0.9"/>
 
             <EditText
                 android:id="@+id/editTextJudul"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                tools:ignore="LabelFor"/>
+                android:minHeight="48dp"
+                android:labelFor="@id/editTextJudulLabel"
+                android:hint="@string/title_judul"
+                android:textColorHint="@color/cardview_dark_background"/>
 
             <TextView
+                android:id="@+id/editTextNominalLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_nominal"
                 android:textStyle="bold"
-                android:alpha="0.7"
+                android:textColor="@color/black"
+                android:alpha="0.9"
                 android:layout_marginTop="20dp"/>
 
             <EditText
@@ -48,14 +55,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                tools:ignore="LabelFor"/>
+                android:minHeight="48dp"
+                android:labelFor="@id/editTextNominalLabel"
+                android:hint="@string/title_nominal"
+                android:textColorHint="@color/cardview_dark_background"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_kategori"
                 android:textStyle="bold"
-                android:alpha="0.7"
+                android:textColor="@color/black"
+                android:alpha="0.9"
                 android:layout_marginTop="20dp"/>
 
             <Spinner
