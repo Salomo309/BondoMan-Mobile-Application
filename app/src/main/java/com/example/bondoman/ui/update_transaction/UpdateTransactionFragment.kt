@@ -1,7 +1,6 @@
 package com.example.bondoman.ui.update_transaction
 
 import android.content.Context
-import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.navigation.fragment.findNavController
 import com.example.bondoman.MainActivity
 import com.example.bondoman.R
@@ -74,7 +72,7 @@ class UpdateTransactionFragment : Fragment() {
         }
     }
 
-    fun updateTransaction(transactionViewModel: TransactionViewModel) {
+    private fun updateTransaction(transactionViewModel: TransactionViewModel) {
         currentTransaction?.let { transaction ->
             val newTitle = binding.editTextJudul.text.toString()
             val newAmount = binding.editTextNominal.text.toString().toDoubleOrNull() ?: transaction.amount
@@ -97,7 +95,7 @@ class UpdateTransactionFragment : Fragment() {
         }
     }
 
-    fun toTransactionEntity(transaction: Transaction) : TransactionEntity {
+    private fun toTransactionEntity(transaction: Transaction) : TransactionEntity {
         return TransactionEntity(
             id = transaction.id,
             nim = transaction.nim,
@@ -111,7 +109,7 @@ class UpdateTransactionFragment : Fragment() {
         )
     }
 
-    fun getLongLat(context: Context, location: String, oldLatitude: Double, oldLongitude: Double): Pair<Double, Double>? {
+    private fun getLongLat(context: Context, location: String, oldLatitude: Double, oldLongitude: Double): Pair<Double, Double>? {
         val geocoder = Geocoder(context)
         try {
             val addresses = geocoder.getFromLocationName(location, 1)
