@@ -5,6 +5,8 @@
     <string name="title_graph">Graph</string>
     <string name="title_setting">Setting</string>
     <string name="title_login">Login</string>
+    <string name="title_add_transaksi">Add Transaksi</string>
+    <string name="title_update_transaksi">Update Transaksi</string>
     <string name="attr_email">Email Address</string>
     <string name="attr_password">Password</string>
     <string name="sentc_welcome">Welcome</string>
@@ -24,5 +26,7 @@
     <string name="get_location">Get location</string>
     <string name="edit_data">Edit data</string>
     <string name="delete_data">Delete data</string>
-
+    <string name="btn_update">Ubah Transaksi</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
