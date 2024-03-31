@@ -4,13 +4,16 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bondoman.MainActivity
 import java.text.NumberFormat
@@ -22,6 +25,7 @@ import com.example.bondoman.repository.TransactionRepository
 import com.example.bondoman.room.TransactionDatabase
 import com.example.bondoman.room.TransactionEntity
 import com.example.bondoman.storage.TokenManager
+import com.example.bondoman.ui.update_transaction.UpdateTransactionFragment
 
 class TransactionAdapter(var transactions: List<Transaction>, private val transactionViewModel: TransactionViewModel) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
     inner class TransactionViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
@@ -92,7 +96,10 @@ class TransactionAdapter(var transactions: List<Transaction>, private val transa
 
         // Update Button Navigate to Update Transaction
         holder.editBtn.setOnClickListener {
-
+            val context = holder.itemView.context
+            val navController = Navigation.findNavController(holder.itemView)
+            var bundle = bundleOf("transaction" to currentTransaction)
+            navController.navigate(R.id.navigation_update_transaction, bundle)
         }
 
         // Delete Button, show alert first
