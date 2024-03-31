@@ -96,6 +96,7 @@
                 android:inputType="textEmailAddress"
                 android:drawableEnd="@drawable/done_icon"
                 android:autofillHints="email"
+                android:minHeight="48dp"
                 android:labelFor="@id/editTextEmailLabel"
                 android:hint="@string/attr_email"/>
 
@@ -117,6 +118,7 @@
                 android:inputType="textPassword"
                 android:drawableEnd="@drawable/password_icon"
                 android:autofillHints="password"
+                android:minHeight="48dp"
                 android:labelFor="@id/editTextPasswordLabel"
                 android:hint="@string/attr_password"/>
 
