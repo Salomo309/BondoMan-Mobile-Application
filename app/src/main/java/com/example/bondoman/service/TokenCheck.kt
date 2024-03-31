@@ -14,18 +14,28 @@ import kotlinx.coroutines.*
 
 class TokenExpirationService : Service() {
 
-    private val POLL_INTERVAL = 30000L // 30 secs in milliseconds
+    private val interval = 30000L // 30 secs in milliseconds
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
     private val notificationChannelId = "token_expiration_channel"
     private val notificationId = 1
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.d("TokenExpirationService", "Service created");
+    }
+
+    override fun onBind(intent: Intent?): IBinder? {
+        // nothing to bind
+        return null
+    }
 
     @SuppressLint("ForegroundServiceType")
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("TokenExpirationService", "Service started")
         startBackgroundTask()
         startForeground(notificationId, createNotification())
-        return START_STICKY
+        return START_STICKY // If the service is killed, it will be automatically restarted
     }
 
     private fun createNotification(): Notification {
@@ -54,39 +64,39 @@ class TokenExpirationService : Service() {
             while (true) {
                 try {
                     if (!TokenManager.isTokenValid(this@TokenExpirationService)) {
-                        Log.w("TokenCheck", "Token expired, stopping service and potentially navigating to login")
-                        setOff()
-                        break
+                        Log.w("TokenCheck", "Token expired, stopping service and potentially navigating to login");
+                        setOff();
+                        break;
                     }
-                    Log.d("TokenCheck", "30 secs checking")
+                    log("30 secs checking");
                 } catch (e: Exception) {
-                    Log.e("TokenCheck", "Error checking token:", e)
-                    setOff()
+                    log("Error checking token: $e");
+                    setOff();
                 }
-                delay(POLL_INTERVAL)
+                delay(interval);
             }
         }
     }
 
     private fun setOff() {
-        Log.d("TokenExpirationService", "Service stopped")
-        stopSelf()
-        navigateToLoginPage()
+        log("Service stopped");
+        stopSelf();
+        navigateToLoginPage();
     }
 
     private fun navigateToLoginPage() {
-        val intent = Intent(this, LoginActivity::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        startActivity(intent)
-    }
-
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
+        val intent = Intent(this, LoginActivity::class.java);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     override fun onDestroy() {
-        Log.d("TokenExpirationService", "Service destroyed")
-        super.onDestroy()
-        coroutineScope.cancel()
+        log("Service destroyed");
+        super.onDestroy();
+        coroutineScope.cancel();
+    }
+
+    private fun log(str: String) {
+        Log.d("TokenExpirationService", "log: $str")
     }
 }
