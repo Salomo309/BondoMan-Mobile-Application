@@ -1,93 +1,99 @@
-# IF3210-2024-Android-YMR
+<div align="center">
+    <div >
+        <img height="150px" src="./assets/logo.webp" alt=""/>
+    </div>
+    <div>
+            <h3>BondoMan</h3>
+            <p><i>Transaction logging app for raw material trades</i></p>
+    </div>      
+</div>
 
+<h1 align="center">BondoMan Mobile Application</h1>
+BondoMan is an application centered around managing transactions efficiently. Users are required to log in initially to access its features, with the endpoint providing a token upon successful login for further access. The app enables users to manipulate transaction data, including addition, modification, and deletion, with minimal input requirements such as transaction title, category (Income, Expense), amount, and location, automatically recording the transaction date and user's location if permitted. Transactions are stored in Room using the Repository Pattern for offline access, displaying them comprehensively with details like transaction category, amount, name, location, and date. Users can add transactions, scan receipts, view transaction summaries via graphs, and export transaction lists to spreadsheets (xlsx or xls) for external viewing. BondoMan also features internet connectivity checks, providing alerts when offline, and incorporates a broadcast receiver in the transaction addition fragment for receiving intents from the "Randomize Transaction" button on the Settings Page.
 
+## 📝 Table of Contents
+- [General Information](#general-information)
+- [Tech Stacks](#tech-stacks)
+- [Libraries](#libraries)
+- [Main Features](#main-features)
+- [Bonus 1 - Twibbon Feature](#bonus-1---Twibbon-Feature)
+- [Bonus 2 - OWASP Analysis](#bonus-2---OWASP-Analysis)
+- [Bonus 3 - Accessibility Testing](#bonus-3---Accessibility-Testing)
+- [Task Division](#task-division)
+- [Contributors](#contributors)
 
-## Getting started
+## 📢 General Information
+Bandung Bondowoso, a project manager tasked with building a thousand temples, faces a daunting challenge. Given a project by Roro, who lacks understanding in project management triangles—budget, deadline, and quality—Bondowoso must complete the monumental task within a single night with limited budget and high-quality expectations. Amidst numerous transactions for purchasing raw materials, precise cost calculations are crucial to align with the initial budget plan, as Roro refuses to pay otherwise. Initially, Bondowoso records all transactions on stone tablets, but with the immense scale of the project, he seeks assistance from the Jin students at the Institute of Jin in their sixth semester to develop a financial management application. He trusts that they possess the intelligence to tackle such a task.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+The application built for Bondowoso is tailored to run seamlessly on his Android device, aiding him in managing his finances for the temple construction project. With a focus on tracking transactions, ensuring budget compliance, and facilitating efficient resource allocation, the app is designed to alleviate Bondowoso's burden and streamline the financial aspect of the project. By providing a user-friendly interface for recording transactions, analyzing expenses, and generating reports, the application empowers Bondowoso to make informed financial decisions, ultimately contributing to the smooth progress of the temple construction endeavor.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## 👨🏻‍💻 Tech Stacks
+<div align="center">
+<kbd>
+<img src="./assets/icons/Kotlin.png" height="60" />
+</kbd>
+<kbd>
+<img src="./assets/icons/Maps.png" height="60" />
+</kbd>
+<kbd>
+<img src="./assets/icons/Gmail.png" height="60" />
+</kbd>
+<kbd>
+<img src="./assets/icons/Room.png" height="60" />
+</kbd>
+<kbd>
+<img src="./assets/icons/Spreadsheet.png" height="60" />
+</kbd>
+<kbd>
+<img src="./assets/icons/Android Studio.png" height="60" />
+</kbd>
+</div>
+<div align="center">
+<h4>Kotlin | Google Maps | GMail | Room-SQLite | Spreadsheet | Android Studio</h4>
+</div>
 
-## Add your files
+## 📖 Libraries
+Here's list of libraries that used in this project.
+<table style="width:100%">
+  <col width="35%">
+  <col width="65%">
+  <tr>
+    <th>Libraries</th>
+    <th>Purposes</th>
+  </tr>
+  <tr>
+    <td>com.squareup.retrofit2</td>
+    <td>Type-safe HTTP client for Android for making HTTP requests to a RESTful API.</td>
+  </tr>
+  <tr>
+    <td>androidx.recyclerview</td>
+    <td>Efficiently display large sets of data in a scrollable list or grid format while minimizing memory usage and improving performance.</td>
+  </tr>
+  <tr>
+    <td>androidx.camera</td>
+    <td>High-level API for accessing device cameras and implementing common camera features such as preview and image capture.</td>
+  </tr>
+  <tr>
+    <td>org.jetbrains.kotlinx:kotlinx-coroutines</td>
+    <td>Provides support for Kotlin coroutines, which are a powerful concurrency design pattern used for asynchronous programming.</td>
+  </tr>
+  <tr>
+    <td>androidx.room</td>
+    <td>Provide an abstraction layer over SQLite, making it easier to work with a SQLite database within application.</td>
+  </tr>
+  <tr>
+    <td>org.apache.poi</td>
+    <td>Provide Java libraries for reading and writing various Microsoft document formats, such as Excel spreadsheets (.xls and .xlsx).</td>
+  </tr>
+  <tr>
+    <td>com.google.android.gms:play-services-location</td>
+    <td>Providing a comprehensive set of APIs for location awareness, geofencing, activity recognition, and location updates.</td>
+  </tr>
+  <tr>
+    <td>com.github.PhilJay:MPAndroidChart</td>
+    <td>Serves the purpose of providing a versatile and customizable charting library for Android applications.</td>
+  </tr>
+</table>
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+And some **android core libraries** like appcompat, constriantLayout, livedata, viewmodel, fragment, navigation, and many more!
 
-```
-cd existing_repo
-git remote add origin https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
