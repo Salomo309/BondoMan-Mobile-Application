@@ -108,50 +108,50 @@ Here's BondoMan main features and its interface.
     <col width="24%">
     <col width="24%">
     <tr>
-        <td width="1%"><img src="./assets/screenshots/Splash Screen.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Login Page.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Transaction Page.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Insert New Transaction Page.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Splash Screen.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Login Page.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Transaction Page.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Insert New Transaction Page.jpg"/></td>
     </tr>
     <tr>
-        <td width="1%">Splash Screen</td>
-        <td width="1%">Login Page</td>
-        <td width="1%">Transaction Page</td>
-        <td width="1%">Insert New Transaction Page</td>
+        <td width="1%" align="center">Splash Screen</td>
+        <td width="1%" align="center">Login Page</td>
+        <td width="1%" align="center">Transaction Page</td>
+        <td width="1%" align="center">Insert New Transaction Page</td>
     </tr>
     <tr>
-        <td width="1%"><img src="./assets/screenshots/Update Transaction Page.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Get Transaction Location.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Transaction Graph Page - Potrait.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/App Setting Page.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Update Transaction Page.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Get Transaction Location.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Transaction Graph Page - Potrait.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/App Setting Page.jpg"/></td>
     </tr>
     <tr>
-        <td width="1%">Update Transaction Page</td>
-        <td width="1%">Get Transaction Location</td>
-        <td width="1%">Transaction Graph Page - Potrait</td>
-        <td width="1%">App Setting Page</td>
+        <td width="1%" align="center">Update Transaction Page</td>
+        <td width="1%" align="center">Get Transaction Location</td>
+        <td width="1%" align="center">Transaction Graph Page - Potrait</td>
+        <td width="1%" align="center">App Setting Page</td>
     </tr>
     <tr>
         <td colspan="2" width="2%"><img src="./assets/screenshots/Transaction Graph Page - Landscape.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Scan Notes Page.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Scan Result View.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Scan Notes Page.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Scan Result View.jpg"/></td>
     </tr>
     <tr>
         <td colspan="2" width="2%">Transaction Graph Page - Landscape</td>
-        <td width="1%">Scan Notes Page</td>
-        <td width="1%">Scan Result View</td>
+        <td width="1%" align="center">Scan Notes Page</td>
+        <td width="1%" align="center">Scan Result View</td>
     </tr>
     <tr>
-        <td width="1%"><img src="./assets/screenshots/Delete Transaction Popup.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Upload Notes to Scan.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Send Transaction List.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Randomize Transaction Result.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Delete Transaction Popup.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Upload Notes to Scan.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Send Transaction List.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Randomize Transaction Result.jpg"/></td>
     </tr>
     <tr>
-        <td width="1%">Delete Transaction Popup</td>
-        <td width="1%">Upload Notes to Scan</td>
-        <td width="1%">Send Transaction List</td>
-        <td width="1%">Randomize Transaction Result</td>
+        <td width="1%" align="center">Delete Transaction Popup</td>
+        <td width="1%" align="center">Upload Notes to Scan</td>
+        <td width="1%" align="center">Send Transaction List</td>
+        <td width="1%" align="center">Randomize Transaction Result</td>
     </tr>
 </table>
 
@@ -161,14 +161,14 @@ Here's BondoMan main features and its interface.
     <col width="32%">
     <col width="32%">
     <tr>
-        <td width="1%"><img src="./assets/screenshots/Twibbon Page.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Twibbon Result 1.jpg"/></td>
-        <td width="1%"><img src="./assets/screenshots/Twibbon Result 2.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Twibbon Page.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Twibbon Result 1.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/screenshots/Twibbon Result 2.jpg"/></td>
     </tr>
     <tr>
-        <td width="1%">Twibbon Page</td>
-        <td width="1%">Twibbon Result #1</td>
-        <td width="1%">Twibbon Result #2</td>
+        <td width="1%" align="center">Twibbon Page</td>
+        <td width="1%" align="center">Twibbon Result #1</td>
+        <td width="1%" align="center">Twibbon Result #2</td>
     </tr>
 </table>
 // TODO : Explain how this works
@@ -210,43 +210,45 @@ Accessibility Scanner is a tool developed by Google and used to scan an applicat
 
 The following is what the suggestion page looks like before the application is repaired.
 <table style="width:100%; text-align:center;">
+    <col width="49%">
+    <col width="49%">
     <tr>
-        <td width="1%"><img src="./assets/accessibility/initial_by_screen.jpg"/></td>
-        <td width="1%"><img src="./assets/accessibility/initial_by_category.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/accessibility/initial_by_screen.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/accessibility/initial_by_category.jpg"/></td>
     </tr>
     <tr>
-        <td width="1%">Result by Page</td>
-        <td width="1%">Result by Category</td>
+        <td width="1%" align="center">Result by Page</td>
+        <td width="1%" align="center">Result by Category</td>
     </tr>
 </table>
 
 It was found that there were **171 suggestions** from various different pages. We fulfill all these suggestions based on their categories.
-1. **Item Label**
+1. **Item Label** <br>
 The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/ab716260eed6a21d52bdea41ed72232b9dcad370). Here is the updates:
     - For EditTexts or editable TextViews, use an `android:hint` attribute to indicate the purpose of the text field.
     - Use an `android:labelFor` attribute to indicate that a View should act as a content label for another View.
-2. **Touch Target**
+2. **Touch Target** <br>
 The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/992112745541e4300f45354d0b2469ee691984b9). Here is the updates:
     - Consider making the height of this touch clickable item target 48dp or larger.
     - A parent container may be handling touch events for this item. If selecting the larger container performs the same action as selecting this item, consider defining this item as not clickable. If a different action is performed, consider increasing the size of this item.
-3. **Text Contrast**
+3. **Text Contrast** <br>
 The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/0515b2c1ae5fff32cdbe9fdf353881226ca8859d). Here is the updates:
     - When using `TextView` to display text, use `android:textColor` and `android:background` to define foreground and background colors with a high contrast ratio.
     - The W3C recommends:
         - At least **4.5:1** for small text (below 18 point regular or 14 point bold).
         - At least **3.0:1** for large text (18 point and above regular or 14 point and above bold).
-4. **Item Descriptions**
+4. **Item Descriptions** <br>
 The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/a8cf6fd0cdec3c9c0897f072b4be766364aa9887) and [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/759cbedfbf5614d47dcd2a8e08275a8d13082089). Here is the updates:
     - Each element should have a unique text label that describes its visual meaning, purpose, or associated action.
     - Layouts used as rows within `ListViews` or `RecyclerViews` are often inflated repeatedly. In such a case, the repeated labels should include additional text with more identifying information or context for the description of the item.
-5. **Image Contrast**
-The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/cf9c41c876592a11f7e911cf54f9a64d02cc05be). Here is the updates:
+5. **Image Contrast** <br>
+The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/cf9c41c876592a11f7e911cf54f9a64d02cc05be). Here is the updates: <br>
     When using ImageView or Image to render graphical content or iconography, make sure that contrast between foreground and background colors meets or exceeds the recommended ratios.
-6. **Unexposed Text**
+6. **Unexposed Text** <br>
 The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/6c04db96aef6fb443e9804021949a6cc3708f669). Here is the updates:
     - Visible text in a user interface component should be available to accessibility services.
     - A ViewGroup that represents a list row is labeled with a contentDescription that customizes the ordering descendant TextViews.
-7. **Item Type Label**
+7. **Item Type Label** <br>
 The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/6c04db96aef6fb443e9804021949a6cc3708f669). Here is the updates:
     - When TalkBack announces a clickable Button element, it appends the word "button" to the text label provided by the developer. If the developer includes "button" in the text label (such as "Save button"), TalkBack might speak the word "button" twice ("Save button button").
     - A well-implemented user interface doesn't add element type or state descriptions to values of `android:contentDescription`, `android:text`, or `android:hint` attributes.
@@ -254,12 +256,147 @@ The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/
 After fulfilling all these quite tiring suggestions, BondoMan finally succeeded in achieving high accessibility with no further recommendations. Here is the final result.
 
 <table style="width:100%; text-align:center;">
+    <col width="49%">
+    <col width="49%">
     <tr>
-        <td width="1%"><img src="./assets/accessibility/final_by_screen.jpg"/></td>
-        <td width="1%"><img src="./assets/accessibility/final_by_category.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/accessibility/final_by_screen.jpg"/></td>
+        <td width="1%" align="center"><img src="./assets/accessibility/final_by_category.jpg"/></td>
     </tr>
     <tr>
-        <td width="1%">Result by Page</td>
-        <td width="1%">Result by Category</td>
+        <td width="1%" align="center">Result by Page</td>
+        <td width="1%" align="center">Result by Category</td>
     </tr>
 </table>
+
+## 👨‍👨‍👦‍👦 Task Division
+The following is the division of tasks that we carry out.
+<table style="width:100%">
+    <col width="70%">
+    <col width="10%">
+    <col width="10%">
+    <col width="10%">
+    <tr>
+        <th>Task</th>
+        <th>13521062</th>
+        <th>13521063</th>
+        <th>13521108</th>
+    </tr>
+    <tr id="merged-row">
+        <td colspan="4"><b>Initialization</b></td>
+    </tr>
+    <tr>
+        <td>Initiate Project</td>
+        <td></td>
+        <td></td>
+        <td align="center">✅</td>
+    </tr>
+    <tr>
+        <td>Setup Room Database</td>
+        <td></td>
+        <td></td>
+        <td align="center">✅</td>
+    </tr>
+    <tr id="merged-row">
+        <td colspan="4"><b>Main Features</b></td>
+    </tr>
+    <tr>
+        <td>Header dan Navbar</td>
+        <td></td>
+        <td></td>
+        <td align="center">✅</td>
+    </tr>
+    <tr>
+        <td>Login - Halaman Login</td>
+        <td></td>
+        <td></td>
+        <td align="center">✅</td>
+    </tr>
+    <tr>
+        <td>Logout - Halaman Pengaturan</td>
+        <td></td>
+        <td></td>
+        <td align="center">✅</td>
+    </tr>
+    <tr>
+        <td>Melakukan Penambahan, Pengubahan, dan Penghapusan Transaksi</td>
+        <td></td>
+        <td align="center">✅</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Melihat Daftar Transaksi yang Sudah Dilakukan</td>
+        <td></td>
+        <td align="center">✅</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Melakukan Scan Nota - Halaman Scan Nota</td>
+        <td align="center">✅</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Melihat Graf Rangkuman Transaksi - Halaman Graf</td>
+        <td align="center">✅</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Menyimpan Daftar Transaksi dalam Format .xlsx, .xls - Halaman Pengaturan</td>
+        <td></td>
+        <td></td>
+        <td align="center">✅</td>
+    </tr>
+    <tr>
+        <td>Intent GMail - Halaman Pengaturan</td>
+        <td></td>
+        <td align="center">✅</td>
+        <td align="center">✅</td>
+    </tr>
+    <tr>
+        <td>Background Service - Mengecek expiry JWT</td>
+        <td></td>
+        <td></td>
+        <td align="center">✅</td>
+    </tr>
+    <tr>
+        <td>Network Sensing - Deteksi Sinyal</td>
+        <td align="center">✅</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Broadcast Receiver - Randomize Transaksi dari Pengaturan</td>
+        <td></td>
+        <td align="center">✅</td>
+        <td></td>
+    </tr>
+    <tr id="merged-row">
+        <td colspan="4"><b>Bonus</b></td>
+    </tr>
+    <tr>
+        <td>Twibbon</td>
+        <td align="center">✅</td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>OWASP</td>
+        <td align="center">✅</td>
+        <td align="center">✅</td>
+        <td align="center">✅</td>
+    </tr>
+    <tr>
+        <td>Accessibility Testing</td>
+        <td></td>
+        <td></td>
+        <td align="center">✅</td>
+    </tr>
+</table>
+
+## 👏 Contributors
+|Contributors|Preparation Time|Working Time|
+| --- | --- | --- |
+| 13521062 - Go Dillon Audris | | |
+| 13521063 - Salomo Reinhart Gregory Manalu | | |
+| 13521108 - Michael Leon Putra Widhi | 16 hours | 36 hours |
