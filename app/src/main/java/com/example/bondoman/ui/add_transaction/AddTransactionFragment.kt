@@ -24,9 +24,11 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import android.location.Geocoder
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import com.example.bondoman.MainActivity
 import com.example.bondoman.service.NetworkStateService
+import java.io.IOException
 
 
 class AddTransactionFragment : Fragment() {
@@ -77,7 +79,14 @@ class AddTransactionFragment : Fragment() {
 
         // Check Location Permission
         if (!checkLocationPermission()) {
+            binding.editTextLokasi.visibility = View.VISIBLE
+            binding.editTextLokasiLabel.visibility = View.VISIBLE
+
+            // Request Permission
             requestLocationPermission()
+        } else {
+            binding.editTextLokasi.visibility = View.GONE
+            binding.editTextLokasiLabel.visibility = View.GONE
         }
 
         // Adapter for spinner (Pemasukan and Pengeluaran)
@@ -146,42 +155,45 @@ class AddTransactionFragment : Fragment() {
                     }
 
                 } else {
-                    // requestLocationPermission()
+                    // User Does Not Allow Location
+                    val address = binding.editTextLokasi.text.toString()
 
-                    // Get Last Location
-                    getDeviceLocation { latitude, longitude, address ->
+                    if (address.isNotEmpty()) {
+                        // Get Location From Location Input
+                        getLongLat(requireContext(), address)?.let { (latitude, longitude) ->
 
-                        // Set Transaction ID
-                        var id = 1
-                        if (transactionViewModel.listTransactions.value != null) {
-                            id = transactionViewModel.listTransactions.value!!.size + 1
+                            // Set Transaction ID
+                            var id = 1
+                            if (transactionViewModel.listTransactions.value != null) {
+                                id = transactionViewModel.listTransactions.value!!.size + 1
+                            }
+
+                            // Form new TransactionEntity Object
+                            val transaction = TransactionEntity(
+                                id.toLong(),
+                                "X",
+                                title,
+                                category,
+                                amount,
+                                address,
+                                longitude,
+                                latitude,
+                                Date()
+                            )
+
+                            // Insert New Transaction
+                            transactionViewModel.insertTransaction(transaction)
+
+                            // Reset input fields
+                            binding.editTextJudul.text.clear()
+                            binding.editTextNominal.text.clear()
+
+                            // Show Success Message
+                            Toast.makeText(requireContext(), "Transaction added successfully", Toast.LENGTH_SHORT).show()
+
+                            // Go back to Transaction Fragment
+                            findNavController().navigate(R.id.navigation_transaction)
                         }
-
-                        // Form new TransactionEntity Object
-                        val transaction = TransactionEntity(
-                            id.toLong(),
-                            "X",
-                            title,
-                            category,
-                            amount,
-                            address,
-                            longitude,
-                            latitude,
-                            Date()
-                        )
-
-                        // Insert New Transaction
-                        transactionViewModel.insertTransaction(transaction)
-
-                        // Reset input fields
-                        binding.editTextJudul.text.clear()
-                        binding.editTextNominal.text.clear()
-
-                        // Show Success Message
-                        Toast.makeText(requireContext(), "Transaction added successfully", Toast.LENGTH_SHORT).show()
-
-                        // Go back to Transaction Fragment
-                        findNavController().navigate(R.id.navigation_transaction)
                     }
                 }
             } else {
@@ -228,6 +240,38 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
+    private fun getLongLat(context: Context, location: String): Pair<Double, Double>? {
+        val geocoder = Geocoder(context)
+        try {
+            val addresses = geocoder.getFromLocationName(location, 1)
+            if (!addresses.isNullOrEmpty()) {
+                val latitude = addresses[0].latitude
+                val longitude = addresses[0].longitude
+                Log.d("Location", "Latitude: $latitude, Longitude: $longitude")
+                return Pair(latitude, longitude)
+            } else {
+                Log.e("Location", "No address found for the location: $location")
+                return Pair(-6.891272416105667, 107.61072512264901)
+            }
+        } catch (e: IOException) {
+            Log.e("Location", "Error getting location from Geocoder: ${e.message}")
+            return null
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission())
+    {
+        isGranted: Boolean ->
+        if (isGranted) {
+            binding.editTextLokasi.visibility = View.GONE
+            binding.editTextLokasiLabel.visibility = View.GONE
+        } else {
+            binding.editTextLokasi.visibility = View.VISIBLE
+            binding.editTextLokasiLabel.visibility = View.VISIBLE
+        }
+    }
+
+
     private fun checkLocationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireContext(),
@@ -236,11 +280,7 @@ class AddTransactionFragment : Fragment() {
     }
 
     private fun requestLocationPermission() {
-        ActivityCompat.requestPermissions(
-            requireActivity(),
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            LOCATION_PERMISSION_REQUEST_CODE
-        )
+        requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
     }
 
     override fun onDestroyView() {

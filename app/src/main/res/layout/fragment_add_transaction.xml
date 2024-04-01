@@ -76,20 +76,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="52dp" />
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/title_lokasi"-->
-<!--                android:textStyle="bold"-->
-<!--                android:alpha="0.7"-->
-<!--                android:layout_marginTop="20dp"/>-->
+            <TextView
+                android:id="@+id/editTextLokasiLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_lokasi"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:alpha="0.9"
+                android:visibility="gone"/>
 
-<!--            <EditText-->
-<!--                android:id="@+id/editTextLocation"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:inputType="text"-->
-<!--                tools:ignore="LabelFor"/>-->
+            <EditText
+                android:id="@+id/editTextLokasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:minHeight="48dp"
+                android:labelFor="@id/editTextJudulLabel"
+                android:hint="@string/transaction_address"
+                android:textColorHint="@color/cardview_dark_background"
+                android:autofillHints="lokasi"
+                android:visibility="gone"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonSave"
