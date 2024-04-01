@@ -102,7 +102,7 @@ And some **android core libraries** like appcompat, constraintLayout, livedata, 
 
 ## ⭐ Main Features
 Here's BondoMan main features and its interface.
-<table style="width:100%">
+<table style="width:100%; text-align:center;">
     <col width="24%">
     <col width="24%">
     <col width="24%">
@@ -156,7 +156,7 @@ Here's BondoMan main features and its interface.
 </table>
 
 ## 🤳 Bonus 1 - Twibbon Feature
-<table style="width:100%">
+<table style="width:100%; text-align:center;">
     <col width="32%">
     <col width="32%">
     <col width="32%">
@@ -204,3 +204,62 @@ Limit access to content providers by setting appropriate permissions and ensurin
 4. **Improper Content Provider Permissions**
 Utilize internal storage or external storage with proper permissions. Before write to user's external download directory, we ask the user permission first. If the user permissions has already been granted then proceed the file saving.
 <img src="./assets/owasp/8-4.png"/>
+
+## 🙋‍♂️ Bonus 3 - Accessibility Testing
+Accessibility Scanner is a tool developed by Google and used to scan an application's user interface to provide recommendations on how to improve the application's accessibility. Accessibility Scanner enables anyone, not just developers, to quickly and easily identify common accessibility improvements; for example, zooming in on small touch targets, increasing contrast for text and images, and providing content descriptions for unlabeled graphic elements.
+
+The following is what the suggestion page looks like before the application is repaired.
+<table style="width:100%; text-align:center;">
+    <tr>
+        <td width="1%"><img src="./assets/accessibility/initial_by_screen.jpg"/></td>
+        <td width="1%"><img src="./assets/accessibility/initial_by_category.jpg"/></td>
+    </tr>
+    <tr>
+        <td width="1%">Result by Page</td>
+        <td width="1%">Result by Category</td>
+    </tr>
+</table>
+
+It was found that there were **171 suggestions** from various different pages. We fulfill all these suggestions based on their categories.
+1. **Item Label**
+The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/ab716260eed6a21d52bdea41ed72232b9dcad370). Here is the updates:
+    - For EditTexts or editable TextViews, use an `android:hint` attribute to indicate the purpose of the text field.
+    - Use an `android:labelFor` attribute to indicate that a View should act as a content label for another View.
+2. **Touch Target**
+The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/992112745541e4300f45354d0b2469ee691984b9). Here is the updates:
+    - Consider making the height of this touch clickable item target 48dp or larger.
+    - A parent container may be handling touch events for this item. If selecting the larger container performs the same action as selecting this item, consider defining this item as not clickable. If a different action is performed, consider increasing the size of this item.
+3. **Text Contrast**
+The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/0515b2c1ae5fff32cdbe9fdf353881226ca8859d). Here is the updates:
+    - When using `TextView` to display text, use `android:textColor` and `android:background` to define foreground and background colors with a high contrast ratio.
+    - The W3C recommends:
+        - At least **4.5:1** for small text (below 18 point regular or 14 point bold).
+        - At least **3.0:1** for large text (18 point and above regular or 14 point and above bold).
+4. **Item Descriptions**
+The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/a8cf6fd0cdec3c9c0897f072b4be766364aa9887) and [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/759cbedfbf5614d47dcd2a8e08275a8d13082089). Here is the updates:
+    - Each element should have a unique text label that describes its visual meaning, purpose, or associated action.
+    - Layouts used as rows within `ListViews` or `RecyclerViews` are often inflated repeatedly. In such a case, the repeated labels should include additional text with more identifying information or context for the description of the item.
+5. **Image Contrast**
+The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/cf9c41c876592a11f7e911cf54f9a64d02cc05be). Here is the updates:
+    When using ImageView or Image to render graphical content or iconography, make sure that contrast between foreground and background colors meets or exceeds the recommended ratios.
+6. **Unexposed Text**
+The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/6c04db96aef6fb443e9804021949a6cc3708f669). Here is the updates:
+    - Visible text in a user interface component should be available to accessibility services.
+    - A ViewGroup that represents a list row is labeled with a contentDescription that customizes the ordering descendant TextViews.
+7. **Item Type Label**
+The fix is documented on [this commit](https://gitlab.informatika.org/mikeleo03/if3210-2024-android-ymr/-/commit/6c04db96aef6fb443e9804021949a6cc3708f669). Here is the updates:
+    - When TalkBack announces a clickable Button element, it appends the word "button" to the text label provided by the developer. If the developer includes "button" in the text label (such as "Save button"), TalkBack might speak the word "button" twice ("Save button button").
+    - A well-implemented user interface doesn't add element type or state descriptions to values of `android:contentDescription`, `android:text`, or `android:hint` attributes.
+
+After fulfilling all these quite tiring suggestions, BondoMan finally succeeded in achieving high accessibility with no further recommendations. Here is the final result.
+
+<table style="width:100%; text-align:center;">
+    <tr>
+        <td width="1%"><img src="./assets/accessibility/final_by_screen.jpg"/></td>
+        <td width="1%"><img src="./assets/accessibility/final_by_category.jpg"/></td>
+    </tr>
+    <tr>
+        <td width="1%">Result by Page</td>
+        <td width="1%">Result by Category</td>
+    </tr>
+</table>
