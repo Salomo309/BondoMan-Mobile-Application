@@ -27,6 +27,7 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
 import com.example.bondoman.MainActivity
+import com.example.bondoman.service.LocationFinder
 import com.example.bondoman.service.NetworkStateService
 import java.io.IOException
 
@@ -78,7 +79,7 @@ class AddTransactionFragment : Fragment() {
         val transactionViewModel = (requireActivity() as MainActivity).getTransactionViewModel()
 
         // Check Location Permission
-        if (!checkLocationPermission()) {
+        if (!LocationFinder(requireContext(), requireActivity()).checkLocationPermission()) {
             binding.editTextLokasi.visibility = View.VISIBLE
             binding.editTextLokasiLabel.visibility = View.VISIBLE
 
@@ -105,6 +106,7 @@ class AddTransactionFragment : Fragment() {
 
 
     private fun addTransaction(transactionViewModel: TransactionViewModel) {
+        val locationFinder = LocationFinder(requireContext(), requireActivity())
         val title = binding.editTextJudul.text.toString()
         val category = binding.editCategory.selectedItem.toString()
         val amount = binding.editTextNominal.text.toString().toDoubleOrNull()
@@ -114,20 +116,20 @@ class AddTransactionFragment : Fragment() {
             if (title.isNotEmpty() && category.isNotEmpty() && amount != null) {
 
                 // Check location permission
-                if (checkLocationPermission()) {
+                if (locationFinder.checkLocationPermission()) {
 
                     // Get Location
-                    getDeviceLocation { latitude, longitude, address ->
+                    locationFinder.getDeviceLocation(fusedLocationClient) { latitude, longitude, address ->
 
                         // Set Transaction ID
-                        var id = 1
+                        var id = 1L
                         if (transactionViewModel.listTransactions.value != null) {
-                            id = transactionViewModel.listTransactions.value!!.size + 1
+                            id = transactionViewModel.listTransactions.value!![transactionViewModel.listTransactions.value!!.size - 1].id + 1L
                         }
 
                         // Form new TransactionEntity Object
                         val transaction = TransactionEntity(
-                            id.toLong(),
+                            id,
                             "X",
                             title,
                             category,
@@ -163,14 +165,14 @@ class AddTransactionFragment : Fragment() {
                         getLongLat(requireContext(), address)?.let { (latitude, longitude) ->
 
                             // Set Transaction ID
-                            var id = 1
+                            var id = 1L
                             if (transactionViewModel.listTransactions.value != null) {
-                                id = transactionViewModel.listTransactions.value!!.size + 1
+                                id = transactionViewModel.listTransactions.value!![transactionViewModel.listTransactions.value!!.size - 1].id + 1L
                             }
 
                             // Form new TransactionEntity Object
                             val transaction = TransactionEntity(
-                                id.toLong(),
+                                id,
                                 "X",
                                 title,
                                 category,
@@ -199,44 +201,6 @@ class AddTransactionFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
             }
-        }
-    }
-
-    private fun getDeviceLocation(callback: (Double, Double, String) -> Unit) {
-        if (checkLocationPermission()) {
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location ->
-                    if (location != null) {
-                        val geocoder = Geocoder(requireContext())
-                        val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-                        if (!addresses.isNullOrEmpty()) {
-
-                            // Get location
-                            val address = addresses[0] // Mengambil objek Address pertama dari daftar alamat
-
-                            // val admin = address.adminArea // Provinsi
-                            val subAdmin = address.subAdminArea // Kota
-                            val locality = address.locality // Kecamatan
-                             val thoroughfare = address.thoroughfare // Jalan
-
-                            val addr: String = "$thoroughfare, $locality, $subAdmin"
-
-                            // Call callback with obtained values
-                            callback.invoke(location.latitude, location.longitude, addr)
-                        } else {
-                            Toast.makeText(requireContext(), "Failed to get address", Toast.LENGTH_SHORT).show()
-                        }
-                    } else {
-                        Toast.makeText(requireContext(), "Failed to get location", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                .addOnFailureListener { e ->
-                    Toast.makeText(requireContext(), "Failed to get location: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-
-        } else {
-            requestLocationPermission()
         }
     }
 
@@ -269,14 +233,6 @@ class AddTransactionFragment : Fragment() {
             binding.editTextLokasi.visibility = View.VISIBLE
             binding.editTextLokasiLabel.visibility = View.VISIBLE
         }
-    }
-
-
-    private fun checkLocationPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun requestLocationPermission() {
