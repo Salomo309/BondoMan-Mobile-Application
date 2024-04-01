@@ -193,13 +193,14 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             // Grant URI permission
             val authority = "${activity.packageName}.provider"
             val uri = FileProvider.getUriForFile(activity, authority, tempFile)
+            val nim = TokenManager.getNIM(activity)
             activity.grantUriPermission(activity.packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
             // Create and send email intent with the attachment
             val emailIntent = Intent(Intent.ACTION_SEND)
             emailIntent.type = "message/rfc822"
 
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("13521063@std.stei.itb.ac.id", "13521062@std.stei.itb.ac.id", "13521108@std.stei.itb.ac.id"))
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("${nim}@std.stei.itb.ac.id"))
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your List of Transactions")
             emailIntent.putExtra(Intent.EXTRA_TEXT, "This is all of your transactions. Thanks")
             emailIntent.putExtra(Intent.EXTRA_STREAM, uri)
