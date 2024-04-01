@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
-import kotlinx.coroutines.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -36,36 +35,34 @@ class MainActivity : AppCompatActivity() {
         setupNetworkStateReceiver()
 
         // Initialize ViewModel
-        var repository: TransactionRepository
-        var viewModelFactory: ViewModelProvider.Factory
+        val repository: TransactionRepository
 
-        // Start a coroutine to fetch the nim
-        CoroutineScope(Dispatchers.Main).launch {
-            val nim = TokenManager.fetchUserNim(applicationContext)
-            repository = nim?.let { TransactionRepository(TransactionDatabase.getDatabase(applicationContext), it) }!!
-            viewModelFactory = TransactionViewModel.provideFactory(repository)
-            transactionViewModel = ViewModelProvider(this@MainActivity, viewModelFactory)[TransactionViewModel::class.java]
+        // Start fetch the nim
+        val nim = TokenManager.getNIM(applicationContext)
+        repository = nim?.let { TransactionRepository(TransactionDatabase.getDatabase(applicationContext), it) }!!
+        val viewModelFactory: ViewModelProvider.Factory = TransactionViewModel.provideFactory(repository)
+        transactionViewModel = ViewModelProvider(this@MainActivity, viewModelFactory)[TransactionViewModel::class.java]
 
-            binding = ActivityMainBinding.inflate(layoutInflater)
-            setContentView(binding.root)
+        // Binding layout inflater
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-            val navView: BottomNavigationView = binding.navView
+        val navView: BottomNavigationView = binding.navView
 
-            val navController = findNavController(R.id.nav_host_fragment_activity_main)
-            // Passing each menu ID as a set of Ids because each
-            // menu should be considered as top level destinations.
-            val appBarConfiguration = AppBarConfiguration(
-                setOf(
-                    R.id.navigation_transaction,
-                    R.id.navigation_scan,
-                    R.id.navigation_graph,
-                    R.id.navigation_setting,
-                    R.id.navigation_twibbon
-                )
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_transaction,
+                R.id.navigation_scan,
+                R.id.navigation_graph,
+                R.id.navigation_setting,
+                R.id.navigation_twibbon
             )
-            setupActionBarWithNavController(navController, appBarConfiguration)
-            navView.setupWithNavController(navController)
-        }
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
     fun getTransactionViewModel(): TransactionViewModel {
@@ -81,14 +78,14 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    public fun disableNavBar() {
+    fun disableNavBar() {
         for (i in 0 until binding.navView.menu.size()) {
             val menuItem = binding.navView.menu.getItem(i)
             menuItem.isEnabled = false
         }
     }
 
-    public fun enableNavBar() {
+    fun enableNavBar() {
         for (i in 0 until binding.navView.menu.size()) {
             val menuItem = binding.navView.menu.getItem(i)
             menuItem.isEnabled = true

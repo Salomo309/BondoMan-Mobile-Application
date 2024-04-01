@@ -44,6 +44,7 @@ class LoginActivity : AppCompatActivity() {
                         Repository().login(email, password)
                     }
                     TokenManager.saveToken(this@LoginActivity, token)
+                    TokenManager.fetchTokenResponse(this@LoginActivity, token)
                     onLoginSuccess()
                 } catch (e: Exception) {
                     showToast("Login failed: ${e.message}")
