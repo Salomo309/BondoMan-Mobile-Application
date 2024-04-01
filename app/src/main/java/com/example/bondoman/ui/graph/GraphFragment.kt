@@ -57,14 +57,14 @@ class GraphFragment : Fragment() {
         val entries = ArrayList<PieEntry>()
         val summaryPercentage = getTransactionSummaryPercentage()
         if (summaryPercentage[0] != 0f) {
-            entries.add(PieEntry(summaryPercentage[0], "Pemasukan"))
+            entries.add(PieEntry(summaryPercentage[0], "Incomes"))
         }
         if (summaryPercentage[1] != 0f) {
-            entries.add(PieEntry(summaryPercentage[1], "Pengeluaran"))
+            entries.add(PieEntry(summaryPercentage[1], "Expenses"))
         }
 
         val dataSet = PieDataSet(entries, "Pie Chart")
-        dataSet.setColors(Color.parseColor("#87A922"), Color.parseColor("#FDA403"))
+        dataSet.setColors(Color.parseColor("#718D1C"), Color.parseColor("#A96D02"))
 
         val pieData = PieData(dataSet)
         pieData.setValueFormatter(PercentFormatter(pieChart))
