@@ -260,7 +260,9 @@ class ScanFragment : Fragment() {
                 hideLoading()
                 if (itemsList != null) {
                     itemsList.items.forEach{
-                        item -> item.price *= 2600
+                        item ->
+                        item.price *= 600
+                        item.name = item.name.substring(0, 1).uppercase() + item.name.substring(1)
                     }
                     scanViewModel.setItemList(itemsList.items)
                     showScanResultCard()
@@ -325,9 +327,10 @@ class ScanFragment : Fragment() {
 
     private fun saveScanResult() {
         val locationFinder = LocationFinder(requireContext(), requireActivity())
-        var receivedLatitude = 0.0
-        var receivedLongitude = 0.0
-        var receivedAddress = ""
+        var id = 1L
+        if (transactionViewModel.listTransactions.value != null) {
+            id = transactionViewModel.listTransactions.value!![transactionViewModel.listTransactions.value!!.size - 1].id + 1L
+        }
 
         if (!locationFinder.checkLocationPermission()) {
             locationFinder.requestLocationPermission()
@@ -336,34 +339,36 @@ class ScanFragment : Fragment() {
         if (locationFinder.checkLocationPermission()) {
             locationFinder.getDeviceLocation(LocationServices.getFusedLocationProviderClient(requireActivity())) {
                 latitude, longitude, address ->
-                receivedLatitude = latitude
-                receivedLongitude = longitude
-                receivedAddress = address
+
+                val transaction = TransactionEntity(
+                    id,
+                    "X",
+                    "Scan Result",
+                    "Pengeluaran",
+                    calculateScanResultAmount(),
+                    address,
+                    longitude,
+                    latitude,
+                    Date()
+                )
+
+                transactionViewModel.insertTransaction(transaction)
             }
         } else {
-            receivedLatitude = -6.893109
-            receivedLongitude = 107.610431
-            receivedAddress = "Jalan Ganesha 10, Lebak Siliwangi, Kecamatan Coblong, Kota Bandung"
+            val transaction = TransactionEntity(
+                id,
+                "X",
+                "Scan Result",
+                "Pengeluaran",
+                calculateScanResultAmount(),
+                "Jalan Ganesha 10, Lebak Siliwangi, Kecamatan Coblong, Kota Bandung",
+                107.610431,
+                -6.893109,
+                Date()
+            )
+
+            transactionViewModel.insertTransaction(transaction)
         }
-
-        var id = 1
-        if (transactionViewModel.listTransactions.value != null) {
-            id = transactionViewModel.listTransactions.value!!.size + 1
-        }
-
-        val transaction = TransactionEntity(
-            id.toLong(),
-            "X",
-            "Scan Result",
-            "Pengeluaran",
-            calculateScanResultAmount(),
-            receivedAddress,
-            receivedLongitude,
-            receivedLatitude,
-            Date()
-        )
-
-        transactionViewModel.insertTransaction(transaction)
     }
 
     private fun calculateScanResultAmount() : Double {
@@ -371,7 +376,7 @@ class ScanFragment : Fragment() {
         var amount = 0.0
 
         for (item in itemList) {
-            amount += item.price
+            amount += item.price * item.qty
         }
 
         return amount

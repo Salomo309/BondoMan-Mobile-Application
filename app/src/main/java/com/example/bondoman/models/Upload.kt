@@ -3,7 +3,7 @@ package com.example.bondoman.models
 import com.google.gson.annotations.SerializedName
 
 data class Item(
-    val name: String,
+    var name: String,
     val qty: Int,
     var price: Double
 )
