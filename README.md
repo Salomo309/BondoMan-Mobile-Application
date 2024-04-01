@@ -1,3 +1,4 @@
+<br>
 <div align="center">
     <div >
         <img height="150px" src="./assets/logo.webp" alt=""/>
@@ -7,8 +8,10 @@
             <p><i>Transaction logging app for raw material trades</i></p>
     </div>      
 </div>
+<br>
 
 <h1 align="center">BondoMan Mobile Application</h1>
+
 BondoMan is an application centered around managing transactions efficiently. Users are required to log in initially to access its features, with the endpoint providing a token upon successful login for further access. The app enables users to manipulate transaction data, including addition, modification, and deletion, with minimal input requirements such as transaction title, category (Income, Expense), amount, and location, automatically recording the transaction date and user's location if permitted. Transactions are stored in Room using the Repository Pattern for offline access, displaying them comprehensively with details like transaction category, amount, name, location, and date. Users can add transactions, scan receipts, view transaction summaries via graphs, and export transaction lists to spreadsheets (xlsx or xls) for external viewing. BondoMan also features internet connectivity checks, providing alerts when offline, and incorporates a broadcast receiver in the transaction addition fragment for receiving intents from the "Randomize Transaction" button on the Settings Page.
 
 ## 📝 Table of Contents
@@ -36,7 +39,7 @@ The application built for Bondowoso is tailored to run seamlessly on his Android
 <img src="./assets/icons/Maps.png" height="60" />
 </kbd>
 <kbd>
-<img src="./assets/icons/Gmail.png" height="60" />
+<img src="./assets/icons/GMail.png" height="60" />
 </kbd>
 <kbd>
 <img src="./assets/icons/Room.png" height="60" />
@@ -95,5 +98,78 @@ Here's list of libraries that used in this project.
   </tr>
 </table>
 
-And some **android core libraries** like appcompat, constriantLayout, livedata, viewmodel, fragment, navigation, and many more!
+And some **android core libraries** like appcompat, constraintLayout, livedata, viewmodel, fragment, navigation, and many more!
+
+## ⭐ Main Features
+Here's BondoMan main features and its interface.
+<table style="width:100%">
+    <col width="24%">
+    <col width="24%">
+    <col width="24%">
+    <col width="24%">
+    <tr>
+        <td width="1%"><img src="./assets/screenshots/Splash Screen.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Login Page.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Transaction Page.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Insert New Transaction Page.jpg"/></td>
+    </tr>
+    <tr>
+        <td width="1%">Splash Screen</td>
+        <td width="1%">Login Page</td>
+        <td width="1%">Transaction Page</td>
+        <td width="1%">Insert New Transaction Page</td>
+    </tr>
+    <tr>
+        <td width="1%"><img src="./assets/screenshots/Update Transaction Page.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Get Transaction Location.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Transaction Graph Page - Potrait.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/App Setting Page.jpg"/></td>
+    </tr>
+    <tr>
+        <td width="1%">Update Transaction Page</td>
+        <td width="1%">Get Transaction Location</td>
+        <td width="1%">Transaction Graph Page - Potrait</td>
+        <td width="1%">App Setting Page</td>
+    </tr>
+    <tr>
+        <td colspan="2" width="2%"><img src="./assets/screenshots/Transaction Graph Page - Landscape.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Scan Notes Page.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Scan Result View.jpg"/></td>
+    </tr>
+    <tr>
+        <td colspan="2" width="2%">Transaction Graph Page - Landscape</td>
+        <td width="1%">Scan Notes Page</td>
+        <td width="1%">Scan Result View</td>
+    </tr>
+    <tr>
+        <td width="1%"><img src="./assets/screenshots/Delete Transaction Popup.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Upload Notes to Scan.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Send Transaction List.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Randomize Transaction Result.jpg"/></td>
+    </tr>
+    <tr>
+        <td width="1%">Delete Transaction Popup</td>
+        <td width="1%">Upload Notes to Scan</td>
+        <td width="1%">Send Transaction List</td>
+        <td width="1%">Randomize Transaction Result</td>
+    </tr>
+</table>
+
+## 🤳 Bonus 1 - Twibbon Feature
+<table style="width:100%">
+    <col width="32%">
+    <col width="32%">
+    <col width="32%">
+    <tr>
+        <td width="1%"><img src="./assets/screenshots/Twibbon Page.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Twibbon Result 1.jpg"/></td>
+        <td width="1%"><img src="./assets/screenshots/Twibbon Result 2.jpg"/></td>
+    </tr>
+    <tr>
+        <td width="1%">Twibbon Page</td>
+        <td width="1%">Twibbon Result #1</td>
+        <td width="1%">Twibbon Result #2</td>
+    </tr>
+</table>
+// TODO : Explain how this works
 
