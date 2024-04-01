@@ -1,16 +1,13 @@
 package com.example.bondoman.ui.graph
 
 import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.bondoman.MainActivity
 import com.example.bondoman.databinding.FragmentGraphBinding
-import com.example.bondoman.models.TransactionSummary
 import com.example.bondoman.ui.transaction.TransactionViewModel
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -82,24 +79,24 @@ class GraphFragment : Fragment() {
         val summaries = transactionViewModel.transactionSummary.value!!
 
         if (summaries.size == 1) {
-            return if (summaries[0].category == "Pemasukan") {
+            return if (summaries[0].category == "Incomes") {
                 floatArrayOf(100f, 0f)
             } else {
                 floatArrayOf(0f, 100f)
             }
         } else {
-            var idxPemasukan = 0
-            var idxPengeluaran = 1
-            if (summaries[0].category != "Pemasukan") {
-                idxPemasukan = 1
-                idxPengeluaran = 0
+            var idxIncomes = 0
+            var idxExpenses = 1
+            if (summaries[0].category != "Incomes") {
+                idxIncomes = 1
+                idxExpenses = 0
             }
 
             val totalSum = summaries[0].totalAmount + summaries[1].totalAmount
-            val percentPemasukan =  (((summaries[idxPemasukan].totalAmount)/totalSum) * 1000).roundToInt() / 1000f
-            val percentPengeluaran =  (((summaries[idxPengeluaran].totalAmount)/totalSum) * 1000).roundToInt() / 1000f
+            val percentIncomes =  (((summaries[idxIncomes].totalAmount)/totalSum) * 1000).roundToInt() / 1000f
+            val percentExpenses =  (((summaries[idxExpenses].totalAmount)/totalSum) * 1000).roundToInt() / 1000f
 
-            return floatArrayOf(percentPemasukan, percentPengeluaran)
+            return floatArrayOf(percentIncomes, percentExpenses)
         }
     }
     
