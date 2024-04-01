@@ -19,7 +19,7 @@ BondoMan is an application centered around managing transactions efficiently. Us
 - [Tech Stacks](#tech-stacks)
 - [Libraries](#libraries)
 - [Main Features](#main-features)
-- [Bonus 1 - Twibbon Feature](#bonus-1---Twibbon-Feature)
+- [Bonus 1 - Twibbon Feature](#bonus-1---twibbon-feature)
 - [Bonus 2 - OWASP Analysis](#bonus-2---OWASP-Analysis)
 - [Bonus 3 - Accessibility Testing](#bonus-3---Accessibility-Testing)
 - [Task Division](#task-division)
@@ -173,3 +173,34 @@ Here's BondoMan main features and its interface.
 </table>
 // TODO : Explain how this works
 
+## 💥 Bonus 2 - OWASP Analysis
+OWASP (Open Web Application Security Project) Top 10 is a list of the ten most critical application security risks. Here is our analysis on 3 of them and how we address those security vulnerabilities.
+
+### 🔒 M8: Security Misconfiguration
+Security misconfiguration in mobile apps refers to the improper configuration of security settings, permissions, and controls that can lead to vulnerabilities and unauthorized access. Threat agents who can exploit security misconfigurations are attackers aiming to gain unauthorized access to sensitive data or perform malicious actions. Threat agents can be an attacker with physical access to the device, a malicious app on the device that exploits security misconfiguration to execute unauthorized actions on the target vulnerable application context.
+
+Security misconfigurations in mobile apps can be exploited through various attack vectors, including:
+- **Insecure default settings**: Mobile apps often come with default configurations that may have weak security settings or unnecessary permissions enabled, making them vulnerable to attacks.
+- **Improper access controls**: Misconfigured access controls can allow unauthorized users to access sensitive data or perform privileged actions.
+- **Weak encryption or hashing**: Improperly implemented or weak encryption and hashing algorithms can be exploited to gain access to sensitive information.
+- **Lack of secure communication**: Failure to use secure communication protocols, such as SSL/TLS, can expose sensitive data to eavesdropping and man-in-the-middle attacks.
+- **Unprotected storage**: Storing sensitive data, such as passwords or API keys, in an insecure manner, such as plain text or weakly encrypted, can lead to unauthorized access.
+- **Insecure file permissions**: Storing application files with world-readable and/or world-writable permissions.
+- **Misconfigured session management**: Improper session management can result in session hijacking, allowing attackers to impersonate legitimate users.
+
+Here is how we adress the vulnerabilities.
+1. **Debugging Enabled in Manifest**
+To prevent exposing sensitive information in debug mode, set `android:debuggable="false"` in the application tag of the AndroidManifest.xml file.
+<img src="./assets/owasp/8-1.png"/>
+
+2. **Unprotected Exported Components**
+To protect activities from unauthorized access, set `android:exported="false"` for activities that don't need to be accessed by other applications.
+<img src="./assets/owasp/8-2.png"/>
+
+3. **Improper Content Provider Permissions**
+Limit access to content providers by setting appropriate permissions and ensuring `android:exported="false"` unless necessary for external access.
+<img src="./assets/owasp/8-3.png"/>
+
+4. **Improper Content Provider Permissions**
+Utilize internal storage or external storage with proper permissions. Before write to user's external download directory, we ask the user permission first. If the user permissions has already been granted then proceed the file saving.
+<img src="./assets/owasp/8-4.png"/>
