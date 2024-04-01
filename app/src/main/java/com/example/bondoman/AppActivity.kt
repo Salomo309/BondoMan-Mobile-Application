@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.example.bondoman.service.TokenExpirationService
 import com.example.bondoman.storage.TokenManager
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class AppActivity : AppCompatActivity() {
 
@@ -18,6 +16,12 @@ class AppActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_app)
+        supportActionBar?.hide()
+
+        val linearLayout = findViewById<LinearLayout>(R.id.app_linear)
+        val animation = AnimationUtils.loadAnimation(this, R.anim.fade_in_from_bottom)
+        linearLayout.startAnimation(animation)
 
         Handler(Looper.getMainLooper()).postDelayed({
             val isValid = TokenManager.isTokenValid(this@AppActivity)
