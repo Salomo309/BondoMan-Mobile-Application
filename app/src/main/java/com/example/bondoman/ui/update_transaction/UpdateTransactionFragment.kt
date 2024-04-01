@@ -45,8 +45,8 @@ class UpdateTransactionFragment : Fragment() {
 
         // Populate EditText fields with transaction data
         currentTransaction?.let {
-            binding.editTextJudul.setText(it.title)
-            binding.editTextNominal.setText(it.amount.toString())
+            binding.modifyTextJudul.setText(it.title)
+            binding.modifyTextNominal.setText(it.amount.toString())
             binding.editTextLokasi.setText(it.location)
         }
 
@@ -74,8 +74,8 @@ class UpdateTransactionFragment : Fragment() {
 
     private fun updateTransaction(transactionViewModel: TransactionViewModel) {
         currentTransaction?.let { transaction ->
-            val newTitle = binding.editTextJudul.text.toString()
-            val newAmount = binding.editTextNominal.text.toString().toDoubleOrNull() ?: transaction.amount
+            val newTitle = binding.modifyTextJudul.text.toString()
+            val newAmount = binding.modifyTextNominal.text.toString().toDoubleOrNull() ?: transaction.amount
             val newLocation = binding.editTextLokasi.text.toString()
 
             // Update title, amount, and location of currentTransaction

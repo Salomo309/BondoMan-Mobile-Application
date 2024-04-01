@@ -1,5 +1,6 @@
 package com.example.bondoman.ui.transaction
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -39,6 +40,12 @@ class TransactionAdapter(var transactions: List<Transaction>, private val transa
         val removeBtn: ImageButton = itemView.findViewById(R.id.button_remove)
         val editBtn: ImageButton = itemView.findViewById(R.id.button_edit)
         // val location: TextView = itemView.findViewById(R.id.location)
+
+        fun bind(transaction: Transaction) {
+            // Set unique content descriptions for edit and delete buttons
+            editBtn.contentDescription = "Edit transaction titled ${transaction.title}"
+            removeBtn.contentDescription = "Delete transaction titled ${transaction.title}"
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -46,8 +53,13 @@ class TransactionAdapter(var transactions: List<Transaction>, private val transa
         return TransactionViewHolder(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val currentTransaction = transactions[position]
+        // Bind the transaction
+        holder.bind(currentTransaction)
+
+        // Set the transaction title
         holder.title.text = currentTransaction.title
 
         // Extracting day, month, and time

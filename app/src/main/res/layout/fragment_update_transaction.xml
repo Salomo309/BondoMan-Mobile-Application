@@ -22,40 +22,54 @@
                 android:layout_height="30dp"/>
 
             <TextView
+                android:id="@+id/modifyTextJudulLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_judul"
+                android:text="@string/edit_title"
                 android:textStyle="bold"
-                android:alpha="0.7"/>
+                android:textColor="@color/black"
+                android:alpha="0.9"/>
 
             <EditText
-                android:id="@+id/editTextJudul"
+                android:id="@+id/modifyTextJudul"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                tools:ignore="LabelFor"/>
+                android:minHeight="48dp"
+                android:labelFor="@id/modifyTextJudulLabel"
+                android:hint="@string/new_transaction_title"
+                android:textColorHint="@color/cardview_dark_background"
+                android:autofillHints="judul"/>
 
             <TextView
+                android:id="@+id/modifyTextNominalLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/title_nominal"
+                android:text="@string/edit_amount"
                 android:textStyle="bold"
-                android:alpha="0.7"
+                android:textColor="@color/black"
+                android:alpha="0.9"
                 android:layout_marginTop="20dp"/>
 
             <EditText
-                android:id="@+id/editTextNominal"
+                android:id="@+id/modifyTextNominal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
-                tools:ignore="LabelFor"/>
+                android:minHeight="48dp"
+                android:labelFor="@id/modifyTextNominalLabel"
+                android:hint="@string/edit_amount_of_transaction"
+                android:textColorHint="@color/cardview_dark_background"
+                android:autofillHints="nominal"/>
 
             <TextView
+                android:id="@+id/modifyLocationLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_lokasi"
                 android:textStyle="bold"
-                android:alpha="0.7"
+                android:textColor="@color/black"
+                android:alpha="0.9"
                 android:layout_marginTop="20dp"/>
 
             <EditText
@@ -63,7 +77,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                tools:ignore="LabelFor"/>
+                android:minHeight="48dp"
+                android:labelFor="@id/modifyLocationLabel"
+                android:hint="@string/edit_your_location_data"
+                android:textColorHint="@color/cardview_dark_background"
+                android:autofillHints="nominal"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonUpdate"

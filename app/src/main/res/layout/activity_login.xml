@@ -101,7 +101,7 @@
                 android:autofillHints="email"
                 android:minHeight="48dp"
                 android:labelFor="@id/editTextEmailLabel"
-                android:hint="@string/attr_email"
+                android:hint="Insert your email address..."
                 android:textColorHint="@color/cardview_dark_background"/>
 
             <View
@@ -124,7 +124,7 @@
                 android:autofillHints="password"
                 android:minHeight="48dp"
                 android:labelFor="@id/editTextPasswordLabel"
-                android:hint="@string/attr_password"
+                android:hint="Insert your password..."
                 android:textColorHint="@color/cardview_dark_background" />
 
             <View

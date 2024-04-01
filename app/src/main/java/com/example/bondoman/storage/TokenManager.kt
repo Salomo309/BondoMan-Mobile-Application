@@ -7,63 +7,60 @@ import java.util.*
 
 object TokenManager {
     private const val TOKEN_KEY = "TOKEN_KEY"
+    private const val EXP_DATE_KEY = "EXP_DATE_KEY"
+    private const val NIM_KEY = "NIM_KEY"
 
     fun saveToken(context: Context, token: String) {
-        val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
         editor.putString(TOKEN_KEY, token)
         editor.apply()
     }
 
     fun getToken(context: Context): String? {
-        val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
         return sharedPreferences.getString(TOKEN_KEY, null)
     }
 
-    suspend fun isTokenValid(context: Context): Boolean {
-        val token = getToken(context)
-        if (token != null) {
-            val expirationTime = fetchTokenExpirationTime(context)
-            if (expirationTime != null) {
-                val currentTime = Date().time / 1000
-                return expirationTime > currentTime
-            }
-        }
-
-        return false
+    private fun saveExpDate(context: Context, expDate: Long) {
+        val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putLong(EXP_DATE_KEY, expDate)
+        editor.apply()
     }
 
-    private suspend fun fetchTokenExpirationTime(context: Context): Long? {
-        val token = getToken(context)
-        if (token == null) {
-            Log.e("TokenManager", "Token not found")
-            return null
-        }
-
-        return try {
-            val authToken = "Bearer $token"
-            val response = RetrofitClient.authService.getTokenExpirationTime(authToken)
-            response.exp
-        } catch (e: Exception) {
-            Log.e("TokenManager", "Failed to fetch token expiration time: ${e.message}")
-            null
-        }
+    private fun getExpDate(context: Context): Long {
+        val expDate: Long = 100L;
+        val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
+        return sharedPreferences.getLong(EXP_DATE_KEY, expDate)
     }
 
-    suspend fun fetchUserNim(context: Context): String? {
-        val token = getToken(context)
-        if (token == null) {
-            Log.e("TokenManager", "Token not found")
-            return null
-        }
+    private fun saveNIM(context: Context, nim: String) {
+        val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString(NIM_KEY, nim)
+        editor.apply()
+    }
 
-        return try {
+    fun getNIM(context: Context): String? {
+        val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
+        return sharedPreferences.getString(NIM_KEY, null)
+    }
+
+    fun isTokenValid(context: Context): Boolean {
+        val expirationTime = getExpDate(context)
+        val currentTime = Date().time / 1000
+        return expirationTime > currentTime
+    }
+
+    suspend fun fetchTokenResponse(context: Context, token: String) {
+        try {
             val authToken = "Bearer $token"
             val response = RetrofitClient.authService.getTokenExpirationTime(authToken)
-            response.nim
+            saveExpDate(context, response.exp)
+            saveNIM(context, response.nim)
         } catch (e: Exception) {
-            Log.e("TokenManager", "Failed to fetch NIM: ${e.message}")
-            null
+            Log.e("TokenManager", "Failed to fetch token response: ${e.message}")
         }
     }
 }

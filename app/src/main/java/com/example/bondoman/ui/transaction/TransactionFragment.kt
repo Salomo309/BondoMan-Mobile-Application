@@ -57,7 +57,7 @@ class TransactionFragment : Fragment() {
                 noTransactionTextView.visibility = View.VISIBLE
             } else {
                 noTransactionTextView.visibility = View.GONE
-                transactionAdapter.transactions = transactions.map { transactionEntityToModel(it) }
+                transactionAdapter.transactions = (transactions.map { transactionEntityToModel(it) }).reversed()
                 transactionAdapter.notifyDataSetChanged()
             }
         })
