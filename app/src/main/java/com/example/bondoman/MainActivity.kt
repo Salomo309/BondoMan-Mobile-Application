@@ -59,7 +59,8 @@ class MainActivity : AppCompatActivity() {
                     R.id.navigation_transaction,
                     R.id.navigation_scan,
                     R.id.navigation_graph,
-                    R.id.navigation_setting
+                    R.id.navigation_setting,
+                    R.id.navigation_twibbon
                 )
             )
             setupActionBarWithNavController(navController, appBarConfiguration)

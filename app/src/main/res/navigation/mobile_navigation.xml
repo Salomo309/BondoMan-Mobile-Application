@@ -29,7 +29,7 @@
         android:id="@+id/navigation_setting"
         android:name="com.example.bondoman.ui.setting.SettingFragment"
         android:label="App Settings"
-        tools:layout="@layout/fragment_graph" />
+        tools:layout="@layout/fragment_setting" />
 
     <fragment
         android:id="@+id/navigation_add_transaction"
@@ -46,5 +46,11 @@
             android:name="currentTransaction"
             app:argType="com.example.bondoman.models.Transaction" />
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_twibbon"
+        android:name="com.example.bondoman.ui.twibbon.TwibbonFragment"
+        android:label="@string/title_twibbon"
+        tools:layout="@layout/fragment_twibbon"/>
 
 </navigation>
