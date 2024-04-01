@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
+import kotlinx.coroutines.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -25,14 +27,24 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var transactionViewModel: TransactionViewModel
+
+    // Boolean
     private var isConnected : Boolean = true
+    private var isBroadcastEnabled = false
+
+    // Randomized Title
+    private var randomizedTitle: String? = null
+
+    // Broadcast Receiver
     private lateinit var networkStateReceiver : BroadcastReceiver
+    private lateinit var randomizerBroadcastReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         startNetworkStateService()
         setupNetworkStateReceiver()
+        setupBroadcastReceiver()
 
         // Initialize ViewModel
         val repository: TransactionRepository
@@ -71,6 +83,18 @@ class MainActivity : AppCompatActivity() {
 
     fun getIsConnected() : Boolean {
         return isConnected
+    }
+
+    fun getIsBroadcastEnabled(): Boolean {
+        return isBroadcastEnabled
+    }
+
+    fun getRandomizedTitle(): String? {
+        return randomizedTitle
+    }
+
+    fun setIsBroadcastEnabled(boolean: Boolean) {
+        isBroadcastEnabled = boolean
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -121,8 +145,27 @@ class MainActivity : AppCompatActivity() {
         ContextCompat.registerReceiver(this, networkStateReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
     }
 
+    private fun setupBroadcastReceiver() {
+        randomizerBroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == "com.example.bondoman.RANDOM_TRANSACTION_ACTION") {
+                    if (isBroadcastEnabled) {
+                        // Receive intent
+                        val title = intent?.getStringExtra("title")
+                        if (title != null) {
+                            randomizedTitle = title
+                        }
+                    }
+                }
+            }
+        }
+        val filter = IntentFilter("com.example.bondoman.RANDOM_TRANSACTION_ACTION")
+        ContextCompat.registerReceiver(this, randomizerBroadcastReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
+        this.unregisterReceiver(randomizerBroadcastReceiver)
         this.unregisterReceiver(networkStateReceiver)
     }
 }

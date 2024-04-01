@@ -2,22 +2,19 @@ package com.example.bondoman.ui.setting
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.bondoman.LoginActivity
 import com.example.bondoman.MainActivity
 import com.example.bondoman.databinding.FragmentSettingBinding
 import com.example.bondoman.ui.transaction.TransactionViewModel
-import java.io.File
+import kotlin.random.Random
 
 class SettingFragment : Fragment() {
 
@@ -25,6 +22,7 @@ class SettingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var settingViewModel: SettingViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,6 +54,18 @@ class SettingFragment : Fragment() {
             activityIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(activityIntent)
             requireActivity().finish()
+        }
+
+        binding.buttonRandomize.setOnClickListener {
+            (requireActivity() as MainActivity).setIsBroadcastEnabled(!(requireActivity() as MainActivity).getIsBroadcastEnabled())
+            if ((requireActivity() as MainActivity).getIsBroadcastEnabled()) {
+                Toast.makeText(requireContext(), "Broadcast is enabled", Toast.LENGTH_SHORT).show()
+
+                // Broadcast
+                randomizeTransactionAndSendIntent()
+            } else {
+                Toast.makeText(requireContext(), "Broadcast is disabled", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return root
@@ -94,5 +104,29 @@ class SettingFragment : Fragment() {
 
     private fun sendEmailWithAttachment(transactionViewModel: TransactionViewModel, extension: String) {
         settingViewModel.sendEmailWithAttachment(requireActivity(), transactionViewModel.listTransactions.value, extension)
+    }
+
+    // Transaction Randomizer Functions
+    // Di SettingFragment.kt
+    private fun randomizeTransactionAndSendIntent() {
+        if ((requireActivity() as MainActivity).getIsBroadcastEnabled()) {
+            // Initialize Intent
+            val randomTransactionIntent = Intent("com.example.bondoman.RANDOM_TRANSACTION_ACTION")
+
+            // Generate Transaction
+            val randomTitle = generateRandomTitle()
+            randomTransactionIntent.putExtra("title", randomTitle)
+            // randomTransactionIntent.putExtra("isBroadcastEnabled", (requireActivity() as MainActivity).getIsBroadcastEnabled())
+
+            // Send Intent
+            requireContext().sendBroadcast(randomTransactionIntent)
+        } else {
+            Toast.makeText(requireContext(), "Broadcast is disabled", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun generateRandomTitle(): String {
+        val titles = arrayOf("Belanja", "Makan Siang", "Transportasi", "Hiburan", "Tagihan", "Laundry", "Uang Kos")
+        return titles.random()
     }
 }
