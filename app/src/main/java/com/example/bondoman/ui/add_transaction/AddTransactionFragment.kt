@@ -13,10 +13,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.example.bondoman.room.TransactionEntity
 import com.example.bondoman.ui.transaction.TransactionViewModel
 import java.util.Date
@@ -25,10 +22,12 @@ import com.google.android.gms.location.LocationServices
 import android.location.Geocoder
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.example.bondoman.MainActivity
 import com.example.bondoman.service.LocationFinder
 import com.example.bondoman.service.NetworkStateService
+import com.example.bondoman.ui.setting.SettingFragment
 import java.io.IOException
 
 
@@ -36,14 +35,8 @@ class AddTransactionFragment : Fragment() {
     private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var randomizerBroadcastReceiver : BroadcastReceiver
-    private var isRandomizerEnabled: Boolean = false
-    private var randomizedTitle: String? = null
-
-    companion object {
-        fun newInstance() = AddTransactionFragment()
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1001
-    }
+    private lateinit var randomizationReceiver : BroadcastReceiver
+    private var isRandomizationEnabled: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,8 +54,7 @@ class AddTransactionFragment : Fragment() {
         val root: View = binding.root
 
         // Check Randomizer Condition
-        isRandomizerEnabled = (requireActivity() as MainActivity).getIsBroadcastEnabled()
-        randomizedTitle = (requireActivity() as MainActivity).getRandomizedTitle()
+        isRandomizationEnabled = (requireActivity() as MainActivity).getIsRandomizationEnabled()
 
         return root
     }
@@ -70,10 +62,7 @@ class AddTransactionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set the randomized title
-        if (isRandomizerEnabled) {
-            binding.editTextJudul.setText(randomizedTitle)
-        }
+        setupRandomizationReceiver()
 
         // Transaction View Model
         val transactionViewModel = (requireActivity() as MainActivity).getTransactionViewModel()
@@ -104,6 +93,28 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        if (isRandomizationEnabled) {
+            val randomizedTitle = generateRandomTitle()
+            binding.editTextJudul.setText(randomizedTitle)
+        } else {
+            binding.editTextJudul.setText("")
+        }
+    }
+
+    private fun setupRandomizationReceiver() {
+        randomizationReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                if (intent?.action == "com.example.bondoman.RANDOM_TRANSACTION_ACTION") {
+                    isRandomizationEnabled = intent.getBooleanExtra("isRandomizationEnabled", false)
+                }
+            }
+        }
+        val filter = IntentFilter("com.example.bondoman.RANDOM_TRANSACTION_ACTION")
+        ContextCompat.registerReceiver(requireContext(), randomizationReceiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+    }
 
     private fun addTransaction(transactionViewModel: TransactionViewModel) {
         val locationFinder = LocationFinder(requireContext(), requireActivity())
@@ -221,6 +232,11 @@ class AddTransactionFragment : Fragment() {
             Log.e("Location", "Error getting location from Geocoder: ${e.message}")
             return null
         }
+    }
+
+    private fun generateRandomTitle(): String {
+        val titles = arrayOf("Belanja", "Makan Siang", "Transportasi", "Hiburan", "Tagihan", "Laundry", "Uang Kos")
+        return titles.random()
     }
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission())

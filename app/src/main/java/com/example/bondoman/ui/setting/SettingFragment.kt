@@ -3,7 +3,6 @@ package com.example.bondoman.ui.setting
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import com.example.bondoman.LoginActivity
 import com.example.bondoman.MainActivity
 import com.example.bondoman.databinding.FragmentSettingBinding
 import com.example.bondoman.ui.transaction.TransactionViewModel
-import kotlin.random.Random
 
 class SettingFragment : Fragment() {
 
@@ -22,7 +20,6 @@ class SettingFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var settingViewModel: SettingViewModel
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,15 +54,14 @@ class SettingFragment : Fragment() {
         }
 
         binding.buttonRandomize.setOnClickListener {
-            (requireActivity() as MainActivity).setIsBroadcastEnabled(!(requireActivity() as MainActivity).getIsBroadcastEnabled())
-            if ((requireActivity() as MainActivity).getIsBroadcastEnabled()) {
-                Toast.makeText(requireContext(), "Broadcast is enabled", Toast.LENGTH_SHORT).show()
-
-                // Broadcast
-                randomizeTransactionAndSendIntent()
+            settingViewModel.changeRandomizationStatus()
+            if (settingViewModel.getIsRandomizationEnabled()) {
+                Toast.makeText(requireContext(), "Randomization is enabled", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "Broadcast is disabled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Randomization is disabled", Toast.LENGTH_SHORT).show()
             }
+            // Broadcast
+            sendRandomizationIntent()
         }
 
         return root
@@ -108,21 +104,12 @@ class SettingFragment : Fragment() {
 
     // Transaction Randomizer Functions
     // Di SettingFragment.kt
-    private fun randomizeTransactionAndSendIntent() {
-        if ((requireActivity() as MainActivity).getIsBroadcastEnabled()) {
-            // Initialize Intent
-            val randomTransactionIntent = Intent("com.example.bondoman.RANDOM_TRANSACTION_ACTION")
-
-            // Generate Transaction
-            val randomTitle = generateRandomTitle()
-            randomTransactionIntent.putExtra("title", randomTitle)
-            // randomTransactionIntent.putExtra("isBroadcastEnabled", (requireActivity() as MainActivity).getIsBroadcastEnabled())
-
-            // Send Intent
-            requireContext().sendBroadcast(randomTransactionIntent)
-        } else {
-            Toast.makeText(requireContext(), "Broadcast is disabled", Toast.LENGTH_SHORT).show()
-        }
+    private fun sendRandomizationIntent() {
+        // Initialize Intent
+        val randomTransactionIntent = Intent("com.example.bondoman.RANDOM_TRANSACTION_ACTION")
+        randomTransactionIntent.putExtra("isRandomizationEnabled", settingViewModel.getIsRandomizationEnabled())
+        // Send Intent
+        requireContext().sendBroadcast(randomTransactionIntent)
     }
 
     private fun generateRandomTitle(): String {

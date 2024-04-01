@@ -30,10 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     // Boolean
     private var isConnected : Boolean = true
-    private var isBroadcastEnabled = false
-
-    // Randomized Title
-    private var randomizedTitle: String? = null
+    private var isRandomizationEnabled : Boolean = false
 
     // Broadcast Receiver
     private lateinit var networkStateReceiver : BroadcastReceiver
@@ -85,16 +82,8 @@ class MainActivity : AppCompatActivity() {
         return isConnected
     }
 
-    fun getIsBroadcastEnabled(): Boolean {
-        return isBroadcastEnabled
-    }
-
-    fun getRandomizedTitle(): String? {
-        return randomizedTitle
-    }
-
-    fun setIsBroadcastEnabled(boolean: Boolean) {
-        isBroadcastEnabled = boolean
+    fun getIsRandomizationEnabled(): Boolean {
+        return isRandomizationEnabled
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -149,13 +138,7 @@ class MainActivity : AppCompatActivity() {
         randomizerBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 if (intent?.action == "com.example.bondoman.RANDOM_TRANSACTION_ACTION") {
-                    if (isBroadcastEnabled) {
-                        // Receive intent
-                        val title = intent?.getStringExtra("title")
-                        if (title != null) {
-                            randomizedTitle = title
-                        }
-                    }
+                    isRandomizationEnabled = intent.getBooleanExtra("isRandomizationEnabled", false)
                 }
             }
         }

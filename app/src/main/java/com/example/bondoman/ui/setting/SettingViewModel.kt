@@ -34,6 +34,15 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
 
     @SuppressLint("StaticFieldLeak")
     private val context: Context = application.applicationContext
+    private var isRandomizationEnabled = false
+
+    fun changeRandomizationStatus() {
+        isRandomizationEnabled = !isRandomizationEnabled
+    }
+
+    fun getIsRandomizationEnabled() : Boolean {
+        return isRandomizationEnabled
+    }
 
     fun logout(){
         // Invalidate token locally
