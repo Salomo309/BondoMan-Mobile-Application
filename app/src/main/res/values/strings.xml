@@ -23,7 +23,7 @@
     <string name="scan_confirm">Do you want to re-scan the image?</string>
     <string name="scan_retry">Retry</string>
     <string name="scan_save">Save</string>
-    <string name="graph_title">Amount of Income and Outcome</string>
+    <string name="graph_title">Amount of Incomes and Expenses</string>
     <string name="get_location">Get location</string>
     <string name="edit_transaction_description">Edit this transaction</string>
     <string name="delete_transaction_description">Delete this transaction</string>
