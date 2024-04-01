@@ -13,6 +13,8 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
+import java.text.NumberFormat
+import java.util.Locale
 import kotlin.math.roundToInt
 
 class GraphFragment : Fragment() {
@@ -46,6 +48,9 @@ class GraphFragment : Fragment() {
                 binding.graphShadeOverlay.visibility = View.GONE
             }
         }
+
+        val amountFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
+        binding.graphCashflow.setText("Cashflow: " + amountFormat.format(getTransactionCashflow()))
     }
 
     private fun createPieChart() {
@@ -97,6 +102,24 @@ class GraphFragment : Fragment() {
             val percentExpenses =  (((summaries[idxExpenses].totalAmount)/totalSum) * 1000).roundToInt() / 1000f
 
             return floatArrayOf(percentIncomes, percentExpenses)
+        }
+    }
+
+    private fun getTransactionCashflow() : Double {
+        return if (transactionViewModel.listTransactions.value!!.isEmpty()) {
+            0.0
+        } else {
+            var amount = 0.0
+            transactionViewModel.listTransactions.value!!.forEach {
+                    item ->
+                if (item.category == "Incomes") {
+                    amount += item.amount
+                } else {
+                    amount -= item.amount
+                }
+            }
+
+            amount
         }
     }
     

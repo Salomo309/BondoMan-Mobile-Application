@@ -7,6 +7,19 @@
     tools:context=".ui.graph.GraphFragment">
 
     <TextView
+        android:id="@+id/graph_cashflow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/graph_title"
+        android:layout_marginBottom="10dp"
+        android:text=""
+        android:textColor="@color/my_tertiary"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/graph_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/pie_chart"

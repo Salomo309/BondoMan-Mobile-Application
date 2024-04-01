@@ -16,6 +16,19 @@
         android:paddingHorizontal="10dp"/>
 
     <TextView
+        android:id="@+id/graph_cashflow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/my_tertiary"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/graph_title"
+        app:layout_constraintEnd_toEndOf="@id/graph_title"
+        app:layout_constraintStart_toStartOf="@id/graph_title" />
+
+    <TextView
         android:id="@+id/graph_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
