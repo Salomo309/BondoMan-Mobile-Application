@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment
 import com.example.bondoman.R
 import com.example.bondoman.databinding.FragmentAddTransactionBinding
 import android.Manifest
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -22,12 +26,16 @@ import android.location.Geocoder
 import android.util.Log
 import androidx.navigation.fragment.findNavController
 import com.example.bondoman.MainActivity
+import com.example.bondoman.service.NetworkStateService
 
 
 class AddTransactionFragment : Fragment() {
     private var _binding: FragmentAddTransactionBinding? = null
     private val binding get() = _binding!!
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var randomizerBroadcastReceiver : BroadcastReceiver
+    private var isRandomizerEnabled: Boolean = false
+    private var randomizedTitle: String? = null
 
     companion object {
         fun newInstance() = AddTransactionFragment()
@@ -49,11 +57,21 @@ class AddTransactionFragment : Fragment() {
         _binding = FragmentAddTransactionBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // Check Randomizer Condition
+        isRandomizerEnabled = (requireActivity() as MainActivity).getIsBroadcastEnabled()
+        randomizedTitle = (requireActivity() as MainActivity).getRandomizedTitle()
+
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Set the randomized title
+        if (isRandomizerEnabled) {
+            binding.editTextJudul.setText(randomizedTitle)
+        }
+
         // Transaction View Model
         val transactionViewModel = (requireActivity() as MainActivity).getTransactionViewModel()
 
@@ -76,96 +94,99 @@ class AddTransactionFragment : Fragment() {
         }
     }
 
+
     private fun addTransaction(transactionViewModel: TransactionViewModel) {
         val title = binding.editTextJudul.text.toString()
         val category = binding.editCategory.selectedItem.toString()
         val amount = binding.editTextNominal.text.toString().toDoubleOrNull()
 
         // Check Fields
-        if (title.isNotEmpty() && category.isNotEmpty() && amount != null) {
+        if (title != null) {
+            if (title.isNotEmpty() && category.isNotEmpty() && amount != null) {
 
-            // Check location permission
-            if (checkLocationPermission()) {
+                // Check location permission
+                if (checkLocationPermission()) {
 
-                // Get Location
-                getDeviceLocation { latitude, longitude, address ->
+                    // Get Location
+                    getDeviceLocation { latitude, longitude, address ->
 
-                    // Set Transaction ID
-                    var id = 1
-                    if (transactionViewModel.listTransactions.value != null) {
-                        id = transactionViewModel.listTransactions.value!!.size + 1
+                        // Set Transaction ID
+                        var id = 1
+                        if (transactionViewModel.listTransactions.value != null) {
+                            id = transactionViewModel.listTransactions.value!!.size + 1
+                        }
+
+                        // Form new TransactionEntity Object
+                        val transaction = TransactionEntity(
+                            id.toLong(),
+                            "X",
+                            title,
+                            category,
+                            amount,
+                            address,
+                            longitude,
+                            latitude,
+                            Date()
+                        )
+
+                        Log.d("transaction: ", transaction.toString())
+
+                        // Insert New Transaction
+                        transactionViewModel.insertTransaction(transaction)
+
+                        // Reset input fields
+                        binding.editTextJudul.text.clear()
+                        binding.editTextNominal.text.clear()
+
+                        // Show Success Message
+                        Toast.makeText(requireContext(), "Transaction added successfully", Toast.LENGTH_SHORT).show()
+
+                        // Go back to Transaction Fragment
+                        findNavController().navigate(R.id.navigation_transaction)
                     }
 
-                    // Form new TransactionEntity Object
-                    val transaction = TransactionEntity(
-                        id.toLong(),
-                        "X",
-                        title,
-                        category,
-                        amount,
-                        address,
-                        longitude,
-                        latitude,
-                        Date()
-                    )
+                } else {
+                    // requestLocationPermission()
 
-                    Log.d("transaction: ", transaction.toString())
+                    // Get Last Location
+                    getDeviceLocation { latitude, longitude, address ->
 
-                    // Insert New Transaction
-                    transactionViewModel.insertTransaction(transaction)
+                        // Set Transaction ID
+                        var id = 1
+                        if (transactionViewModel.listTransactions.value != null) {
+                            id = transactionViewModel.listTransactions.value!!.size + 1
+                        }
 
-                    // Reset input fields
-                    binding.editTextJudul.text.clear()
-                    binding.editTextNominal.text.clear()
+                        // Form new TransactionEntity Object
+                        val transaction = TransactionEntity(
+                            id.toLong(),
+                            "X",
+                            title,
+                            category,
+                            amount,
+                            address,
+                            longitude,
+                            latitude,
+                            Date()
+                        )
 
-                    // Show Success Message
-                    Toast.makeText(requireContext(), "Transaction added successfully", Toast.LENGTH_SHORT).show()
+                        // Insert New Transaction
+                        transactionViewModel.insertTransaction(transaction)
 
-                    // Go back to Transaction Fragment
-                    findNavController().navigate(R.id.navigation_transaction)
+                        // Reset input fields
+                        binding.editTextJudul.text.clear()
+                        binding.editTextNominal.text.clear()
+
+                        // Show Success Message
+                        Toast.makeText(requireContext(), "Transaction added successfully", Toast.LENGTH_SHORT).show()
+
+                        // Go back to Transaction Fragment
+                        findNavController().navigate(R.id.navigation_transaction)
+                    }
                 }
-
             } else {
-                // requestLocationPermission()
-
-                // Get Last Location
-                getDeviceLocation { latitude, longitude, address ->
-
-                    // Set Transaction ID
-                    var id = 1
-                    if (transactionViewModel.listTransactions.value != null) {
-                        id = transactionViewModel.listTransactions.value!!.size + 1
-                    }
-
-                    // Form new TransactionEntity Object
-                    val transaction = TransactionEntity(
-                        id.toLong(),
-                        "X",
-                        title,
-                        category,
-                        amount,
-                        address,
-                        longitude,
-                        latitude,
-                        Date()
-                    )
-
-                    // Insert New Transaction
-                    transactionViewModel.insertTransaction(transaction)
-
-                    // Reset input fields
-                    binding.editTextJudul.text.clear()
-                    binding.editTextNominal.text.clear()
-
-                    // Show Success Message
-                    Toast.makeText(requireContext(), "Transaction added successfully", Toast.LENGTH_SHORT).show()
-
-                    // Go back to Transaction Fragment
-                    findNavController().navigate(R.id.navigation_transaction)
-                }
+                Toast.makeText(requireContext(), "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
             }
-        } else {
-            Toast.makeText(requireContext(), "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
         }
     }
 
