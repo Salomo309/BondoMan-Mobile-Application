@@ -22,6 +22,13 @@ object TokenManager {
         return sharedPreferences.getString(TOKEN_KEY, null)
     }
 
+    private fun removeToken(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.remove(TOKEN_KEY)
+        editor.apply()
+    }
+
     private fun saveExpDate(context: Context, expDate: Long) {
         val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
@@ -30,9 +37,16 @@ object TokenManager {
     }
 
     private fun getExpDate(context: Context): Long {
-        val expDate: Long = 100L;
+        val expDate = 100L;
         val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
         return sharedPreferences.getLong(EXP_DATE_KEY, expDate)
+    }
+
+    private fun removeExpDate(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.remove(EXP_DATE_KEY)
+        editor.apply()
     }
 
     private fun saveNIM(context: Context, nim: String) {
@@ -45,6 +59,19 @@ object TokenManager {
     fun getNIM(context: Context): String? {
         val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
         return sharedPreferences.getString(NIM_KEY, null)
+    }
+
+    private fun removeNIM(context: Context) {
+        val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.remove(NIM_KEY)
+        editor.apply()
+    }
+
+    fun removeSharedPrefs(context: Context) {
+        removeToken(context)
+        removeExpDate(context)
+        removeNIM(context)
     }
 
     fun isTokenValid(context: Context): Boolean {

@@ -45,17 +45,11 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun logout(){
-        // Invalidate token locally
-        invalidateTokenLocally()
+        // Remove all shared prefs
+        TokenManager.removeSharedPrefs(context)
 
         // Stop all services
         context.stopService(Intent(context, TokenExpirationService::class.java))
-    }
-
-    private fun invalidateTokenLocally() {
-        viewModelScope.launch {
-            TokenManager.saveToken(context = context, token = "")
-        }
     }
 
     fun saveTransactionsToFile(activity: Activity, transactionData: List<TransactionEntity>?, extension: String) {
