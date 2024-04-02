@@ -6,7 +6,7 @@
     <div>
             <h3>BondoMan</h3>
             <p><i>Transaction logging app for raw material trades</i></p>
-    </div>      
+    </div>
 </div>
 <br>
 
@@ -204,6 +204,38 @@ Limit access to content providers by setting appropriate permissions and ensurin
 4. **Improper Content Provider Permissions**
 Utilize internal storage or external storage with proper permissions. Before write to user's external download directory, we ask the user permission first. If the user permissions has already been granted then proceed the file saving.
 <img src="./assets/owasp/8-4.png"/>
+
+### 🔒 M9: Insecure Data Storage
+Insecure data storage in a mobile application can attract various threat agents who aim to exploit the vulnerabilities and gain unauthorised access to sensitive information. These threat agents include skilled adversaries who target mobile apps to extract valuable data, malicious insiders within the organisation or app development team who misuse their privileges, state-sponsored actors conducting cyber espionage, cybercriminals seeking financial gain through data theft or ransom, script kiddies utilising pre-built tools for simple attacks, data brokers looking to exploit insecure storage for selling personal information, competitors and industrial spies aiming to gain a competitive advantage, and activists or hacktivists with ideological motives.
+
+Here are common manifestations of these issues:
+- **Lack of Access Controls**: Insufficient access controls within the application may allow unauthorized users or attackers to gain access to sensitive data stored on the device or in the app’s databases.
+- **Inadequate Encryption**: Failure to properly encrypt sensitive data can result in unintended data leakage if an attacker gains access to the storage location. Without encryption, the data is easily readable and can be exploited.
+- **Unintentional Data Exposure**: Mobile applications may inadvertently expose sensitive data through application logs, error messages, or debug features, allowing unauthorized individuals to view or capture sensitive information.
+- **Poor Session Management**: Weak session management can lead to unintended data leakage. If session tokens or user authentication information are not adequately protected or managed, they can be intercepted or manipulated, allowing unauthorized access to sensitive data.
+- **Insufficient Input Validation**: Inadequate input validation and data sanitization can lead to unintended data leakage. Attackers may exploit this weakness to inject malicious scripts or retrieve sensitive data by manipulating input fields.
+- **Cloud Storage Misconfigurations**: If the mobile application uses cloud storage services for data storage and the configurations are mismanaged or misconfigured, it can result in unintended exposure or unauthorized access to stored data.
+- **Third-Party Library Vulnerabilities**: Insecure third-party libraries used in the mobile application may have vulnerabilities that could lead to unintended data leakage. Attackers can exploit these vulnerabilities to gain unauthorized access to sensitive information.
+- **Unintended Data Sharing**: Improper handling of data sharing features within the application can result in unintended data leakage. If sensitive data is shared with unintended recipients or if the sharing process is not adequately secured, it can lead to privacy breaches
+
+Here is how we adress the vulnerabilities.
+1. **The Appropriate Implementation of Permissions**
+by utilizing the Android permission system, which allows users to grant specific permissions for access to certain data or features such as location access permission and gallery access permission.
+<img src="./assets/owasp/9-1-1.png"/>
+<img src="./assets/owasp/9-1-2.png"/>
+
+2. **Strong Session Management**
+by implementing robust session management to protect user data and utilizing unique session tokens and ensure they are securely stored on the device.
+<img src="./assets//owasp/9-2.png">
+
+3. **Careful Data Sharing Management.**
+When handling data sharing features, we provided adequate control to the users.
+<img src="./assets//owasp/9-3.png">
+
+4. **Careful Data Log Management and Error Handling**
+by ensuring that sensitive data is not included in application logs. Additionally, we implemented error handling mechanisms that prevent the logging of sensitive data in error messages.
+<img src="./assets//owasp/9-4.png">
+
 
 ## 🙋‍♂️ Bonus 3 - Accessibility Testing
 Accessibility Scanner is a tool developed by Google and used to scan an application's user interface to provide recommendations on how to improve the application's accessibility. Accessibility Scanner enables anyone, not just developers, to quickly and easily identify common accessibility improvements; for example, zooming in on small touch targets, increasing contrast for text and images, and providing content descriptions for unlabeled graphic elements.
