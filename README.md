@@ -226,15 +226,15 @@ by utilizing the Android permission system, which allows users to grant specific
 
 2. **Strong Session Management**
 by implementing robust session management to protect user data and utilizing unique session tokens and ensure they are securely stored on the device.
-<img src="./assets//owasp/9-2.png">
+<img src="./assets//owasp/9-2.png"/>
 
 3. **Careful Data Sharing Management.**
 When handling data sharing features, we provided adequate control to the users.
-<img src="./assets//owasp/9-3.png">
+<img src="./assets//owasp/9-3.png"/>
 
 4. **Careful Data Log Management and Error Handling**
 by ensuring that sensitive data is not included in application logs. Additionally, we implemented error handling mechanisms that prevent the logging of sensitive data in error messages.
-<img src="./assets//owasp/9-4.png">
+<img src="./assets//owasp/9-4.png"/>
 
 
 ## 🙋‍♂️ Bonus 3 - Accessibility Testing
