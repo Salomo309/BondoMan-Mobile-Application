@@ -102,6 +102,13 @@ And some **android core libraries** like appcompat, constraintLayout, livedata, 
 
 ## ⭐ Main Features
 Here's BondoMan main features and its interface.
+<style>
+    .rotate-90 {
+        transform: rotate(90deg);
+        transform-origin: left top;
+        white-space: nowrap;
+    }
+</style>
 <table style="width:100%; text-align:center;">
     <col width="24%">
     <col width="24%">
@@ -137,7 +144,7 @@ Here's BondoMan main features and its interface.
         <td width="1%" align="center"><img src="./assets/screenshots/Scan Result View.jpg"/></td>
     </tr>
     <tr>
-        <td colspan="2" width="2%">Transaction Graph Page - Landscape</td>
+        <td colspan="2" width="2%" align="center">Transaction Graph Page - Landscape</td>
         <td width="1%" align="center">Scan Notes Page</td>
         <td width="1%" align="center">Scan Result View</td>
     </tr>
