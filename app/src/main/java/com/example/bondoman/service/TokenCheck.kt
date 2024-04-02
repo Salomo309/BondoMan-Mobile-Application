@@ -39,7 +39,6 @@ class TokenExpirationService : Service() {
                         break
                     }
                 } catch (e: Exception) {
-                    log("Error checking token: $e")
                     setOff()
                 }
                 delay(interval)
