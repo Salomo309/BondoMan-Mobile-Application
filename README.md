@@ -171,10 +171,43 @@ Here's BondoMan main features and its interface.
         <td width="1%" align="center">Twibbon Result #2</td>
     </tr>
 </table>
-// TODO : Explain how this works
+Twibbon is what we called when we overlay a base image with another image to create a new and creative picture. With this feature, user can choose between 6 different and funny overlay to go with their image. They can capture their photo, and immediately receive a twibbon of it. They can use this feature as much as they like and experiment with the different overlay provided.
 
 ## 💥 Bonus 2 - OWASP Analysis
 OWASP (Open Web Application Security Project) Top 10 is a list of the ten most critical application security risks. Here is our analysis on 3 of them and how we address those security vulnerabilities.
+
+### 🔒 M4: Insufficient Input/Output Validation
+Insufficient validation and sanitization of data from external sources, such as user inputs or network data, in a mobile application can introduce severe security vulnerabilities. Mobile apps that fail to properly validate and sanitize such data are at risk of being exploited through attacks specific to mobile environments, including SQL injection, Command Injection, and cross-site scripting (XSS) attacks.
+
+These vulnerabilities can have detrimental consequences, including unauthorized access to sensitive data, manipulation of app functionality, and potential compromise of the entire mobile system.
+
+Inadequate output validation can result in data corruption or presentation vulnerabilities, allowing malicious actors to inject malicious code or manipulate sensitive information displayed to users.
+
+An application can be vulnerable to insufficient input/output validation due to:
+- **Lack of Input Validation**: Failure to properly validate user input can expose the application to injection attacks like SQL injection, command injection, or XSS.
+- **Inadequate Output Sanitization**: Insufficient sanitization of output data can result in XSS vulnerabilities, allowing attackers to inject and execute malicious scripts.
+- **Context-Specific Validation Neglect**: Neglecting to consider specific validation requirements based on data context can create vulnerabilities, such as path traversal attacks or unauthorized access to files.
+- **Insufficient Data Integrity Checks**: Not performing proper data integrity checks can lead to data corruption or unauthorized modification, compromising reliability and security.
+- **Poor Secure Coding Practices**: Neglecting secure coding practices, such as using parameterized queries or escaping/encoding data, contributes to input/output validation vulnerabilities.
+
+Here are how we address the vulnerabilities.
+1. **Unsanitized Query and Improper Parameter** 
+To prevent SQL Injection attacks, we use Room as persistence mechanism and define the queries and its parameters in DAO (Data Access Object) interface. Room will handle the parameter binding and ensure the execution of properly sanitized query. 
+<img src="./assets/owasp/4-1.png"/>
+
+2. **Improper Output From Calling Server API**
+To handle malicious output given by server API when requesting something, we use data class to contain the output/response. This ensure proper and structured data type usage and correct data name.
+<img src="./assets/owasp/4-2-1.png"/>
+<img src="./assets/owasp/4-2-2.png"/>
+
+3. **Unexpected User-Generated Output**
+To handle occasion where processing user input leads to null value, we use default value so that the application still behaves expectedly when that result is used again.
+<img src="./assets/owasp/4-3.png"/>
+
+4. **Malformed User Input Data**
+Ensuring that user fills all the required data before processing to prevent unexpected output that may affect subsequent usage of that output.
+<img src="./assets/owasp/4-4-1.png"/>
+<img src="./assets/owasp/4-4-2.png"/>
 
 ### 🔒 M8: Security Misconfiguration
 Security misconfiguration in mobile apps refers to the improper configuration of security settings, permissions, and controls that can lead to vulnerabilities and unauthorized access. Threat agents who can exploit security misconfigurations are attackers aiming to gain unauthorized access to sensitive data or perform malicious actions. Threat agents can be an attacker with physical access to the device, a malicious app on the device that exploits security misconfiguration to execute unauthorized actions on the target vulnerable application context.
@@ -188,7 +221,7 @@ Security misconfigurations in mobile apps can be exploited through various attac
 - **Insecure file permissions**: Storing application files with world-readable and/or world-writable permissions.
 - **Misconfigured session management**: Improper session management can result in session hijacking, allowing attackers to impersonate legitimate users.
 
-Here is how we adress the vulnerabilities.
+Here are how we address the vulnerabilities.
 1. **Debugging Enabled in Manifest**
 To prevent exposing sensitive information in debug mode, set `android:debuggable="false"` in the application tag of the AndroidManifest.xml file.
 <img src="./assets/owasp/8-1.png"/>
@@ -218,7 +251,7 @@ Here are common manifestations of these issues:
 - **Third-Party Library Vulnerabilities**: Insecure third-party libraries used in the mobile application may have vulnerabilities that could lead to unintended data leakage. Attackers can exploit these vulnerabilities to gain unauthorized access to sensitive information.
 - **Unintended Data Sharing**: Improper handling of data sharing features within the application can result in unintended data leakage. If sensitive data is shared with unintended recipients or if the sharing process is not adequately secured, it can lead to privacy breaches
 
-Here is how we adress the vulnerabilities.
+Here are how we address the vulnerabilities.
 1. **The Appropriate Implementation of Permissions**
 by utilizing the Android permission system, which allows users to grant specific permissions for access to certain data or features such as location access permission and gallery access permission.
 <img src="./assets/owasp/9-1-1.png"/>
@@ -399,7 +432,7 @@ The following is the division of tasks that we carry out.
     </tr>
     <tr>
         <td>Broadcast Receiver - Randomize Transaksi dari Pengaturan</td>
-        <td></td>
+        <td align="center">✅</td>
         <td align="center">✅</td>
         <td></td>
     </tr>
@@ -429,6 +462,6 @@ The following is the division of tasks that we carry out.
 ## 👏 Contributors
 |Contributors|Preparation Time|Working Time|
 | --- | :---: | :---: |
-| 13521062 - Go Dillon Audris | | |
+| 13521062 - Go Dillon Audris | 12 hours | 40 hours |
 | 13521063 - Salomo Reinhart Gregory Manalu | 12 hours  | 48 hours |
 | 13521108 - Michael Leon Putra Widhi | 16 hours | 36 hours |
