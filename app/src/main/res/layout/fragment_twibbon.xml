@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/twibbon_preview_view"
-        android:background="@color/my_secondary"
+        android:background="@color/my_primary"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
     <ImageButton
@@ -87,11 +87,13 @@
                 android:id="@+id/twibbon_result"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:background="@color/my_quarternary"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/twibbon_result_title"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:contentDescription="Twibbon Picture Result"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_ok"
