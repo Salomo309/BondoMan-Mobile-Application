@@ -396,7 +396,7 @@ The following is the division of tasks that we carry out.
 
 ## 👏 Contributors
 |Contributors|Preparation Time|Working Time|
-| --- | --- | --- |
+| --- | :---: | :---: |
 | 13521062 - Go Dillon Audris | | |
 | 13521063 - Salomo Reinhart Gregory Manalu | | |
 | 13521108 - Michael Leon Putra Widhi | 16 hours | 36 hours |
