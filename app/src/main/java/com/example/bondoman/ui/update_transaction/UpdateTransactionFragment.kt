@@ -25,13 +25,13 @@ class UpdateTransactionFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        currentTransaction = arguments?.getParcelable<Transaction>("transaction")
+        currentTransaction = arguments?.getParcelable("transaction")
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUpdateTransactionBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -59,19 +59,6 @@ class UpdateTransactionFragment : Fragment() {
 
     }
 
-    companion object {
-        private const val ARG_TRANSACTION = "transaction"
-
-        fun newInstance(transaction: Transaction): UpdateTransactionFragment {
-            val fragment = UpdateTransactionFragment()
-            val args = Bundle().apply {
-                putParcelable(ARG_TRANSACTION, transaction)
-            }
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
     private fun updateTransaction(transactionViewModel: TransactionViewModel) {
         currentTransaction?.let { transaction ->
             val newTitle = binding.modifyTextJudul.text.toString()
@@ -81,13 +68,15 @@ class UpdateTransactionFragment : Fragment() {
             // Update title, amount, and location of currentTransaction
             transaction.title = newTitle
             transaction.amount = newAmount
-            transaction.location = newLocation
 
             getLongLat(requireContext(), newLocation, transaction.latitude, transaction.longitude)?.let { (latitude, longitude) ->
 
-                // Update latitude and longitude of currentTransaction
-                transaction.latitude = latitude
-                transaction.longitude = longitude
+                if (transaction.latitude != latitude || transaction.longitude != longitude) {
+                    // Update latitude and longitude of currentTransaction
+                    transaction.latitude = latitude
+                    transaction.longitude = longitude
+                    transaction.location = newLocation
+                }
 
                 // Update the transaction in the ViewModel
                 transactionViewModel.updateTransaction(toTransactionEntity(transaction))
@@ -111,19 +100,19 @@ class UpdateTransactionFragment : Fragment() {
 
     private fun getLongLat(context: Context, location: String, oldLatitude: Double, oldLongitude: Double): Pair<Double, Double>? {
         val geocoder = Geocoder(context)
-        try {
+        return try {
             val addresses = geocoder.getFromLocationName(location, 1)
             if (!addresses.isNullOrEmpty()) {
                 val latitude = addresses[0].latitude
                 val longitude = addresses[0].longitude
-                return Pair(latitude, longitude)
+                Pair(latitude, longitude)
             } else {
                 Log.e("Location", "No address found for the location: $location")
-                return Pair(oldLatitude, oldLongitude)
+                Pair(oldLatitude, oldLongitude)
             }
         } catch (e: IOException) {
             Log.e("Location", "Error getting location from Geocoder: ${e.message}")
-            return null
+            null
         }
     }
 }

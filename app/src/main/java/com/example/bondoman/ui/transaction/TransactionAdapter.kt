@@ -2,10 +2,8 @@ package com.example.bondoman.ui.transaction
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,20 +11,14 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bondoman.MainActivity
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import com.example.bondoman.R
 import com.example.bondoman.models.Transaction
-import com.example.bondoman.repository.TransactionRepository
-import com.example.bondoman.room.TransactionDatabase
 import com.example.bondoman.room.TransactionEntity
-import com.example.bondoman.storage.TokenManager
-import com.example.bondoman.ui.update_transaction.UpdateTransactionFragment
 
 class TransactionAdapter(var transactions: List<Transaction>, private val transactionViewModel: TransactionViewModel) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
     inner class TransactionViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
@@ -39,7 +31,6 @@ class TransactionAdapter(var transactions: List<Transaction>, private val transa
         val firstLinearLayout: LinearLayout = itemView.findViewById(R.id.firstLinearLayout)
         val removeBtn: ImageButton = itemView.findViewById(R.id.button_remove)
         val editBtn: ImageButton = itemView.findViewById(R.id.button_edit)
-        // val location: TextView = itemView.findViewById(R.id.location)
 
         fun bind(transaction: Transaction) {
             // Set unique content descriptions for edit and delete buttons
@@ -53,7 +44,7 @@ class TransactionAdapter(var transactions: List<Transaction>, private val transa
         return TransactionViewHolder(view)
     }
 
-    @SuppressLint("NotifyDataSetChanged")
+    @SuppressLint("NotifyDataSetChanged", "SetTextI18n")
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val currentTransaction = transactions[position]
         // Bind the transaction
@@ -67,21 +58,19 @@ class TransactionAdapter(var transactions: List<Transaction>, private val transa
         val monthFormat = SimpleDateFormat("MMM", Locale.getDefault())
         val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         val date = dateFormat.format(currentTransaction.date)
-        val month = monthFormat.format(currentTransaction.date).toLowerCase(Locale.getDefault())
+        val month = monthFormat.format(currentTransaction.date).lowercase()
         val time = timeFormat.format(currentTransaction.date)
 
         // Save date, month, and time
         holder.date.text = date
-        holder.month.text = month
+        holder.month.text = month.substring(0, 1).uppercase() + month.substring(1)
         holder.time.text = time
 
         // Converting amount to Indonesian currency (Rupiah)
         val amountFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
         val formattedAmount = amountFormat.format(currentTransaction.amount)
         holder.amount.text = formattedAmount
-
         holder.category.text = currentTransaction.category
-        // holder.location.text = currentTransaction.location
 
         // Set listener klik untuk firstLinearLayout
         holder.firstLinearLayout.setOnClickListener {
@@ -108,9 +97,8 @@ class TransactionAdapter(var transactions: List<Transaction>, private val transa
 
         // Update Button Navigate to Update Transaction
         holder.editBtn.setOnClickListener {
-            val context = holder.itemView.context
             val navController = Navigation.findNavController(holder.itemView)
-            var bundle = bundleOf("transaction" to currentTransaction)
+            val bundle = bundleOf("transaction" to currentTransaction)
             navController.navigate(R.id.navigation_update_transaction, bundle)
         }
 
@@ -134,12 +122,11 @@ class TransactionAdapter(var transactions: List<Transaction>, private val transa
         }
     }
 
-
     override fun getItemCount(): Int {
         return transactions.size
     }
 
-    fun toTransactionEntity(transaction: Transaction) : TransactionEntity {
+    private fun toTransactionEntity(transaction: Transaction) : TransactionEntity {
         return TransactionEntity(
             id = transaction.id,
             nim = transaction.nim,

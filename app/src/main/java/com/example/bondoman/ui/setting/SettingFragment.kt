@@ -111,9 +111,4 @@ class SettingFragment : Fragment() {
         // Send Intent
         requireContext().sendBroadcast(randomTransactionIntent)
     }
-
-    private fun generateRandomTitle(): String {
-        val titles = arrayOf("Belanja", "Makan Siang", "Transportasi", "Hiburan", "Tagihan", "Laundry", "Uang Kos")
-        return titles.random()
-    }
 }

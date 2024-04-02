@@ -43,15 +43,13 @@ class LocationFinder(private val context : Context,
                         if (!addresses.isNullOrEmpty()) {
 
                             // Get location
-                            val address =
-                                addresses[0] // Mengambil objek Address pertama dari daftar alamat
+                            val address = addresses[0] // Mengambil objek Address pertama dari daftar alamat
 
-                            // val admin = address.adminArea // Provinsi
                             val subAdmin = address.subAdminArea // Kota
                             val locality = address.locality // Kecamatan
-                            // val thoroughfare = address.thoroughfare // Jalan
+                            val thoroughfare = address.thoroughfare // Jalan
 
-                            val addr: String = locality.toString() + subAdmin.toString()
+                            val addr = "$thoroughfare, $locality, $subAdmin"
 
                             // Call callback with obtained values
                             callback.invoke(location.latitude, location.longitude, addr)

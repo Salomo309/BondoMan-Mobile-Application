@@ -1,5 +1,6 @@
 package com.example.bondoman.ui.graph
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ class GraphFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -50,7 +52,7 @@ class GraphFragment : Fragment() {
         }
 
         val amountFormat = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
-        binding.graphCashflow.setText("Cashflow: " + amountFormat.format(getTransactionCashflow()))
+        binding.graphCashflow.text = "Cashflow: " + amountFormat.format(getTransactionCashflow())
     }
 
     private fun createPieChart() {

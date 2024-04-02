@@ -37,7 +37,7 @@ object TokenManager {
     }
 
     private fun getExpDate(context: Context): Long {
-        val expDate = 100L;
+        val expDate = 100L
         val sharedPreferences = context.getSharedPreferences("BondoMan", Context.MODE_PRIVATE)
         return sharedPreferences.getLong(EXP_DATE_KEY, expDate)
     }

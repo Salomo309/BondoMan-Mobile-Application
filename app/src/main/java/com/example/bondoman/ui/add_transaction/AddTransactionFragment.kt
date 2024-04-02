@@ -26,8 +26,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import com.example.bondoman.MainActivity
 import com.example.bondoman.service.LocationFinder
-import com.example.bondoman.service.NetworkStateService
-import com.example.bondoman.ui.setting.SettingFragment
 import java.io.IOException
 
 
@@ -123,14 +121,54 @@ class AddTransactionFragment : Fragment() {
         val amount = binding.editTextNominal.text.toString().toDoubleOrNull()
 
         // Check Fields
-        if (title != null) {
-            if (title.isNotEmpty() && category.isNotEmpty() && amount != null) {
+        if (title.isNotEmpty() && category.isNotEmpty() && amount != null) {
 
-                // Check location permission
-                if (locationFinder.checkLocationPermission()) {
+            // Check location permission
+            if (locationFinder.checkLocationPermission()) {
 
-                    // Get Location
-                    locationFinder.getDeviceLocation(fusedLocationClient) { latitude, longitude, address ->
+                // Get Location
+                locationFinder.getDeviceLocation(fusedLocationClient) { latitude, longitude, address ->
+
+                    // Set Transaction ID
+                    var id = 1L
+                    if (transactionViewModel.listTransactions.value != null) {
+                        id = transactionViewModel.listTransactions.value!![transactionViewModel.listTransactions.value!!.size - 1].id + 1L
+                    }
+
+                    // Form new TransactionEntity Object
+                    val transaction = TransactionEntity(
+                        id,
+                        "X",
+                        title,
+                        category,
+                        amount,
+                        address,
+                        longitude,
+                        latitude,
+                        Date()
+                    )
+
+                    // Insert New Transaction
+                    transactionViewModel.insertTransaction(transaction)
+
+                    // Reset input fields
+                    binding.editTextJudul.text.clear()
+                    binding.editTextNominal.text.clear()
+
+                    // Show Success Message
+                    Toast.makeText(requireContext(), "Transaction added successfully", Toast.LENGTH_SHORT).show()
+
+                    // Go back to Transaction Fragment
+                    findNavController().navigate(R.id.navigation_transaction)
+                }
+
+            } else {
+                // User Does Not Allow Location
+                val address = binding.editTextLokasi.text.toString()
+
+                if (address.isNotEmpty()) {
+                    // Get Location From Location Input
+                    getLongLat(requireContext(), address)?.let { (latitude, longitude) ->
 
                         // Set Transaction ID
                         var id = 1L
@@ -164,70 +202,28 @@ class AddTransactionFragment : Fragment() {
                         // Go back to Transaction Fragment
                         findNavController().navigate(R.id.navigation_transaction)
                     }
-
-                } else {
-                    // User Does Not Allow Location
-                    val address = binding.editTextLokasi.text.toString()
-
-                    if (address.isNotEmpty()) {
-                        // Get Location From Location Input
-                        getLongLat(requireContext(), address)?.let { (latitude, longitude) ->
-
-                            // Set Transaction ID
-                            var id = 1L
-                            if (transactionViewModel.listTransactions.value != null) {
-                                id = transactionViewModel.listTransactions.value!![transactionViewModel.listTransactions.value!!.size - 1].id + 1L
-                            }
-
-                            // Form new TransactionEntity Object
-                            val transaction = TransactionEntity(
-                                id,
-                                "X",
-                                title,
-                                category,
-                                amount,
-                                address,
-                                longitude,
-                                latitude,
-                                Date()
-                            )
-
-                            // Insert New Transaction
-                            transactionViewModel.insertTransaction(transaction)
-
-                            // Reset input fields
-                            binding.editTextJudul.text.clear()
-                            binding.editTextNominal.text.clear()
-
-                            // Show Success Message
-                            Toast.makeText(requireContext(), "Transaction added successfully", Toast.LENGTH_SHORT).show()
-
-                            // Go back to Transaction Fragment
-                            findNavController().navigate(R.id.navigation_transaction)
-                        }
-                    }
                 }
-            } else {
-                Toast.makeText(requireContext(), "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
             }
+        } else {
+            Toast.makeText(requireContext(), "Please fill all fields correctly", Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun getLongLat(context: Context, location: String): Pair<Double, Double>? {
         val geocoder = Geocoder(context)
-        try {
+        return try {
             val addresses = geocoder.getFromLocationName(location, 1)
             if (!addresses.isNullOrEmpty()) {
                 val latitude = addresses[0].latitude
                 val longitude = addresses[0].longitude
-                return Pair(latitude, longitude)
+                Pair(latitude, longitude)
             } else {
                 Log.e("Location", "No address found for the location: $location")
-                return Pair(-6.891272416105667, 107.61072512264901)
+                Pair(-6.891272416105667, 107.61072512264901)
             }
         } catch (e: IOException) {
             Log.e("Location", "Error getting location from Geocoder: ${e.message}")
-            return null
+            null
         }
     }
 

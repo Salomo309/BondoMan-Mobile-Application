@@ -19,7 +19,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.media.Image
-import android.net.ConnectivityManager
 import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
@@ -190,7 +189,7 @@ class ScanFragment : Fragment() {
 
     private fun startCamera() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-        cameraProviderFuture.addListener(Runnable {
+        cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
             bindUseCases(cameraProvider)
         }, ContextCompat.getMainExecutor(requireContext()))
@@ -253,7 +252,7 @@ class ScanFragment : Fragment() {
             activity.disableNavBar()
             showLoading()
             try {
-                var itemsList = withContext(Dispatchers.IO) {
+                val itemsList = withContext(Dispatchers.IO) {
                     TokenManager.getToken(requireContext())
                         ?.let { Repository().upload(byteArray, it) }
                 }
@@ -344,7 +343,7 @@ class ScanFragment : Fragment() {
                     id,
                     "X",
                     "Scan Result",
-                    "Pengeluaran",
+                    "Expenses",
                     calculateScanResultAmount(),
                     address,
                     longitude,
@@ -359,7 +358,7 @@ class ScanFragment : Fragment() {
                 id,
                 "X",
                 "Scan Result",
-                "Pengeluaran",
+                "Expenses",
                 calculateScanResultAmount(),
                 "Jalan Ganesha 10, Lebak Siliwangi, Kecamatan Coblong, Kota Bandung",
                 107.610431,

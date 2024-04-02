@@ -8,7 +8,6 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Surface
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -20,13 +19,11 @@ import androidx.camera.core.ImageCapture.OnImageCapturedCallback
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
-import androidx.camera.core.resolutionselector.ResolutionSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bondoman.MainActivity
 import com.example.bondoman.R
 import com.example.bondoman.databinding.FragmentTwibbonBinding
 import com.google.common.util.concurrent.ListenableFuture
@@ -102,7 +99,7 @@ class TwibbonFragment : Fragment() {
 
     private fun startCamera() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
-        cameraProviderFuture.addListener(Runnable {
+        cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
             bindUseCases(cameraProvider)
         }, ContextCompat.getMainExecutor(requireContext()))
@@ -123,7 +120,7 @@ class TwibbonFragment : Fragment() {
         }!!
 
         preview.setSurfaceProvider(binding.twibbonPreviewView.surfaceProvider)
-        val camera = cameraProvider.bindToLifecycle(this, cameraSelector, imageCapture, preview)
+        cameraProvider.bindToLifecycle(this, cameraSelector, imageCapture, preview)
     }
 
     private fun createTwibbonImage() {

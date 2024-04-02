@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bondoman.MainActivity
@@ -52,7 +51,7 @@ class TransactionFragment : Fragment() {
         rvTransactions.layoutManager = LinearLayoutManager(requireContext())
 
         // Get Transaction List
-        transactionViewModel.listTransactions.observe(viewLifecycleOwner, Observer { transactions ->
+        transactionViewModel.listTransactions.observe(viewLifecycleOwner) { transactions ->
             if (transactions.isEmpty()) {
                 noTransactionTextView.visibility = View.VISIBLE
             } else {
@@ -60,7 +59,7 @@ class TransactionFragment : Fragment() {
                 transactionAdapter.transactions = (transactions.map { transactionEntityToModel(it) }).reversed()
                 transactionAdapter.notifyDataSetChanged()
             }
-        })
+        }
 
         return root
     }

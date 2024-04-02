@@ -33,12 +33,6 @@ class TransactionViewModel(private val repository: TransactionRepository) : View
         }
     }
 
-    fun deleteAllTransactions() {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteAllTransactions()
-        }
-    }
-
     companion object {
         fun provideFactory(repository: TransactionRepository): ViewModelProvider.Factory {
             return object : ViewModelProvider.Factory {

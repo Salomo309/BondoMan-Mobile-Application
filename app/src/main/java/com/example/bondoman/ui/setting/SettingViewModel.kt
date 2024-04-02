@@ -15,8 +15,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.bondoman.service.TokenExpirationService
 import com.example.bondoman.storage.TokenManager
@@ -56,8 +54,8 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
         if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
             // Permission not granted, request it
-            val PERMISSION_REQUEST_CODE = 1001
-            ActivityCompat.requestPermissions(activity, arrayOf(permission), PERMISSION_REQUEST_CODE)
+            val permissionRequestCode = 1001
+            ActivityCompat.requestPermissions(activity, arrayOf(permission), permissionRequestCode)
         } else {
             // Permission has already been granted, proceed with file saving
             val workbook = generateExcelFile(transactionData)
@@ -69,8 +67,8 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
         val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
         if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED) {
             // Permission not granted, request it
-            val PERMISSION_REQUEST_CODE = 1001
-            ActivityCompat.requestPermissions(activity, arrayOf(permission), PERMISSION_REQUEST_CODE)
+            val permissionRequestCode = 1001
+            ActivityCompat.requestPermissions(activity, arrayOf(permission), permissionRequestCode)
         } else {
             // Permission has already been granted, proceed with file saving
             val workbook = generateExcelFile(transactionData)
@@ -214,20 +212,6 @@ class SettingViewModel(application: Application) : AndroidViewModel(application)
             } catch (ex: Exception) {
                 ex.printStackTrace()
                 showToast("There is no email client installed.")
-            }
-        }
-    }
-
-    companion object {
-        fun provideFactory(application: Application): ViewModelProvider.Factory {
-            return object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    if (modelClass.isAssignableFrom(SettingViewModel::class.java)) {
-                        return SettingViewModel(application) as T
-                    }
-                    throw IllegalArgumentException("Unknown ViewModel class")
-                }
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.example.bondoman.ui.scan
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ class ScanItemAdapter(private var itemList: List<Item>) : RecyclerView.Adapter<S
         return ScanItemViewHolder(itemView)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ScanItemViewHolder, position: Int) {
         val currentItem = itemList[position]
         holder.itemName.text = currentItem.name

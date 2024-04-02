@@ -4,19 +4,11 @@ import android.app.Service
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Network
-import android.os.Binder
 import android.os.IBinder
 
 class NetworkStateService : Service() {
 
-    private val binder = LocalBinder()
     private lateinit var connectivityManager: ConnectivityManager
-
-    inner class LocalBinder : Binder() {
-        fun getService() : NetworkStateService {
-            return this@NetworkStateService
-        }
-    }
 
     companion object {
         const val ACTION_NETWORK_STATE_CHANGE = "com.example.networkstatechange"
@@ -29,8 +21,8 @@ class NetworkStateService : Service() {
         registerNetworkCallback()
     }
 
-    override fun onBind(intent: Intent?): IBinder {
-        return binder
+    override fun onBind(intent: Intent?): IBinder? {
+        return null
     }
 
     private fun broadcastNetworkState(isConnected : Boolean) {
