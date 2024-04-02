@@ -21,6 +21,7 @@ class TwibbonImageAdapter (private val twibbonImageIDs : List<Int>,
 
         fun bind(twibbonImageID: Int) {
             twibbonButton.setImageResource(twibbonImageID)
+            twibbonButton.contentDescription = "Twibbon Overlay Option $twibbonImageID"
         }
     }
 
