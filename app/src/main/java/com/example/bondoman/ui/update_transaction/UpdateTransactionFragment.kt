@@ -116,7 +116,6 @@ class UpdateTransactionFragment : Fragment() {
             if (!addresses.isNullOrEmpty()) {
                 val latitude = addresses[0].latitude
                 val longitude = addresses[0].longitude
-                Log.d("Location", "Latitude: $latitude, Longitude: $longitude")
                 return Pair(latitude, longitude)
             } else {
                 Log.e("Location", "No address found for the location: $location")
