@@ -163,7 +163,7 @@ class TwibbonFragment : Fragment() {
 
         val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size, null)
         val matrix = Matrix()
-        matrix.postRotate(-90f)
+        matrix.postRotate(180f - imageProxy.imageInfo.rotationDegrees.toFloat())
         matrix.postScale(-1f, 1f)
         val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
