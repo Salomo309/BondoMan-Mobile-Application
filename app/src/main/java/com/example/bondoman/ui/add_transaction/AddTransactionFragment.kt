@@ -131,7 +131,7 @@ class AddTransactionFragment : Fragment() {
 
                     // Set Transaction ID
                     var id = 1L
-                    if (transactionViewModel.listTransactions.value != null) {
+                    if (transactionViewModel.listTransactions.value!!.isNotEmpty()) {
                         id = transactionViewModel.listTransactions.value!![transactionViewModel.listTransactions.value!!.size - 1].id + 1L
                     }
 
@@ -172,7 +172,7 @@ class AddTransactionFragment : Fragment() {
 
                         // Set Transaction ID
                         var id = 1L
-                        if (transactionViewModel.listTransactions.value != null) {
+                        if (transactionViewModel.listTransactions.value!!.isNotEmpty()) {
                             id = transactionViewModel.listTransactions.value!![transactionViewModel.listTransactions.value!!.size - 1].id + 1L
                         }
 

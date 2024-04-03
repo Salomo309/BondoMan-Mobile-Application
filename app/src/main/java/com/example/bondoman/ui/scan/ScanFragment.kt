@@ -327,7 +327,7 @@ class ScanFragment : Fragment() {
     private fun saveScanResult() {
         val locationFinder = LocationFinder(requireContext(), requireActivity())
         var id = 1L
-        if (transactionViewModel.listTransactions.value != null) {
+        if (transactionViewModel.listTransactions.value!!.isNotEmpty()) {
             id = transactionViewModel.listTransactions.value!![transactionViewModel.listTransactions.value!!.size - 1].id + 1L
         }
 
