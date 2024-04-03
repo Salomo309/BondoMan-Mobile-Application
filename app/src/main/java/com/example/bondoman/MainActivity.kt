@@ -18,6 +18,7 @@ import com.example.bondoman.databinding.ActivityMainBinding
 import com.example.bondoman.repository.TransactionRepository
 import com.example.bondoman.room.TransactionDatabase
 import com.example.bondoman.service.NetworkStateService
+import com.example.bondoman.service.TokenExpirationService
 import com.example.bondoman.storage.TokenManager
 import com.example.bondoman.ui.transaction.TransactionViewModel
 
@@ -70,6 +71,16 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        startTokenExpirationService()
+    }
+
+    private fun startTokenExpirationService() {
+        val intent = Intent(this, TokenExpirationService::class.java)
+        startService(intent)
     }
 
     fun getTransactionViewModel(): TransactionViewModel {
